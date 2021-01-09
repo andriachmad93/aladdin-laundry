@@ -8,26 +8,26 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?= base_url('order'); ?>">
             <span data-feather="file"></span>
             Orders
         </a>
         </li>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?= base_url('item'); ?>">
             <span data-feather="users"></span>
             Items
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?= base_url('promotion'); ?>">
             <span data-feather="bar-chart-2"></span>
             Promotions
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="<?= base_url('customer'); ?>">
             <span data-feather="layers"></span>
             Customers
         </a>
