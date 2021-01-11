@@ -6,13 +6,17 @@ class Pages extends BaseController
 {
     public function index()
     {
-        echo view('layout/header');
-        echo "hahaha";
-        echo view('layout/footer');
+        $data = [
+            'title' => 'Tentang kami'
+        ];
+        return view('pages/about', $data);
     }
 
     public function about()
     {
-        return view('pages/tentang-kami');
+        $data = [
+            'title' => 'Tentang kami'
+        ];
+        return view('pages/about', $data);
     }
 }
