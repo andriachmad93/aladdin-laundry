@@ -55,14 +55,14 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPUser = 'aladdinlaundry.dev@gmail.com';
+	public $SMTPUser = '<<your email>>';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var string
 	 */
-	public $SMTPPass = '4LaDd!nD3v20';
+	public $SMTPPass = '<<your password>>';
 
 	/**
 	 * SMTP Port
