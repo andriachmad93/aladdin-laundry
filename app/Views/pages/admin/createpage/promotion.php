@@ -12,8 +12,46 @@
 
         <form>
             <div class="mb-2">
-                <label class="form-label">Nama Promosi</label>
-                <input type="text" class="form-control">
+              <label class="form-label">Nama Promosi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Deskripsi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Waktu Mulai Promosi</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Waktu Berakhir Promosi</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Tipe Promosi</label>
+              <select name="cars" id="cars" class="form-control">
+                <option value="volvo">Percent (%)</option>
+                <option value="saab">Potongan Harga</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Harga Minimum Promosi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Harga Maksimum Promosi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Maksimal Penggunaan Promosi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Masa Aktif</label>
+              <select name="cars" id="cars" class="form-control">
+                <option value="volvo">Ya</option>
+                <option value="saab">Tidak</option>
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

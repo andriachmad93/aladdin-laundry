@@ -12,8 +12,19 @@
 
         <form>
             <div class="mb-2">
-                <label class="form-label">Nama Item</label>
-                <input type="text" class="form-control">
+              <label class="form-label">Nama Item</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Harga</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Masa Aktif</label>
+              <select name="cars" id="cars" class="form-control">
+                <option value="volvo">Ya</option>
+                <option value="saab">Tidak</option>
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
