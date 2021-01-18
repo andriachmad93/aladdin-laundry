@@ -10,14 +10,15 @@ class AddressModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'customer_id', 'name', 'receiver', 'receiver_phone', 'district_id', 'address', 'zip_code', 'is_active',
+        'customer_id', 'address_name', 'receiver', 'receiver_phone', 'district_id', 'address', 'zip_code', 'is_active',
     ];
 
     public function AddressReachMaxUse($customer_id)
     {
         $builder = $this->db->table('address');
-        $builder->getWhere(['is_active' => 1, 'customer_id' => $customer_id]);
-        return $builder->countAll() > 3;
+        $conditions = array('is_active' => 1, 'customer_id' => $customer_id);
+        $builder->where($conditions);
+        return $builder->countAllResults() >= 3;
     }
 
     public function GetKota($searchTerm = "")
@@ -43,7 +44,7 @@ class AddressModel extends Model
         $builder = $this->db->table('address');
         $builder->select(
             'address.*, 
-            case when IFNULL(users.default_address,0)=0 then \'false\' else \'true\' end as default_address, 
+            case when IFNULL(users.default_address,0)<>address.id then \'false\' else \'true\' end as default_address, 
             wilayah_kecamatan.nama as kecamatan,
             wilayah_kabupaten.nama as kabupaten,
             wilayah_provinsi.nama as provinsi',

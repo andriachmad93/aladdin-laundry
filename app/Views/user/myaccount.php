@@ -7,7 +7,7 @@
 
 <?= $this->section('maincontent'); ?>
 <div class="col-md-9">
-    <form action="/user/update" method="POST">
+    <form action="<?= base_url() ?>/user/update" method="POST">
         <?= csrf_field(); ?>
         <div class="card">
             <h4 class="card-header">Profil saya</h4>

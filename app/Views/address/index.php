@@ -68,6 +68,8 @@
                 <h5 class="modal-title text-center" id="addressModalLabel">Modal title</h5>
             </div>
             <div class="modal-body">
+                <div id="errorBlock"></div>
+                <input type="hidden" id="id" name="id" />
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -123,6 +125,7 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('pageScripts'); ?>
+<script src="<?= base_url() ?>/js/common.js?v<?= date("Ymd"); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.table-data').DataTable({
@@ -161,9 +164,19 @@
         $("#addressModal").modal('show');
     });
 
+    $(document).on("click", "#btnSave", function() {
+        saveAddress();
+    });
+
     $(document).on("click", ".btnEdit", function() {
         resetAddressModal("edit");
         loadAddress($(this).data("id"));
+    });
+
+    $(document).on("click", ".btnDelete", function() {
+        if (confirm("Anda yakin?")) {
+            deleteAddress($(this).data("id"));
+        }
     });
 
     $(document).on("click", "#btnCancel", function() {
@@ -172,6 +185,9 @@
 
     /* modal functions */
     function resetAddressModal(method) {
+        $('#errorBlock').html("");
+        $("#id").val("");
+
         $("#district_id").children('option').remove();
         $("#district_id").val(null).trigger('change');
 
@@ -223,8 +239,8 @@
                 'id': id
             },
             success: function(response) {
-                console.log(response);
                 if (response != null && typeof response !== "undefined") {
+                    $("#id").val(response.id);
                     $("#address_name").val(response.address_name);
                     $("#receiver").val(response.receiver);
                     $("#receiver_phone").val(response.receiver_phone);
@@ -246,6 +262,63 @@
                     });
 
                     $("#addressModal").modal('show');
+                }
+            }
+        });
+    }
+
+    function saveAddress() {
+        $.ajax({
+            url: '<?= base_url() ?>/Address/save',
+            type: "post",
+            dataType: 'json',
+            data: {
+                'id': $("#id").val(),
+                'address_name': $("#address_name").val(),
+                'receiver': $("#receiver").val(),
+                'receiver_phone': $("#receiver_phone").val(),
+                'zip_code': $("#zip_code").val(),
+                'address': $("#address").val(),
+                'district_id': $("#district_id").val(),
+            },
+            success: function(response) {
+                clearValidations();
+                if (response != null && typeof response !== "undefined") {
+                    if (response.status != 200) {
+                        if (!response.message && response.data) {
+                            let data = JSON.parse(response.data);
+                            showErrors("errorBlock", data['error']);
+                        } else {
+                            alert(response.message);
+                        }
+                    } else {
+                        if (response.message) {
+                            alert(response.message);
+                        }
+                        location.reload();
+                    }
+                }
+            }
+        });
+    }
+
+    function deleteAddress(id) {
+        $.ajax({
+            url: `<?= base_url() ?>/Address/delete/${id}`,
+            type: "get",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null && typeof response !== "undefined") {
+                    if (response.status != 200) {
+                        if (response.message) {
+                            alert(response.message);
+                        }
+                    } else {
+                        if (response.message) {
+                            alert(response.message);
+                        }
+                        location.reload();
+                    }
                 }
             }
         });
