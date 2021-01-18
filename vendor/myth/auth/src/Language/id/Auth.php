@@ -94,6 +94,6 @@ return [
     'newPasswordRepeat'         => 'Ulangi Password Baru',
     'resetPassword'             => 'Reset Password',
     'firstname'                 => 'Nama depan',
-    'lastname'                 => 'Nama belakang',
-    'phone'                 => 'Nomor telepon',
+    'lastname'                  => 'Nama belakang',
+    'phone'                     => 'Nomor telepon',
 ];

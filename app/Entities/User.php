@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use Myth\Auth\Models\User as MythUser;
+use Myth\Auth\Entities\User as MythUser;
 
 class User extends MythUser
 {

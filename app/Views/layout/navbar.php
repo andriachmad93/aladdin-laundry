@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light  fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="#">Aladdin Laundry</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('pages/layanan'); ?>">Layanan</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('order/track'); ?>">Lacak pesanan</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (!logged_in()) : ?>
@@ -29,11 +32,14 @@
                         <a class="nav-link" href="<?= base_url('register'); ?>">| Daftar baru</a>
                     </li>
                 <?php else : ?>
-                    <li>
-                        <p class="navbar-text">Selamat datang <b><?= user()->username; ?></b>!</p>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('logout'); ?>">&nbsp;Keluar</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" role="button">
+                            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="<?= base_url("user"); ?>">Profil saya</a>
+                            <a class="dropdown-item" href="<?= base_url("logout"); ?>">Keluar</a>
+                        </div>
                     </li>
                 <?php endif; ?>
             </ul>

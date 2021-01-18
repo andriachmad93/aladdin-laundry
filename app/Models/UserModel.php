@@ -24,4 +24,12 @@ class UserModel extends MythModel
     ];
     protected $validationMessages = [];
     protected $skipValidation = false;
+
+    public function updateDefaultAddress($id, $address)
+    {
+        return $this->save([
+            'id' => $id,
+            'default_address' => $address
+        ]);
+    }
 }

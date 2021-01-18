@@ -153,7 +153,7 @@ class AuthController extends Controller
 			'pass_confirm' 	=> 'required|matches[password]',
 			'firstname'     => 'required|alpha_numeric_punct|min_length[3]',
 			'lastname'      => 'required|alpha_numeric_punct|min_length[3]',
-			'phone'         => 'required|numeric|min_length[10]',
+			'phone'         => 'required|numeric|min_length[9]',
 		];
 
 		if (!$this->validate($rules)) {
