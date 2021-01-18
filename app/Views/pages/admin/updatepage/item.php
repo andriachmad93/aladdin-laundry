@@ -10,7 +10,7 @@
             <h1 class="h2">Ubah Item</h1>
         </div>
 
-        <form>
+        <form action="<?php echo base_url('item/update_item'); ?>" method="post">
             <div class="mb-2">
               <label class="form-label">Nama Item</label>
               <input type="text" class="form-control">
