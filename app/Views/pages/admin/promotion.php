@@ -21,6 +21,7 @@
                     <th>Tanggal Kedaluwarsa</th>
                     <th>Kode Promosi</th>
                     <th>Tipe Promosi</th>
+                    <th>Kategori Promosi</th>
                     <th>Jumlah Potongan</th>
                     <th>Maksimal Potongan</th>
                     <th>Action</th>
@@ -37,6 +38,7 @@
                     <td><?= $promotion["promotion_code"]; ?></td>
                     <td><?= $promotion["promotion_type"] == "%" ? "Percent" : "Rupiah"; ?></td>
                     <td><?= $promotion["promotion_type"] == "%" ? $promotion["amount"] . " %" : "Rp " . $promotion["amount"]; ?></td>
+                    <td><?= $promotion["promotion_category"]; ?></td>
                     <td><?= $promotion["maximum_amount"]; ?></td>
                     <td>
                       <a href="<?= base_url('promotion/update_promotion_page/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
