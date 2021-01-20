@@ -27,18 +27,26 @@
                 </tr>
             </thead>
             <tbody>
+              <?php
+                foreach($promotion_list as $promotion) {
+              ?>
+
                 <tr>
-                    <td>Tahun Baru</td>
-                    <td>11 November 2020</td>
-                    <td>ABC123</td>
-                    <td>Percent</td>
-                    <td>5 %</td>
-                    <td>Rp 5.000</td>
+                    <td><?= $promotion["promotion_name"]; ?></td>
+                    <td><?= $promotion["end_date"]; ?></td>
+                    <td><?= $promotion["promotion_code"]; ?></td>
+                    <td><?= $promotion["promotion_type"] == "%" ? "Percent" : "Rupiah"; ?></td>
+                    <td><?= $promotion["promotion_type"] == "%" ? $promotion["amount"] . " %" : "Rp " . $promotion["amount"]; ?></td>
+                    <td><?= $promotion["maximum_amount"]; ?></td>
                     <td>
-                      <a href="<?= base_url('promotion/update_promotion_page/1'); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary">Hapus</a>
+                      <a href="<?= base_url('promotion/update_promotion_page/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
+                      <a href="<?= base_url('promotion/update_status/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Hapus</a>
                     </td>
                 </tr>
+              
+              <?php
+                }
+              ?>
             </tbody>
         </table>
       </div>

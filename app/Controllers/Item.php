@@ -14,7 +14,8 @@ class Item extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Item'
+			'title' => 'Item',
+			'item_list' => $this->itemModel->GetItem()
 		];
 		
 		return view('pages/admin/item', $data);
@@ -49,7 +50,8 @@ class Item extends BaseController
 	public function update_item_page($id)
 	{
 		$data = [
-			'title' => 'Ubah Item'
+			'title' => 'Ubah Item',
+			'item_detail' => $this->itemModel->find($id)
 		];
 		
 		return view('pages/admin/updatepage/item', $data);

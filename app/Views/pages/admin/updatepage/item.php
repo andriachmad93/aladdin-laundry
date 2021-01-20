@@ -13,17 +13,17 @@
         <form action="<?php echo base_url('item/update_item'); ?>" method="post">
             <div class="mb-2">
               <label class="form-label">Nama Item</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" value="<?= $item_detail['item_name']; ?>">
             </div>
             <div class="mb-2">
               <label class="form-label">Harga</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" value="<?= $item_detail['price']; ?>">
             </div>
             <div class="mb-2">
               <label class="form-label">Masa Aktif</label>
               <select name="cars" id="cars" class="form-control">
-                <option value="volvo">Ya</option>
-                <option value="saab">Tidak</option>
+                <option value="1" <?= $item_detail['is_active'] == 1 ? "selected" : ""; ?>>Ya</option>
+                <option value="0" <?= $item_detail['is_active'] == 0 ? "selected" : ""; ?>>Tidak</option>
               </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

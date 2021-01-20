@@ -23,30 +23,22 @@
                 </tr>
             </thead>
             <tbody>
+              <?php
+                  foreach($item_list as $item) {
+              ?>
+
                 <tr>
-                    <td>Cuci Sepatu</td>
-                    <td>Rp 100.000</td>
-                    <td>
-                      <a href="<?= base_url('item/update_item_page/1'); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary">Hapus</a>
-                    </td>
+                  <td><?= $item["item_name"]; ?></td>
+                  <td>Rp <?= $item["price"]; ?></td>
+                  <td>
+                    <a href="<?= base_url('item/update_item_page/' . $item["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
+                    <a href="<?= base_url('item/update_status/' . $item["id"]); ?>" class="btn btn-sm btn-outline-secondary">Hapus</a>
+                  </td>
                 </tr>
-                <tr>
-                    <td>Cuci Baju</td>
-                    <td>Rp 10.000</td>
-                    <td>
-                      <a href="<?= base_url('item/update_item_page/1'); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary">Hapus</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cuci Piring</td>
-                    <td>Rp 5.000</td>
-                    <td>
-                      <a href="<?= base_url('item/update_item_page/1'); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary">Hapus</a>
-                    </td>
-                </tr>
+
+              <?php
+                }
+              ?>
             </tbody>
         </table>
       </div>

@@ -14,7 +14,8 @@ class Promotion extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Promotion'
+			'title' => 'Promotion',
+			'promotion_list' => $this->promotionModel->GetPromotion()
 		];
 		
 		return view('pages/admin/promotion', $data);
@@ -53,7 +54,8 @@ class Promotion extends BaseController
 	public function update_promotion_page($id)
 	{
 		$data = [
-			'title' => 'Ubah Promosi'
+			'title' => 'Ubah Promosi',
+			'promotion_detail' => $this->promotionModel->find($id)
 		];
 		
 		return view('pages/admin/updatepage/promotion', $data);

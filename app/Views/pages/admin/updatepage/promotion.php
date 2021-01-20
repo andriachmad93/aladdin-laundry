@@ -13,44 +13,44 @@
         <form>
           <div class="mb-2">
             <label class="form-label">Nama Promosi</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="<?= $promotion_detail['promotion_name']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Deskripsi</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="<?= $promotion_detail['description']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Waktu Mulai Promosi</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" value="<?= $promotion_detail['start_date']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Waktu Berakhir Promosi</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" value="<?= $promotion_detail['end_date']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Tipe Promosi</label>
             <select name="cars" id="cars" class="form-control">
-              <option value="volvo">Percent (%)</option>
-              <option value="saab">Potongan Harga</option>
+              <option value="%" value="<?= $promotion_detail['promotion_type'] == "%" ? "selected" : ""; ?>">Percent (%)</option>
+              <option value="Rp" value="<?= $promotion_detail['promotion_type'] == "Rp" ? "selected" : ""; ?>">Potongan Harga</option>
             </select>
           </div>
           <div class="mb-2">
             <label class="form-label">Harga Minimum Promosi</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="<?= $promotion_detail['amount']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Harga Maksimum Promosi</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="<?= $promotion_detail['maximum_amount']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Maksimal Penggunaan Promosi</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" value="<?= $promotion_detail['max_use']; ?>">
           </div>
           <div class="mb-2">
             <label class="form-label">Masa Aktif</label>
             <select name="cars" id="cars" class="form-control">
-              <option value="volvo">Ya</option>
-              <option value="saab">Tidak</option>
+              <option value="1" value="<?= $promotion_detail['is_active'] == 1 ? "selected" : ""; ?>">Ya</option>
+              <option value="0" value="<?= $promotion_detail['is_active'] == 0 ? "selected" : ""; ?>">Tidak</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
