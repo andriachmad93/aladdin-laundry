@@ -9,25 +9,30 @@ use Exception;
 
 class Address extends BaseController
 {
-    protected $addressModel, $db, $ajaxOutput;
+    protected $addressModel, $userModel, $db, $ajaxOutput;
 
     public function __construct()
     {
         $this->addressModel = model('AddressModel');
+        $this->userModel = model('userModel');
         $this->db = \Config\Database::connect();
         $this->ajaxOutput = new AjaxOutput();
     }
 
     public function index()
     {
-        $address = $this->addressModel->GetAddressByCustomer(user()->id);
+        if (empty(user())) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $address = $this->addressModel->GetAddressByCustomer(user()->id);
 
-        $data = [
-            'title' => 'Alamat',
-            'address' => $address
-        ];
+            $data = [
+                'title' => 'Alamat',
+                'address' => $address
+            ];
 
-        return view('address/index', $data);
+            return view('address/index', $data);
+        }
     }
 
     public function getKota()
@@ -147,6 +152,21 @@ class Address extends BaseController
                 $this->ajaxOutput->status = 200;
                 $this->ajaxOutput->message = "Alamat berhasil dihapus.";
                 $this->addressModel->DeleteAddress($id);
+            }
+        } catch (Exception $e) {
+            $this->ajaxOutput->status = 500;
+            $this->ajaxOutput->message = $e->getMessage();
+        }
+        echo json_encode($this->ajaxOutput);
+    }
+
+    public function updateDefaultAddress($id)
+    {
+        try {
+            if ($this->request->isAJAX()) {
+                $this->ajaxOutput->status = 200;
+                $this->ajaxOutput->message = "Alamat default berhasil diubah.";
+                $this->userModel->updateDefaultAddress(user()->id, $id);
             }
         } catch (Exception $e) {
             $this->ajaxOutput->status = 500;

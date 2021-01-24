@@ -34,7 +34,7 @@
     <?= view('layout\navbar') ?>
 
     <main role="main" class="containter-fluid">
-        <div class="container-fluid">
+        <div class="container-fluid" style="padding-bottom: 80px;">
             <div class="row">
                 <?= $this->renderSection('leftbar') ?>
                 <?= $this->renderSection('maincontent') ?>
@@ -42,6 +42,13 @@
             </div>
         </div>
     </main><!-- /.container -->
+    <footer class="footer bg-dark fixed-bottom">
+        <div class="container pt-3 pb-1">
+            <span class="text-muted">
+                <p>© <?= date("Y"); ?> Aladdin Laundry </p>
+            </span>
+        </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript
 ================================================== -->

@@ -39,7 +39,7 @@
                         <?php foreach ($address as $a) :
                         ?>
                             <tr>
-                                <td><input type="radio" name="default_address" value="<?= $a['id']; ?>" <?= ($a['default_address'] == 'true') ? 'checked' : ''; ?>></td>
+                                <td><input type="radio" class="rdDefaultAddress" name="default_address" value="<?= $a['id']; ?>" <?= ($a['default_address'] == 'true') ? 'checked' : ''; ?> data-address_name="<?= $a['address_name']; ?>"></td>
                                 <td><b><?= $a['receiver']; ?></b><br />
                                     <?= $a['receiver_phone']; ?>
                                 </td>
@@ -48,7 +48,7 @@
                                 <td><?= "{$a['provinsi']}, {$a['kabupaten']}, {$a['kecamatan']} {$a['zip_code']} Indonesia"; ?></td>
                                 <td><button type="button" class="btn btn-secondary btn-sm btnEdit mb-1" data-id="<?= $a['id']; ?>">
                                         <i class="fas fa-edit">&nbsp;</i>Edit</button>
-                                    <button type="button" class="btn btn-secondary btn-sm btnDelete mb-1" data-id="<?= $a['id']; ?>">
+                                    <button type="button" class="btn btn-danger btn-sm btnDelete mb-1" data-id="<?= $a['id']; ?>">
                                         <i class="fas fa-trash">&nbsp;</i>Hapus</button>
                                 </td>
                             </tr>
@@ -127,6 +127,8 @@
 <?= $this->section('pageScripts'); ?>
 <script src="<?= base_url() ?>/js/common.js?v<?= date("Ymd"); ?>"></script>
 <script type="text/javascript">
+    const defaultAddress = $(".rdDefaultAddress:checked").val();
+
     $(document).ready(function() {
         $('.table-data').DataTable({
             "bPaginate": false,
@@ -323,5 +325,36 @@
             }
         });
     }
+
+    $(document).on("click", ".rdDefaultAddress", function(event) {
+        event.preventDefault();
+
+        if (defaultAddress == $(this).val())
+            return;
+
+        let address_name = $(this).data("address_name");
+        let id = $(this).val();
+        if (confirm(`Jadikan "${address_name}" sebagai alamat utama?`)) {
+            $.ajax({
+                url: `<?= base_url() ?>/Address/updateDefaultAddress/${id}`,
+                type: "get",
+                dataType: 'json',
+                success: function(response) {
+                    if (response != null && typeof response !== "undefined") {
+                        if (response.status != 200) {
+                            if (response.message) {
+                                alert(response.message);
+                            }
+                        } else {
+                            if (response.message) {
+                                alert(response.message);
+                            }
+                            location.reload();
+                        }
+                    }
+                }
+            });
+        }
+    });
 </script>
 <?= $this->endSection(); ?>

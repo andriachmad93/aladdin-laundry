@@ -71,4 +71,36 @@ class User extends BaseController
 
         return redirect()->to('/user')->withCookies()->with('message', 'Data berhasil disimpan');
     }
+
+    public function myorders()
+    {
+        if (empty(user())) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $_user  = $this->userModel->where('id', user()->id)->first();
+
+            $data = [
+                'title' => 'Pesanan saya',
+                'user' => $_user,
+            ];
+
+            return view('user/myorders', $data);
+        }
+    }
+
+    public function mypoints()
+    {
+        if (empty(user())) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $_user  = $this->userModel->where('id', user()->id)->first();
+
+            $data = [
+                'title' => 'Poin saya',
+                'user' => $_user,
+            ];
+
+            return view('user/mypoints', $data);
+        }
+    }
 }
