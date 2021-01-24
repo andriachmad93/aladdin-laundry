@@ -57,8 +57,17 @@ class Item extends BaseController
 		return view('pages/admin/updatepage/item', $data);
 	}
 
-	public function update_item()
+	public function update_item($id)
 	{
+		$data = [
+			'item_name' => $this->request->getPost('item_name'),
+			'uom' => $this->request->getPost('uom'),
+			'price' => (float) $this->request->getPost('price'),
+			'is_active' => (int) $this->request->getPost('is_active')
+		];
+
+		$this->itemModel->update($id, $data);
+
 		session()->setFlashdata('info', 'Data berhasil diubah.');
 
 		return redirect()->to('/item')->with('message', 'Data berhasil diubah');

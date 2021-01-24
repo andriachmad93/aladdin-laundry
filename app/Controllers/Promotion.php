@@ -38,6 +38,7 @@ class Promotion extends BaseController
 			'start_date' => $this->request->getPost('start_date'),
 			'end_date' => $this->request->getPost('end_date'),
 			'promotion_type' => $this->request->getPost('promotion_type'),
+			'promotion_category' => $this->request->getPost('promotion_category') == "%" ? "Diskon" : "Poin",
 			'amount' => (int) $this->request->getPost('amount'),
 			'maximum_amount' => (int) $this->request->getPost('maximum_amount'),
 			'max_use' => (int) $this->request->getPost('max_use'),
@@ -61,10 +62,25 @@ class Promotion extends BaseController
 		return view('pages/admin/updatepage/promotion', $data);
 	}
 
-	public function update_promotion()
+	public function update_promotion($id)
 	{
-		session()->setFlashdata('info', 'Data berhasil disimpan.');
+		$data = [
+			'promotion_name' => $this->request->getPost('promotion_name'),
+			'description' => $this->request->getPost('description'),
+			'start_date' => $this->request->getPost('start_date'),
+			'end_date' => $this->request->getPost('end_date'),
+			'promotion_type' => $this->request->getPost('promotion_type'),
+			'promotion_category' => $this->request->getPost('promotion_category') == "%" ? "Diskon" : "Poin",
+			'amount' => (int) $this->request->getPost('amount'),
+			'maximum_amount' => (int) $this->request->getPost('maximum_amount'),
+			'max_use' => (int) $this->request->getPost('max_use'),
+			'is_active' => (int) $this->request->getPost('is_active')
+		];
 
-		return redirect()->to('/promotion')->with('message', 'Data berhasil disimpan');
+		$this->promotionModel->update($id, $data);
+
+		session()->setFlashdata('info', 'Data berhasil diubah.');
+
+		return redirect()->to('/promotion')->with('message', 'Data berhasil diubah');
 	}
 }

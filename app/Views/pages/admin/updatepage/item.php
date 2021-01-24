@@ -10,18 +10,18 @@
             <h1 class="h2">Ubah Item</h1>
         </div>
 
-        <form action="<?php echo base_url('item/update_item'); ?>" method="post">
+        <form action="<?php echo base_url('item/update_item') . '/' . $item_detail['id']; ?>" method="post">
             <div class="mb-2">
               <label class="form-label">Nama Item</label>
-              <input type="text" class="form-control" value="<?= $item_detail['item_name']; ?>">
+              <input type="text" class="form-control" name="item_name" value="<?= $item_detail['item_name']; ?>">
             </div>
             <div class="mb-2">
               <label class="form-label">Harga</label>
-              <input type="text" class="form-control" value="<?= $item_detail['price']; ?>">
+              <input type="text" class="form-control" name="price" value="<?= $item_detail['price']; ?>">
             </div>
             <div class="mb-2">
               <label class="form-label">Masa Aktif</label>
-              <select name="cars" id="cars" class="form-control">
+              <select name="is_active" class="form-control">
                 <option value="1" <?= $item_detail['is_active'] == 1 ? "selected" : ""; ?>>Ya</option>
                 <option value="0" <?= $item_detail['is_active'] == 0 ? "selected" : ""; ?>>Tidak</option>
               </select>
