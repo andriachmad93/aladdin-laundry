@@ -31,13 +31,17 @@ class Order extends BaseController
 
 	public function create()
 	{
-		$address = $this->addressModel->GetAddressByCustomer(user()->id);
-		$data = [
-			'title' => 'Buat pesanan',
-			'address' => $address
-		];
+		if (empty(user())) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$address = $this->addressModel->GetAddressByCustomer(user()->id);
+			$data = [
+				'title' => 'Buat pesanan',
+				'address' => $address
+			];
 
-		return view('order/create', $data);
+			return view('order/create', $data);
+		}
 	}
 
 	public function getItem()

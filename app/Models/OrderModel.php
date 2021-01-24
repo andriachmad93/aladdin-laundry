@@ -19,6 +19,9 @@ class OrderModel extends Model
 
     public function getOrderNo()
     {
+        /* prefix: ALD/yyyy/xxxxx
+            ALD/2021/00001 
+        */
         $sql = "select CONCAT('ALD/',CONVERT(year(curdate()),CHAR),'/',LPAD(seqNo,5,'0')) as OrderNo from(
             select IFNULL(MAX(CAST(RIGHT(order_code,5) AS DECIMAL)),0)+1 as seqNo from `order`
             where year(order_date)=year(curdate())

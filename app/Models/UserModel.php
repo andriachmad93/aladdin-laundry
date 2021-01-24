@@ -20,7 +20,6 @@ class UserModel extends MythModel
         'password_hash' => 'required',
         'firstname'     => 'required|alpha_numeric_punct|min_length[3]',
         'lastname'      => 'required|alpha_numeric_punct|min_length[3]',
-        'phone'         => 'required|numeric|min_length[10]',
     ];
     protected $validationMessages = [];
     protected $skipValidation = false;

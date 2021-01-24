@@ -24,7 +24,7 @@
             <div class="col-md-3">
                 <div class="card border-0">
                     <img src="<?= base_url('/images/shirt.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
-                    <div class="card-body mb-3">
+                    <div class="card-body mb-3 d-flex justify-content-center">
                         Kami mengumpulkan baju Anda.
                     </div>
                 </div>
@@ -32,7 +32,7 @@
             <div class="col-md-3">
                 <div class="card border-0">
                     <img src="<?= base_url('/images/washing-clothes.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
-                    <div class="card-body mb-3">
+                    <div class="card-body mb-3 d-flex justify-content-center">
                         Kami membersihkan baju Anda.
                     </div>
                 </div>
@@ -40,7 +40,7 @@
             <div class="col-md-3">
                 <div class="card border-0">
                     <img src="<?= base_url('/images/delivery-truck.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
-                    <div class="card-body mb-3">
+                    <div class="card-body mb-3 d-flex justify-content-center">
                         Kami mengantar baju Anda.
                     </div>
                 </div>

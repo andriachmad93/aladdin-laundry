@@ -15,12 +15,12 @@
                         <?= csrf_field() ?>
                         <div class="form-group">
                             <label for="firstname"><?= lang('Auth.firstname') ?></label>
-                            <input type="firstname" class="form-control <?= session('errors.firstname') ? 'is-invalid' : '' ?>" name="firstname" placeholder="<?= lang('Auth.firstname') ?>" value="<?= old('firstname') ?>">
+                            <input type="text" class="form-control <?= session('errors.firstname') ? 'is-invalid' : '' ?>" name="firstname" placeholder="<?= lang('Auth.firstname') ?>" value="<?= old('firstname') ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="lastname"><?= lang('Auth.lastname') ?></label>
-                            <input type="lastname" class="form-control <?= session('errors.lastname') ? 'is-invalid' : '' ?>" name="lastname" placeholder="<?= lang('Auth.lastname') ?>" value="<?= old('lastname') ?>">
+                            <input type="text" class="form-control <?= session('errors.lastname') ? 'is-invalid' : '' ?>" name="lastname" placeholder="<?= lang('Auth.lastname') ?>" value="<?= old('lastname') ?>">
                         </div>
 
                         <div class="form-group">
@@ -46,7 +46,7 @@
 
                         <div class="form-group">
                             <label for="phone"><?= lang('Auth.phone') ?></label>
-                            <input type="phone" class="form-control <?= session('errors.phone') ? 'is-invalid' : '' ?>" name="phone" placeholder="<?= lang('Auth.phone') ?>" value="<?= old('phone') ?>">
+                            <input type="text" class="form-control <?= session('errors.phone') ? 'is-invalid' : '' ?>" name="phone" placeholder="<?= lang('Auth.phone') ?>" value="<?= old('phone') ?>">
                         </div>
 
                         <br>
