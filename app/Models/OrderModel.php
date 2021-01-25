@@ -43,4 +43,36 @@ class OrderModel extends Model
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
+
+    public function getCustomers($authGroup = "")
+    {
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $builder->join('auth_groups_users', 'auth_groups_users.user_id=users.id', 'left');
+        $builder->join('auth_groups', 'auth_groups.id=auth_groups_users.group_id', 'left');
+        $builder->where('auth_groups.name', $authGroup);
+        $query = $builder->get();
+        
+        return $query->getResultArray();
+    }
+
+    public function getOrders($customerId = "")
+    {
+        $builder = $this->db->table('order');
+        $builder->select('*');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
+    public function getOrderTransaction()
+    {
+        $builder = $this->db->table('order');
+        $builder->select('*');
+        $builder->join('orderdetail', 'orderdetail.order_id=order.id', 'left');
+        $builder->join('user', 'user.id=order.customer_id', 'left');
+        $query = $builder->get();
+        
+        return $query->getResultArray();
+    }
 }

@@ -22,10 +22,10 @@ class Report extends BaseController
 		return view('pages/admin/loyal-customer', $data);
     }
     
-    public function sales_trend()
+    public function dashboard()
 	{
 		$data = [
-			'title' => 'Sales Trend'
+			'title' => 'Dashboard'
 		];
 		
 		return view('pages/admin/sales-trend', $data);

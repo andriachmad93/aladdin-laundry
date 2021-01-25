@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3">
     <ul class="nav flex-column">
         <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">
+        <a class="nav-link active" aria-current="page" href="<?= base_url('report/dashboard'); ?>">
             <span data-feather="home"></span>
             Dashboard
         </a>
@@ -27,16 +27,14 @@
         </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('customer'); ?>">
-            <span data-feather="layers"></span>
-            Customers
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">
-            <span data-feather="layers"></span>
-            Reports
-        </a>
+            <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fa fa-table"></i> <span class="d-none d-sm-inline">Reports</span></a>
+            <div class="collapse" id="submenu1" aria-expanded="false">
+                <ul class="flex-column pl-2 nav">
+                    <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('customer'); ?>"><span>Customers</span></a></li>
+                    <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('report/transactions'); ?>"><span>Transactions</span></a></li>
+                    <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('report/loyal_customers'); ?>"><span>Top 10 Loyal Customers</span></a></li>
+                </ul>
+            </div>
         </li>
     </ul>
     </div>

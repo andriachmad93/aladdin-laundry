@@ -31,4 +31,14 @@ class UserModel extends MythModel
             'default_address' => $address
         ]);
     }
+
+    public function getLoyalCustomer($customerId = "")
+    {
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $builder->join('order', 'order.customer_id=user.id', 'left');
+        $query = $builder->get();
+        
+        return $query->getResultArray();
+    }
 }

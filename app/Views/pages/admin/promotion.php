@@ -42,7 +42,7 @@
                     <td><?= $promotion["maximum_amount"]; ?></td>
                     <td>
                       <a href="<?= base_url('promotion/update_promotion_page/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <a href="<?= base_url('promotion/update_status/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Hapus</a>
+                      <button class="btn btn-sm btn-outline-secondary btnDelete">Hapus</button>
                     </td>
                 </tr>
               
@@ -55,4 +55,11 @@
     </main>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).on("click", ".btnDelete", function() {
+      if (confirm("Apakah anda yakin hapus data ? ")) {
+          
+      }
+  });
+</script>
 <?= $this->endSection(); ?>

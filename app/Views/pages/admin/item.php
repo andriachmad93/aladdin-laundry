@@ -32,7 +32,7 @@
                   <td>Rp <?= $item["price"]; ?></td>
                   <td>
                     <a href="<?= base_url('item/update_item_page/' . $item["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                    <a href="<?= base_url('item/update_status/' . $item["id"]); ?>" class="btn btn-sm btn-outline-secondary">Hapus</a>
+                    <button class="btn btn-sm btn-outline-secondary btnDelete">Hapus</button>
                   </td>
                 </tr>
 
@@ -45,4 +45,11 @@
     </main>
   </div>
 </div>
+<script type="text/javascript">
+  $(document).on("click", ".btnDelete", function() {
+      if (confirm("Apakah anda yakin hapus data ? ")) {
+          
+      }
+  });
+</script>
 <?= $this->endSection(); ?>
