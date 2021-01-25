@@ -55,14 +55,14 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPUser = '<<your email>>';
+	public $SMTPUser = '';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var string
 	 */
-	public $SMTPPass = '<<your password>>';
+	public $SMTPPass = '';
 
 	/**
 	 * SMTP Port

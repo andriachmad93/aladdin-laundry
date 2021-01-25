@@ -18,8 +18,6 @@ class UserModel extends MythModel
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
         'username'      => 'required|alpha_numeric_punct|min_length[3]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
-        'firstname'     => 'required|alpha_numeric_punct|min_length[3]',
-        'lastname'      => 'required|alpha_numeric_punct|min_length[3]',
     ];
     protected $validationMessages = [];
     protected $skipValidation = false;
@@ -38,7 +36,7 @@ class UserModel extends MythModel
         $builder->select('*');
         $builder->join('order', 'order.customer_id=user.id', 'left');
         $query = $builder->get();
-        
+
         return $query->getResultArray();
     }
 }
