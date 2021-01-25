@@ -57,7 +57,7 @@
                             Ambil laundry sendiri
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="deliveryBox">
                         <label for="address_id">Alamat pengiriman</label>
                         <select class="form-control" name="address_id" id="address_id">
                             <?php foreach ($address as $a) : ?>
@@ -65,16 +65,23 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-check mb-2">
-                        <input type="checkbox" id="cboUsePoint" class="form-check-input" />
-                        <label class="form-check-label" for="cboUsePoint">
-                            Gunakan poin
-                        </label>
+                    <div class="form-row mb-2" id="pointBox" style="<?= (!empty($point) && $point > 0) ? "" : "display:none"; ?>">
+                        <div class="col-md-8">
+                            <div class="form-check">
+                                <input type="checkbox" id="cboUsePoint" class="form-check-input" />
+                                <label class="form-check-label" for="cboUsePoint">
+                                    Gunakan poin
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="point" class="form-control number text-right" name="point" readonly value="<?= $point; ?>" />
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="redeem_code">Voucher</label>
                         <div class="input-group mb-3">
-                            <input class="form-control" name="redeem_code" id="redeem_code" placeholder="Masukkan kode voucher" />
+                            <input class="form-control" name="redeem_code" id="redeem_code" placeholder="Masukkan kode promosi" />
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" id="btnUseVoucher">Gunakan voucher</button>
                             </div>
@@ -84,6 +91,8 @@
                         <ul class="list-group">
                             <li class="list-group-item">Sub total <span class="badge badge-primary float-right subTotal" id="subTotal2">0</span></li>
                             <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">0</span></li>
+                            <li class="list-group-item">Diskon <span class="badge badge-primary float-right" id="discount">0</span></li>
+                            <li class="list-group-item">Bayar dengan poin <span class="badge badge-primary float-right" id="point_used">0</span></li>
                             <li class="list-group-item"><b>Total</b> <span class="badge badge-primary float-right" id="grandTotal">0</span></li>
                         </ul>
                     </div>
@@ -111,8 +120,13 @@
 <script type="text/javascript">
     let biayaKirim = 0;
     let grandSubTotal = 0;
+    let point = 0;
     let discount = 0;
     let grandTotal = 0;
+
+    $(document).ready(function() {
+        $("#point").trigger('blur');
+    });
 
     $(document).on("click", "#btnAdd", function() {
         let uid = CreateGuid();
@@ -217,9 +231,11 @@
         if ($(this).prop('checked')) {
             biayaKirim = 0;
             $("#delivery_method_id").val(2);
+            $("#deliveryBox").hide();
         } else {
             biayaKirim = 5000;
             $("#delivery_method_id").val(1);
+            $("#deliveryBox").show();
         }
 
         $("#biayaKirim").text(biayaKirim.toLocaleString("en"));
@@ -249,12 +265,15 @@
             data: data,
             processData: false,
             contentType: false,
+            dataType: "json",
             success: function(response) {
-                console.log(response);
+                clearValidations();
+
                 if (response != null && typeof response !== "undefined") {
                     if (response.status != 200) {
                         if (!response.message && response.data) {
-
+                            let data = JSON.parse(response.data);
+                            showErrors("errorBlock", data['error']);
                         } else {
                             alert(response.message);
                         }
@@ -262,7 +281,7 @@
                         if (response.message) {
                             alert(response.message);
                         }
-                        //location.reload();
+                        window.location = "<?= base_url("/user/myorders"); ?>";
                     }
                 }
             }

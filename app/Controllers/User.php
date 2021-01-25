@@ -79,9 +79,12 @@ class User extends BaseController
         } else {
             $_user  = $this->userModel->where('id', user()->id)->first();
 
+            $order = model("OrderModel");
+
             $data = [
                 'title' => 'Pesanan saya',
                 'user' => $_user,
+                'order' => $order->getMyOrders(user()->id)
             ];
 
             return view('user/myorders', $data);

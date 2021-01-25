@@ -151,8 +151,8 @@ class AuthController extends Controller
 			'username'  	=> 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
 			'password'	 	=> 'required|strong_password',
 			'pass_confirm' 	=> 'required|matches[password]',
-			'firstname'     => 'required|alpha_numeric_punct|min_length[3]',
-			'lastname'      => 'required|alpha_numeric_punct|min_length[3]',
+			'firstname'     => 'required',
+			'lastname'      => 'required',
 			'phone'         => 'required',
 		];
 

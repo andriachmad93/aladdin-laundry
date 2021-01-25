@@ -15,7 +15,7 @@ class OrderModel extends Model
         'address_id', 'status_id', 'is_active',
     ];
 
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
 
     public function getOrderNo()
     {
@@ -28,5 +28,19 @@ class OrderModel extends Model
             )x";
         $query = $this->db->query($sql);
         return $query->getFirstRow()->OrderNo;
+    }
+
+    public function getMyOrders($customer_id = "0")
+    {
+        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, net_amount, status_name,
+        GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil
+        from `order`
+        left join `orderdetail`  ON `order`.id=`orderdetail`.order_id
+        left join `item` ON item.id=`orderdetail`.item_id
+        left join `status` ON `status`.id=`order`.status_id
+        where `order`.customer_id=" . $customer_id . "
+        group by order_code, order_date, net_amount, status_id";
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
     }
 }
