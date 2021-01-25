@@ -11,6 +11,7 @@ class Order extends BaseController
 	protected $addressModel;
 	protected $orderModel;
 	protected $orderDetailModel;
+	protected $trackingOrderModel;
 	protected $ajaxOutput;
 
 	public function __construct()
@@ -19,6 +20,7 @@ class Order extends BaseController
 		$this->addressModel = model("addressModel");
 		$this->orderModel = model("orderModel");
 		$this->orderDetailModel = model("orderDetailModel");
+		$this->trackingOrderModel = model("trackingOrderModel");
 		$this->ajaxOutput = new AjaxOutput();
 	}
 
@@ -31,9 +33,30 @@ class Order extends BaseController
 		return view('pages/admin/order', $data);
 	}
 
+	public function track($id = 0)
+	{
+		if (!logged_in() || !in_groups('Customer')) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order = $this->orderModel->getDetail($id);
+			$tracking = $this->trackingOrderModel->getOrderTrack($id);
+			$data = [
+				'title' => 'Lacak pesanan',
+				'order' => $order,
+				'tracking' => $tracking,
+			];
+
+			return view('order/track', $data);
+		}
+	}
+
+	public function detail($id)
+	{
+	}
+
 	public function create()
 	{
-		if (empty(user())) {
+		if (!logged_in() || !in_groups('Customer')) {
 			return redirect()->to(site_url('/login'));
 		} else {
 			$address = $this->addressModel->GetAddressByCustomer(user()->id);
@@ -208,6 +231,12 @@ class Order extends BaseController
 					}
 
 					/* update order track */
+					$this->trackingOrderModel->save([
+						'order_id' => $orderId,
+						'status_id' => 10,
+						'updated_by' => user()->id,
+						'updated_date' => date("Y-m-d H:i:s")
+					]);
 
 					/* update history point */
 

@@ -32,14 +32,14 @@ class OrderModel extends Model
 
     public function getMyOrders($customer_id = "0")
     {
-        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, net_amount, status_name,
+        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, net_amount, status_name, status_id,
         GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil
         from `order`
         left join `orderdetail`  ON `order`.id=`orderdetail`.order_id
         left join `item` ON item.id=`orderdetail`.item_id
         left join `status` ON `status`.id=`order`.status_id
         where `order`.customer_id=" . $customer_id . "
-        group by order_code, order_date, net_amount, status_id";
+        group by `order`.id";
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
@@ -52,8 +52,31 @@ class OrderModel extends Model
         $builder->join('auth_groups', 'auth_groups.id=auth_groups_users.group_id', 'left');
         $builder->where('auth_groups.name', $authGroup);
         $query = $builder->get();
-        
+
         return $query->getResultArray();
+    }
+
+    public function getDetail($order_id = "0")
+    {
+        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, net_amount, delivery_method_id, deliverymethod.delivery_name, status_name,
+            GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil,
+            `address`.address_name,`address`.address, `address`.zip_code,
+            `wilayah_kecamatan`.nama as kecamatan,
+            `wilayah_kabupaten`.nama as kabupaten,
+            `wilayah_provinsi`.nama as provinsi
+        from `order`
+        left join `orderdetail`  ON `order`.id=`orderdetail`.order_id
+        left join `deliverymethod`  ON `order`.delivery_method_id=`deliverymethod`.id
+        left join `item` ON item.id=`orderdetail`.item_id
+        left join `status` ON `status`.id=`order`.status_id
+        left join `address` ON `address`.id=`order`.address_id
+        left join `wilayah_kecamatan` ON `wilayah_kecamatan`.id=`address`.district_id
+        left join `wilayah_kabupaten` ON `wilayah_kabupaten`.id=`wilayah_kecamatan`.kabupaten_id
+        left join `wilayah_provinsi` ON `wilayah_provinsi`.id=`wilayah_kabupaten`.provinsi_id
+        where `order`.id=" . $order_id . "
+        group by `order`.id";
+        $query = $this->db->query($sql);
+        return $query->getFirstRow();
     }
 
     public function getOrders($customerId = "")
@@ -72,7 +95,7 @@ class OrderModel extends Model
         $builder->join('orderdetail', 'orderdetail.order_id=order.id', 'left');
         $builder->join('user', 'user.id=order.customer_id', 'left');
         $query = $builder->get();
-        
+
         return $query->getResultArray();
     }
 }

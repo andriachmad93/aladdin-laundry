@@ -8,7 +8,7 @@
 
 
 <?= $this->section('maincontent'); ?>
-<form class="container-fluid col-md-12" action="/user/update" method="POST">
+<form class="container-fluid col-md-12" action="" method="POST">
     <?= csrf_field(); ?>
     <div id="errorBlock">
 

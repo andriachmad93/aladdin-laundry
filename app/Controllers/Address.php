@@ -121,8 +121,10 @@ class Address extends BaseController
                     } else {
                         $this->ajaxOutput->status = 200;
                         $this->ajaxOutput->message = "Alamat berhasil disimpan.";
-                        $this->ajaxOutput->data = $this->addressModel->save([
-                            'id' => $this->request->getVar('id'),
+
+                        $id = $this->request->getVar('id');
+                        $address_id = $this->addressModel->insert([
+                            'id' => $id,
                             'address_name' => $this->request->getVar('address_name'),
                             'receiver' => $this->request->getVar('receiver'),
                             'receiver_phone' => $this->request->getVar('receiver_phone'),
@@ -132,6 +134,9 @@ class Address extends BaseController
                             'customer_id' => user()->id,
                             'is_active' => 1
                         ]);
+                        if (empty($id) && $this->addressModel->GetRecordedAddress(user()->id) == 1) {
+                            $this->userModel->updateDefaultAddress(user()->id, $address_id);
+                        }
                     }
                 }
             } else {

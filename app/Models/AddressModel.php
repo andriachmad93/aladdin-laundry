@@ -13,12 +13,17 @@ class AddressModel extends Model
         'customer_id', 'address_name', 'receiver', 'receiver_phone', 'district_id', 'address', 'zip_code', 'is_active',
     ];
 
-    public function AddressReachMaxUse($customer_id)
+    public function GetRecordedAddress($customer_id = "0")
     {
         $builder = $this->db->table('address');
         $conditions = array('is_active' => 1, 'customer_id' => $customer_id);
         $builder->where($conditions);
-        return $builder->countAllResults() >= 3;
+        return $builder->countAllResults();
+    }
+
+    public function AddressReachMaxUse($customer_id = "0")
+    {
+        return $this->GetRecordedAddress($customer_id) >= 3;
     }
 
     public function GetKota($searchTerm = "")

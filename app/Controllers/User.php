@@ -16,7 +16,7 @@ class User extends BaseController
 
     public function index()
     {
-        if (empty(user())) {
+        if (!logged_in()) {
             return redirect()->to(site_url('/login'));
         } else {
             $_user  = $this->userModel->where('id', user()->id)->first();
@@ -74,7 +74,7 @@ class User extends BaseController
 
     public function myorders()
     {
-        if (empty(user())) {
+        if (!logged_in() || !in_groups('Customer')) {
             return redirect()->to(site_url('/login'));
         } else {
             $_user  = $this->userModel->where('id', user()->id)->first();
@@ -93,7 +93,7 @@ class User extends BaseController
 
     public function mypoints()
     {
-        if (empty(user())) {
+        if (!logged_in() || !in_groups('Customer')) {
             return redirect()->to(site_url('/login'));
         } else {
             $_user  = $this->userModel->where('id', user()->id)->first();
