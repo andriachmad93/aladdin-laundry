@@ -98,4 +98,20 @@ class OrderModel extends Model
 
         return $query->getResultArray();
     }
+
+    public function getOrderWithPromotion($searchOrderPromotion = array())
+    {
+        $builder = $this->db->table('order');
+        $builder->select('*');
+
+        if (count($searchOrderPromotion) > 0) {
+            $builder->where('customer_id', $searchOrderPromotion['customer_id']);
+            $builder->where('promotion_id', $searchOrderPromotion['promotion_id']);
+            $builder->where('status_id !=', 90);
+        }
+
+        $query = $builder->get();
+        
+        return $query->getResultArray();
+    }
 }

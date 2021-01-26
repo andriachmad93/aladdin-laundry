@@ -8,7 +8,8 @@ class Promotion extends BaseController
 
     public function __construct()
     {
-        $this->promotionModel = model('PromotionModel');
+		$this->promotionModel = model('PromotionModel');
+		$this->orderModel = model('OrderModel');
 	}
 	
 	public function index()
@@ -34,6 +35,7 @@ class Promotion extends BaseController
 	{
 		$data = [
 			'promotion_name' => $this->request->getPost('promotion_name'),
+			'promotion_code' => $this->request->getPost('promotion_code'),
 			'description' => $this->request->getPost('description'),
 			'start_date' => $this->request->getPost('start_date'),
 			'end_date' => $this->request->getPost('end_date'),
@@ -66,6 +68,7 @@ class Promotion extends BaseController
 	{
 		$data = [
 			'promotion_name' => $this->request->getPost('promotion_name'),
+			'promotion_code' => $this->request->getPost('promotion_code'),
 			'description' => $this->request->getPost('description'),
 			'start_date' => $this->request->getPost('start_date'),
 			'end_date' => $this->request->getPost('end_date'),

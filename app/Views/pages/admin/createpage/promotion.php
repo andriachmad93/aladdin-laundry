@@ -16,6 +16,10 @@
             <input type="text" class="form-control" name="promotion_name">
           </div>
           <div class="mb-2">
+            <label class="form-label">Kode Promosi</label>
+            <input type="text" class="form-control" name="promotion_code">
+          </div>
+          <div class="mb-2">
             <label class="form-label">Deskripsi</label>
             <input type="text" class="form-control" name="description">
           </div>

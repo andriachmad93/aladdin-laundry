@@ -18,6 +18,7 @@
             <thead>
                 <tr>
                     <th>Nama Promosi</th>
+                    <th>Kode Promosi</th>
                     <th>Tanggal Kedaluwarsa</th>
                     <th>Kode Promosi</th>
                     <th>Tipe Promosi</th>
@@ -34,6 +35,7 @@
 
                 <tr>
                     <td><?= $promotion["promotion_name"]; ?></td>
+                    <td><?= $promotion["promotion_code"]; ?></td>
                     <td><?= $promotion["end_date"]; ?></td>
                     <td><?= $promotion["promotion_code"]; ?></td>
                     <td><?= $promotion["promotion_type"] == "%" ? "Percent" : "Rupiah"; ?></td>
