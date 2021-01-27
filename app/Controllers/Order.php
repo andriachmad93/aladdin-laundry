@@ -207,6 +207,7 @@ class Order extends BaseController
 						'order_date' => date("Y-m-d H:i:s"),
 						'promotion_id' => $promotion_id,
 						'delivery_method_id' => $this->request->getVar('delivery_method_id'),
+						'delivery_fee' => $this->request->getVar('delivery_fee'),
 						'gross_amount' => $gross_amount,
 						'discount' => $discount,
 						'point_used' => $point_used,
@@ -233,7 +234,7 @@ class Order extends BaseController
 					/* update order track */
 					$this->trackingOrderModel->save([
 						'order_id' => $orderId,
-						'status_id' => 10,
+						'status' => 10,
 						'updated_by' => user()->id,
 						'updated_date' => date("Y-m-d H:i:s")
 					]);
@@ -250,5 +251,57 @@ class Order extends BaseController
 			$this->ajaxOutput->message = $e->getMessage();
 		}
 		echo json_encode($this->ajaxOutput);
+	}
+
+	public function payment($id)
+	{
+		if (!logged_in() || !in_groups('Customer')) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order = $this->orderModel->getDetail($id);
+			$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
+			if ($order->customer_id != user_id()) {
+				return redirect()->to(site_url('/login'));
+			}
+
+			if ($order->status_id >= 20) {
+				return redirect()->to(site_url('/user/myorders'));
+			}
+			$data = [
+				'title' => 'Upload bukti pembayaran',
+				'order' => $order,
+				'orderDetail' => $orderDetail,
+			];
+
+			return view('order/payment', $data);
+		}
+	}
+
+	public function uploadpayment()
+	{
+		$order_id = $this->request->getVar('id');
+		$file = $this->request->getFile('proof_of_payment');
+		if ($file->isValid()) {
+			if (!is_dir('files/orders/' . $order_id)) {
+				mkdir('./files/orders/' . $order_id, 0777, TRUE);
+				chmod('./files/orders/' . $order_id, 0755);
+			}
+			$newFileName = 'bukti_pembayaran_' . $order_id . '_' . date('Ymd_His') . '.' . $file->getExtension();
+
+			if ($file->move('files/orders/' . $this->request->getVar('id') . '/', $newFileName)) {
+				$data = ['id' => $order_id, 'proof_of_payment' => $newFileName, 'status_id' => 20];
+
+				$this->orderModel->updatePayment($data);
+				$this->trackingOrderModel->save([
+					'order_id' => $order_id,
+					'status' => 20,
+					'updated_by' => user()->id,
+					'updated_date' => date("Y-m-d H:i:s")
+				]);
+			}
+			return redirect()->to('/user/myorders')->withCookies()->with('message', 'Bukti pembayaran berhasil diupload');
+		} else {
+			return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
+		}
 	}
 }

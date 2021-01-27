@@ -15,4 +15,16 @@ class OrderDetailModel extends Model
     ];
 
     protected $useTimestamps = false;
+
+    public function getOrderDetail($criteria = [])
+    {
+        $builder = $this->db->table('orderdetail');
+        $builder->select('orderdetail.*, item.item_name');
+        $builder->join('item', 'item.id=orderdetail.item_id', 'left');
+        foreach ($criteria as $key => $val) {
+            $builder->where($key, $val);
+        }
+        $builder->orderBy('orderdetail.id', 'asc');
+        return $builder->get()->getResultArray();
+    }
 }

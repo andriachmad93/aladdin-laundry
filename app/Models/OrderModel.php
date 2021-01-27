@@ -11,7 +11,7 @@ class OrderModel extends Model
 
     protected $allowedFields = [
         'order_code', 'customer_id', 'order_date', 'promotion_id', 'delivery_method_id',
-        'gross_amount', 'discount', 'net_amount', 'point_used',
+        'gross_amount', 'discount', 'net_amount', 'point_used', 'delivery_fee', 'proof_of_payment',
         'address_id', 'status_id', 'is_active',
     ];
 
@@ -58,7 +58,9 @@ class OrderModel extends Model
 
     public function getDetail($order_id = "0")
     {
-        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, net_amount, delivery_method_id, deliverymethod.delivery_name, status_name,
+        $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, 
+            gross_amount, discount, delivery_fee, point_used, net_amount, 
+            delivery_method_id,  deliverymethod.delivery_name, status_id, status_name, `order`.customer_id,
             GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil,
             `address`.address_name,`address`.address, `address`.zip_code,
             `wilayah_kecamatan`.nama as kecamatan,
@@ -111,7 +113,12 @@ class OrderModel extends Model
         }
 
         $query = $builder->get();
-        
+
         return $query->getResultArray();
+    }
+
+    public function updatePayment($data)
+    {
+        $this->update($data['id'], $data);
     }
 }

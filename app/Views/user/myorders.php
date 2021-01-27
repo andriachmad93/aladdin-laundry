@@ -10,6 +10,8 @@
     <div class="card">
         <h4 class="card-header">Pesanan saya</h4>
         <div class="card-body table-responsive">
+            <?= view('Myth\Auth\Views\_message_block') ?>
+
             <table id="tabel-data" class="table-data table table-striped" width="100%" cellspacing="6">
                 <thead class="bg-light">
                     <tr>
@@ -99,6 +101,11 @@
     $(document).on("click", ".btnTrack", function() {
         let id = $(this).data('id');
         window.location = `<?= base_url('/order/track'); ?>/${id}`;
+    });
+
+    $(document).on("click", ".btnUpload", function() {
+        let id = $(this).data('id');
+        window.location = `<?= base_url('/order/payment'); ?>/${id}`;
     });
 </script>
 <?= $this->endSection(); ?>

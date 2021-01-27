@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Detil pesanan</h5>
+                <h5 class="card-header">Lacak pesanan</h5>
                 <div class="card-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Kode pesanan</label>

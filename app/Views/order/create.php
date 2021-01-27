@@ -90,7 +90,9 @@
                     <div class="form-group">
                         <ul class="list-group">
                             <li class="list-group-item">Sub total <span class="badge badge-primary float-right subTotal" id="subTotal2">0</span></li>
-                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">0</span></li>
+                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">0</span>
+                                <input type="hidden" name="delivery_fee" id="delivery_fee" />
+                            </li>
                             <li class="list-group-item">Diskon <span class="badge badge-primary float-right" id="discount">0</span></li>
                             <li class="list-group-item">Bayar dengan poin <span class="badge badge-primary float-right" id="point_used">0</span></li>
                             <li class="list-group-item"><b>Total</b> <span class="badge badge-primary float-right" id="grandTotal">0</span></li>
@@ -238,6 +240,7 @@
             $("#deliveryBox").show();
         }
 
+        $("#delivery_fee").val(biayaKirim);
         $("#biayaKirim").text(biayaKirim.toLocaleString("en"));
 
         calculateSubTotal();
