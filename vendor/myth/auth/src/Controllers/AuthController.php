@@ -347,6 +347,8 @@ class AuthController extends Controller
 		$user->activate();
 
 		$users->save($user);
+		$authGroup = model("AuthGroupUserModel");
+		$authGroup->save(['group_id' => 4, 'user_id' => $user->id]);
 
 		return redirect()->route('login')->with('message', lang('Auth.registerSuccess'));
 	}
