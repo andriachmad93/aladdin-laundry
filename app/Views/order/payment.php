@@ -124,6 +124,7 @@
         var validImageTypes = ["pdf", "jpeg", "jpg", "png"];
 
         if ($.inArray(fileType, validImageTypes) < 0) {
+            alert("Berkas yang diunggah harus berupa .pdf/.jpeg/.png ");
             event.preventDefault();
         }
     });

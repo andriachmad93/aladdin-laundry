@@ -147,13 +147,55 @@ class AuthController extends Controller
 		// Validate here first, since some things,
 		// like the password, can only be validated properly here.
 		$rules = [
-			'email'			=> 'required|valid_email|is_unique[users.email]',
-			'username'  	=> 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
-			'password'	 	=> 'required|strong_password',
-			'pass_confirm' 	=> 'required|matches[password]',
-			'firstname'     => 'required',
-			'lastname'      => 'required',
-			'phone'         => 'required',
+			'email'			=> [
+				'rules' => 'required|valid_email|is_unique[users.email]',
+				'errors' => [
+					'required' => 'Email harus diisi.',
+					'valid_email' => 'Email tidak valid.',
+					'is_unique' => 'Email sudah terdaftar sebelumnya.'
+				],
+			],
+			'username'  	=> [
+				'rules' => 'required|alpha_numeric_space|min_length[3]|is_unique[users.username]',
+				'errors' => [
+					'required' => 'Username harus diisi.',
+					'alpha_numeric_space' => 'Username harus alfanumerik.',
+					'min_length' => 'Username minimal {param} karakter.',
+					'is_unique' => 'Username sudah terdaftar sebelumnya.'
+				],
+			],
+			'password'	 	=> [
+				'rules' => 'required|strong_password',
+				'errors' => [
+					'required' => 'Password harus diisi.',
+					'strong_password' => 'Password harus kuat.',
+				]
+			],
+			'pass_confirm' 	=> [
+				'rules' => 'required|matches[password]',
+				'errors' => [
+					'required' => 'Ulangi Password harus diisi.',
+					'matches' => 'Ulangi Password harus sama dengan Password.',
+				]
+			],
+			'firstname'     => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Nama depan harus diisi.',
+				],
+			],
+			'lastname'     => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Nama belakang harus diisi.',
+				],
+			],
+			'phone'     => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Nomor handphone harus diisi.',
+				],
+			],
 		];
 
 
@@ -163,6 +205,7 @@ class AuthController extends Controller
 
 		// Save the user
 		$allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
+
 		$user = new User($this->request->getPost($allowedPostFields));
 
 		$this->config->requireActivation !== false ? $user->generateActivateHash() : $user->activate();

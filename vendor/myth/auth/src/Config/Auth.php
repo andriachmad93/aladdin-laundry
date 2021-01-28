@@ -64,7 +64,7 @@ class Auth extends BaseConfig
     // For example:
     //     $personalFields = ['firstname', 'lastname'];
 
-    public $personalFields = ['firstname', 'lastname'];
+    public $personalFields = ['firstname', 'lastname', 'phone'];
 
     //--------------------------------------------------------------------
     // Password / Username Similarity

@@ -60,11 +60,22 @@ class User extends BaseController
         ])) {
             return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
         }
+
+        $file = $this->request->getFile('photo');
+
+        if ($file->isValid()) {
+            $newFileName = user_id() . "." . $file->getExtension();
+            $file->move('files/userpics/', $newFileName, true);
+        }
+
         $this->userModel->save([
             'id' => $this->request->getVar('id'),
             'firstname' => $this->request->getVar('firstname'),
             'lastname' => $this->request->getVar('lastname'),
             'phone' => $this->request->getVar('phone'),
+            'gender' => $this->request->getVar('gender'),
+            'date_of_birth' => $this->request->getVar('date_of_birth'),
+            'photo' => $newFileName
         ]);
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');

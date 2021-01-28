@@ -95,5 +95,7 @@ return [
     'resetPassword'             => 'Reset Password',
     'firstname'                 => 'Nama depan',
     'lastname'                  => 'Nama belakang',
-    'phone'                     => 'Nomor telepon',
+    'phone'                     => 'Nomor handphone',
+    'date_of_birth'             => 'Tanggal lahir',
+    'gender'                    => 'Jenis kelamin',
 ];

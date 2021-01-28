@@ -288,7 +288,7 @@ class Order extends BaseController
 			}
 			$newFileName = 'bukti_pembayaran_' . $order_id . '_' . date('Ymd_His') . '.' . $file->getExtension();
 
-			if ($file->move('files/orders/' . $this->request->getVar('id') . '/', $newFileName)) {
+			if ($file->move('files/orders/' . $this->request->getVar('id') . '/', $newFileName, true)) {
 				$data = ['id' => $order_id, 'proof_of_payment' => $newFileName, 'status_id' => 20];
 
 				$this->orderModel->updatePayment($data);
