@@ -14,7 +14,7 @@ class Home extends BaseController
 
 	public function CheckDb()
 	{
-		$db = \Config\Database::connect();
+		dd($db = \Config\Database::connect());
 	}
 	//--------------------------------------------------------------------
 
