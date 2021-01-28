@@ -44,7 +44,7 @@
                     <td><?= $promotion["maximum_amount"]; ?></td>
                     <td>
                       <a href="<?= base_url('promotion/update_promotion_page/' . $promotion["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                      <button class="btn btn-sm btn-outline-secondary btnDelete">Hapus</button>
+                      <button class="btn btn-sm btn-outline-secondary btnDelete" data-id="<?= $promotion["id"]; ?>">Hapus</button>
                     </td>
                 </tr>
               
@@ -59,9 +59,11 @@
 </div>
 <script type="text/javascript">
   $(document).on("click", ".btnDelete", function() {
-      if (confirm("Apakah anda yakin hapus data ? ")) {
-          
-      }
+    var id = $(this).data('id');
+
+    if (confirm("Apakah anda yakin hapus data ? ")) {
+      window.location = "<?= base_url('promotion/delete'); ?>/" + id;
+    }
   });
 </script>
 <?= $this->endSection(); ?>

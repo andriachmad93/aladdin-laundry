@@ -72,4 +72,15 @@ class Item extends BaseController
 
 		return redirect()->to('/item')->with('message', 'Data berhasil diubah');
 	}
+
+	public function delete($id)
+	{
+		$data = [
+			'is_active' => 0
+		];
+
+		$this->itemModel->update($id, $data);
+
+		return redirect()->to('/item')->with('message', 'Data berhasil dihapus');
+	}
 }

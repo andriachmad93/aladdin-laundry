@@ -57,7 +57,7 @@
               <option value="0" value="<?= $promotion_detail['is_active'] == 0 ? "selected" : ""; ?>">Tidak</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Ubah</button>
         </form>
     </main>
   </div>

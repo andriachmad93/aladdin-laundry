@@ -19,8 +19,10 @@ class PromotionModel extends Model
         $builder->select('*');
 
         if (count($searchPromotion) > 0) {
-            $builder->where('promotion_code', $searchPromotion['promotion_code']);
+            $builder->where('promotion_code', $searchPromotion['promotion_code'] ?? "");
         }
+
+        $builder->where('is_active', 1);
 
         $query = $builder->get();
 

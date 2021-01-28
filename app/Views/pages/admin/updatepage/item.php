@@ -16,6 +16,10 @@
               <input type="text" class="form-control" name="item_name" value="<?= $item_detail['item_name']; ?>">
             </div>
             <div class="mb-2">
+              <label class="form-label">Satuan</label>
+              <input type="text" class="form-control" name="uom" value="<?= $item_detail['uom']; ?>">
+            </div>
+            <div class="mb-2">
               <label class="form-label">Harga</label>
               <input type="text" class="form-control" name="price" value="<?= $item_detail['price']; ?>">
             </div>
@@ -26,7 +30,7 @@
                 <option value="0" <?= $item_detail['is_active'] == 0 ? "selected" : ""; ?>>Tidak</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Ubah</button>
         </form>
     </main>
   </div>

@@ -32,7 +32,7 @@
                   <td>Rp <?= $item["price"]; ?></td>
                   <td>
                     <a href="<?= base_url('item/update_item_page/' . $item["id"]); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
-                    <button class="btn btn-sm btn-outline-secondary btnDelete">Hapus</button>
+                    <button class="btn btn-sm btn-outline-secondary btnDelete" data-id="<?= $item["id"]; ?>">Hapus</button>
                   </td>
                 </tr>
 
@@ -47,8 +47,10 @@
 </div>
 <script type="text/javascript">
   $(document).on("click", ".btnDelete", function() {
+      var id = $(this).data('id');
+
       if (confirm("Apakah anda yakin hapus data ? ")) {
-          
+        window.location = "<?= base_url('item/delete'); ?>/" + id;
       }
   });
 </script>

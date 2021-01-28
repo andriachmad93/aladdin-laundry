@@ -16,7 +16,7 @@
               <input type="text" class="form-control" name="item_name">
             </div>
             <div class="mb-2">
-              <label class="form-label">UOM</label>
+              <label class="form-label">Satuan</label>
               <input type="text" class="form-control" name="uom">
             </div>
             <div class="mb-2">
@@ -30,7 +30,7 @@
                 <option value="0">Tidak</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </main>
   </div>
