@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('pages/layanan'); ?>">Layanan</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('track'); ?>">Lacak pesanan</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (!logged_in()) : ?>

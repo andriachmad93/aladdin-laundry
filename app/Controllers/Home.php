@@ -11,6 +11,11 @@ class Home extends BaseController
 		];
 		return view('pages/home', $data);
 	}
+
+	public function CheckDb()
+	{
+		$this->load->database();
+	}
 	//--------------------------------------------------------------------
 
 }

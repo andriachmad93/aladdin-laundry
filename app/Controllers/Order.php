@@ -265,7 +265,7 @@ class Order extends BaseController
 			}
 
 			if ($order->status_id >= 20) {
-				return redirect()->to(site_url('/user/myorders'));
+				//return redirect()->to(site_url('/user/myorders'));
 			}
 			$data = [
 				'title' => 'Upload bukti pembayaran',
