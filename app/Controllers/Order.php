@@ -13,7 +13,6 @@ class Order extends BaseController
 	protected $orderDetailModel;
 	protected $trackingOrderModel;
 	protected $ajaxOutput;
-	protected $orderFeedbackModel;
 
 	public function __construct()
 	{
@@ -22,7 +21,6 @@ class Order extends BaseController
 		$this->orderModel = model("orderModel");
 		$this->orderDetailModel = model("orderDetailModel");
 		$this->trackingOrderModel = model("trackingOrderModel");
-		$this->orderFeedbackModel = model("orderFeedbackModel");
 		$this->ajaxOutput = new AjaxOutput();
 	}
 
