@@ -13,6 +13,7 @@ class Order extends BaseController
 	protected $orderDetailModel;
 	protected $trackingOrderModel;
 	protected $ajaxOutput;
+	protected $orderFeedbackModel;
 
 	public function __construct()
 	{
@@ -21,6 +22,7 @@ class Order extends BaseController
 		$this->orderModel = model("orderModel");
 		$this->orderDetailModel = model("orderDetailModel");
 		$this->trackingOrderModel = model("trackingOrderModel");
+		$this->orderFeedbackModel = model("orderFeedbackModel");
 		$this->ajaxOutput = new AjaxOutput();
 	}
 
@@ -299,6 +301,58 @@ class Order extends BaseController
 			$this->ajaxOutput->message = $e->getMessage();
 		}
 		echo json_encode($this->ajaxOutput);
+	}
+
+	public function penilaian($id)
+	{
+		if (!logged_in() || !in_groups('Customer')) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order = $this->orderModel->getDetail($id);
+			$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
+			if ($order->customer_id != user_id()) {
+				return redirect()->to(site_url('/login'));
+			}
+
+			$data = [
+				'title' => 'Beri penilaian',
+				'order' => $order,
+				'orderDetail' => $orderDetail,
+				'operation' => 'rating'
+			];
+
+			return view('order/rate', $data);
+		}
+	}
+
+	public function savePenilaian()
+	{
+		$rules = [
+			'rating' => [
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Penilaian harus diisi.'
+				]
+			],
+			'remarks' => [
+				'rules' => 'required|min_length[50]',
+				'errors' => [
+					'required' => 'Komentar harus diisi.',
+					'min_length' => 'Komentar minimal {param} karakter.'
+				]
+			]
+		];
+
+		if (!$this->validate($rules)) {
+			return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
+		} else {
+			$this->orderModel->update($this->request->getVar('id'), [
+				'remarks' => $this->request->getVar('remarks'),
+				'rating' => $this->request->getVar('rating'),
+				'review_date' => date("Y-m-d H:i:s"),
+			]);
+			return redirect()->to(site_url('/user/myorders'))->with('message', 'Pesanan sudah direview');
+		}
 	}
 
 	public function payment($id)

@@ -12,7 +12,7 @@ class OrderModel extends Model
     protected $allowedFields = [
         'order_code', 'customer_id', 'order_date', 'promotion_id', 'delivery_method_id',
         'gross_amount', 'discount', 'net_amount', 'point_used', 'delivery_fee', 'proof_of_payment',
-        'address_id', 'status_id', 'is_active',
+        'address_id', 'status_id', 'is_active', 'rating', 'review_date', 'remarks',
     ];
 
     protected $useTimestamps = false;

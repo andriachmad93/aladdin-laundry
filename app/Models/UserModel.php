@@ -11,7 +11,7 @@ class UserModel extends MythModel
     protected $allowedFields = [
         'email', 'username', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
-        'firstname', 'lastname', 'phone', 'default_address', 'date_of_birth', 'gender', 'photo'
+        'firstname', 'lastname', 'phone', 'default_address', 'date_of_birth', 'gender', 'photo', 'point'
     ];
 
     protected $validationRules = [

@@ -9,6 +9,7 @@
 
 <?= $this->section('maincontent'); ?>
 <form class="container" action="<?= base_url('/order/uploadpayment'); ?>" method="POST" enctype="multipart/form-data">
+    <?= csrf_field(); ?>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
