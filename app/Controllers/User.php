@@ -30,6 +30,15 @@ class User extends BaseController
         }
     }
 
+    public function user_group()
+    {
+        $data = [
+            'title' => 'Grup Pengguna'
+        ];
+
+        return view('pages/admin/user-group', $data);
+    }
+
     public function update()
     {
         if (!$this->validate([

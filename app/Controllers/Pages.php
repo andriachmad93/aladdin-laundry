@@ -19,4 +19,12 @@ class Pages extends BaseController
         ];
         return view('pages/about', $data);
     }
+
+    public function faq()
+    {
+        $data = [
+            'title' => 'Faq'
+        ];
+        return view('pages/faq', $data);
+    }
 }

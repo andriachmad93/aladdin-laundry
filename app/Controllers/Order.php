@@ -411,4 +411,13 @@ class Order extends BaseController
 			return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
 		}
 	}
+
+	public function redeem_point()
+	{
+		$data = [
+			'title' => 'Penukaran Poin'
+		];
+
+		return view('order/redeem_point', $data);
+	}
 }

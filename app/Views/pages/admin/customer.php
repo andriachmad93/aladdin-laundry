@@ -13,20 +13,37 @@
       <div class="table-responsive">
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
             <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Customer</th>
-                    <th>Tanggal Lahir</th>
-                    <th>Alamat</th>
-                </tr>
+              <tr>
+                <th>No</th>
+                <th>Nama Pelanggan</th>
+                <th>Tanggal Lahir</th>
+                <th>Jenis Kelamin</th>
+                <th>Email</th>
+                <th>No Telepon</th>
+                <th>Alamat</th>
+                <th>Tanggal Pendaftaran</th>
+              </tr>
             </thead>
             <tbody>
+
+              <?php
+                $i = 1;
+                foreach($users as $user) {
+              ?>
                 <tr>
-                    <td>1</td>
-                    <td>Dani</td>
-                    <td>10 Oktober 1993</td>
-                    <td>Jl. Kalibata Tengah</td>
+                  <td><?= $i; ?></td>
+                  <td><?= $user["firstname"]; ?> <?= $user["lastname"]; ?></td>
+                  <td><?= $user["firstname"]; ?></td>
+                  <td>Jl. Kalibata Tengah</td>
+                  <td>Dani</td>
+                  <td>10 Oktober 1993</td>
+                  <td>Jl. Kalibata Tengah</td>
+                  <td>Dani</td>
                 </tr>
+              <?php
+                  $i++;
+                }
+              ?>
             </tbody>
         </table>
       </div>

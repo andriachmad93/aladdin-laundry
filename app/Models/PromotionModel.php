@@ -10,7 +10,7 @@ class PromotionModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'promotion_name', 'description', 'start_date', 'end_date', 'promotion_type', 'amount', 'maximum_amount', 'max_use', 'is_active'
+        'promotion_name', 'promotion_code', 'description', 'start_date', 'end_date', 'promotion_type', 'amount', 'maximum_amount', 'max_use', 'is_active'
     ];
 
     public function GetPromotion($searchPromotion = array())

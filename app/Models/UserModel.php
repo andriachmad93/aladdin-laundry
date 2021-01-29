@@ -30,6 +30,15 @@ class UserModel extends MythModel
         ]);
     }
 
+    public function getCustomer($customerId = "")
+    {
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+
     public function getLoyalCustomer($customerId = "")
     {
         $builder = $this->db->table('users');
