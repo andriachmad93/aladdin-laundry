@@ -45,6 +45,10 @@
                                     <button type="button" class="btn btn-danger btn-sm btnCancel mb-1" data-id="<?= $o['id']; ?>" data-toggle="tooltip" data-placement="top" title="Ajukan pembatalan">
                                         <i class="fas fa-reply">&nbsp;</i></button>
                                 <?php endif; ?>
+                                <?php if ($o['status_id'] == "75" && $o['rating'] == '0') : ?>
+                                    <button type="button" class="btn btn-success btn-sm btnRating mb-1" data-id="<?= $o['id']; ?>" data-toggle="tooltip" data-placement="top" title="Berikan penilaian">
+                                        <i class="fas fa-star">&nbsp;</i></button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -113,6 +117,12 @@
         if (confirm('Apakah pesanan ingin dibatalkan?')) {
             window.location = `<?= base_url('/order/cancel'); ?>/${id}`;
         }
+    });
+
+    $(document).on("click", ".btnRating", function() {
+        let id = $(this).data('id');
+
+        window.location = `<?= base_url('/order/penilaian'); ?>/${id}`;
     });
 </script>
 <?= $this->endSection(); ?>
