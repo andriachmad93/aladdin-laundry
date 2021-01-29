@@ -14,7 +14,7 @@ class Item extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Item',
+			'title' => 'Layanan',
 			'item_list' => $this->itemModel->GetItem()
 		];
 		
@@ -24,7 +24,7 @@ class Item extends BaseController
 	public function add_item_page()
 	{
 		$data = [
-			'title' => 'Add Item'
+			'title' => 'Tambah Layanan'
 		];
 		
 		return view('pages/admin/createpage/item', $data);
@@ -50,7 +50,7 @@ class Item extends BaseController
 	public function update_item_page($id)
 	{
 		$data = [
-			'title' => 'Ubah Item',
+			'title' => 'Ubah Layanan',
 			'item_detail' => $this->itemModel->find($id)
 		];
 		

@@ -7,7 +7,7 @@ class Report extends BaseController
 	public function transactions()
 	{
 		$data = [
-			'title' => 'Transaction'
+			'title' => 'Transaksi'
 		];
 		
 		return view('pages/admin/transaction', $data);

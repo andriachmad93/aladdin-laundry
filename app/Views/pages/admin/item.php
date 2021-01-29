@@ -19,7 +19,7 @@
                 <tr>
                     <th>Nama Pelayanan</th>
                     <th>Biaya</th>
-                    <th>Action</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

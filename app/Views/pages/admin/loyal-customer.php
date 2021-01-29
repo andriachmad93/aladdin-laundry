@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Customer</th>
+                    <th>Nama Pelanggan</th>
                 </tr>
             </thead>
             <tbody>
