@@ -86,4 +86,11 @@ class Promotion extends BaseController
 
 		return redirect()->to('/promotion')->with('message', 'Data berhasil diubah');
 	}
+
+	public function delete($id)
+	{
+		$this->promotionModel->update($id, ['is_active' => 0]);
+
+		return redirect()->to('/promotion')->with('message', 'Data berhasil diubah');
+	}
 }
