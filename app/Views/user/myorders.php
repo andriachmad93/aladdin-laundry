@@ -32,7 +32,7 @@
                             <td><?= $o['tanggal']; ?></td>
                             <td><?= $o['order_date']; ?></td>
                             <td><?= $o['detil']; ?></td>
-                            <td><?= $o['net_amount']; ?></td>
+                            <td class="text-right"><?= (int)$o['net_amount']; ?></td>
                             <td><?= $o['status_name']; ?></td>
                             <td>
                                 <?php if ($o['status_id'] == "10") : ?>
@@ -106,6 +106,13 @@
     $(document).on("click", ".btnUpload", function() {
         let id = $(this).data('id');
         window.location = `<?= base_url('/order/payment'); ?>/${id}`;
+    });
+
+    $(document).on("click", ".btnCancel", function() {
+        let id = $(this).data('id');
+        if (confirm('Apakah pesanan ingin dibatalkan?')) {
+            window.location = `<?= base_url('/order/cancel'); ?>/${id}`;
+        }
     });
 </script>
 <?= $this->endSection(); ?>

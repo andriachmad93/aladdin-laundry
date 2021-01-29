@@ -60,7 +60,7 @@ class OrderModel extends Model
     {
         $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, 
             gross_amount, discount, delivery_fee, point_used, net_amount, 
-            delivery_method_id,  deliverymethod.delivery_name, status_id, status_name, `order`.customer_id,
+            delivery_method_id,  deliverymethod.delivery_name, status_id, status_name, `order`.customer_id, proof_of_payment,
             GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil,
             `address`.address_name,`address`.address, `address`.zip_code,
             `wilayah_kecamatan`.nama as kecamatan,

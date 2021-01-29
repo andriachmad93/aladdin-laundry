@@ -39,19 +39,66 @@ class Order extends BaseController
 			return redirect()->to(site_url('/login'));
 		} else {
 			$order = $this->orderModel->getDetail($id);
+			$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
 			$tracking = $this->trackingOrderModel->getOrderTrack($id);
 			$data = [
 				'title' => 'Lacak pesanan',
 				'order' => $order,
+				'orderDetail' => $orderDetail,
 				'tracking' => $tracking,
+				'operation' => 'track'
 			];
 
 			return view('order/track', $data);
 		}
 	}
 
+	public function cancel($id = 0)
+	{
+		if ($id <> 0) {
+			$order = $this->orderModel->getDetail($id);
+			if ($order->status_id == "10") {
+				$data = ['status_id' => 90];
+				$this->orderModel->update($id, $data);
+				$this->trackingOrderModel->save([
+					'order_id' => $id,
+					'status' => 90,
+					'is_active' => 1,
+					'updated_by' => user()->id,
+					'updated_date' => date("Y-m-d H:i:s")
+				]);
+
+				return redirect()->to(site_url('/user/myorders'))->with('message', 'Pesanan dibatalkan');
+			} else {
+				return redirect()->to(site_url('/user/myorders'))->with('message', 'Pesanan tidak dapat dibatalkan karena sudah diproses');
+			}
+		} else {
+			return redirect()->to(site_url('/user/myorders'))->with('message', 'Pesanan tidak valid');
+		}
+	}
+
 	public function detail($id)
 	{
+		if (!logged_in() || !in_groups('Customer')) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order = $this->orderModel->getDetail($id);
+			if (!empty($order->id)) {
+				$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
+				if ($order->customer_id != user_id()) {
+					return redirect()->to(site_url('/login'));
+				}
+
+				$data = [
+					'title' => 'Upload bukti pembayaran',
+					'order' => $order,
+					'orderDetail' => $orderDetail,
+					'operation' => 'payment'
+				];
+
+				return view('order/detail', $data);
+			}
+		}
 	}
 
 	public function create()
@@ -235,6 +282,7 @@ class Order extends BaseController
 					$this->trackingOrderModel->save([
 						'order_id' => $orderId,
 						'status' => 10,
+						'is_active' => 1,
 						'updated_by' => user()->id,
 						'updated_date' => date("Y-m-d H:i:s")
 					]);
@@ -265,12 +313,13 @@ class Order extends BaseController
 			}
 
 			if ($order->status_id >= 20) {
-				//return redirect()->to(site_url('/user/myorders'));
+				return redirect()->to(site_url('/user/myorders'));
 			}
 			$data = [
 				'title' => 'Upload bukti pembayaran',
 				'order' => $order,
 				'orderDetail' => $orderDetail,
+				'operation' => 'payment'
 			];
 
 			return view('order/payment', $data);
@@ -281,6 +330,9 @@ class Order extends BaseController
 	{
 		$order_id = $this->request->getVar('id');
 		$file = $this->request->getFile('proof_of_payment');
+		if ($file->getSize() > 1048576) {
+			return redirect()->back()->withInput()->with('errors', 'Ukuran file yang bisa diunggah maksimum 1Mb');
+		};
 		if ($file->isValid()) {
 			if (!is_dir('files/orders/' . $order_id)) {
 				mkdir('./files/orders/' . $order_id, 0777, TRUE);
@@ -295,6 +347,7 @@ class Order extends BaseController
 				$this->trackingOrderModel->save([
 					'order_id' => $order_id,
 					'status' => 20,
+					'is_active' => 1,
 					'updated_by' => user()->id,
 					'updated_date' => date("Y-m-d H:i:s")
 				]);

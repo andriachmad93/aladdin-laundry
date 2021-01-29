@@ -10,7 +10,7 @@ class TrackingOrderModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'order_id', 'status', 'updated_by', 'update_date', 'is_active',
+        'order_id', 'status', 'updated_by', 'updated_date', 'is_active',
     ];
 
     protected $useTimestamps = false;
