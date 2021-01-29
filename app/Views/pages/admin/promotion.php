@@ -19,13 +19,13 @@
                 <tr>
                     <th>Nama Promosi</th>
                     <th>Kode Promosi</th>
-                    <th>Tanggal Kedaluwarsa</th>
-                    <th>Kode Promosi</th>
+                    <th>Tanggal Mulai Promosi</th>
+                    <th>Tanggal Berakhir Promosi</th>
                     <th>Tipe Promosi</th>
                     <th>Kategori Promosi</th>
                     <th>Jumlah Potongan</th>
                     <th>Maksimal Potongan</th>
-                    <th>Action</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,8 +36,8 @@
                 <tr>
                     <td><?= $promotion["promotion_name"]; ?></td>
                     <td><?= $promotion["promotion_code"]; ?></td>
+                    <td><?= $promotion["start_date"]; ?></td>
                     <td><?= $promotion["end_date"]; ?></td>
-                    <td><?= $promotion["promotion_code"]; ?></td>
                     <td><?= $promotion["promotion_type"] == "%" ? "Percent" : "Rupiah"; ?></td>
                     <td><?= $promotion["promotion_type"] == "%" ? $promotion["amount"] . " %" : "Rp " . $promotion["amount"]; ?></td>
                     <td><?= $promotion["promotion_category"]; ?></td>

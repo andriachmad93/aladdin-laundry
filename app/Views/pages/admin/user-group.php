@@ -14,14 +14,14 @@
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th>Username</th>
                     <th>Nama Grup</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
                     <td>Dani</td>
+                    <td>Pelanggan</td>
                 </tr>
             </tbody>
         </table>

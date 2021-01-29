@@ -14,7 +14,7 @@ class Customer extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Customer',
+			'title' => 'Pelanggan',
 			'users' => $this->userModel->getCustomer()
 		];
 		

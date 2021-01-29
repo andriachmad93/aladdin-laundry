@@ -14,12 +14,12 @@
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>Tanggal Order</th>
-                    <th>Nama Customer</th>
+                    <th>Kode Pesanan</th>
+                    <th>Tanggal Pesanan</th>
+                    <th>Nama Pelanggan</th>
                     <th>Total Bayar</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>

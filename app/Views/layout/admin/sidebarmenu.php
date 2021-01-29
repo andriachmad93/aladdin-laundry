@@ -10,29 +10,29 @@
         <li class="nav-item">
         <a class="nav-link" href="<?= base_url('order'); ?>">
             <span data-feather="file"></span>
-            Orders
+            Pesanan
         </a>
         </li>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="<?= base_url('item'); ?>">
             <span data-feather="users"></span>
-            Items
+            Layanan
         </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="<?= base_url('promotion'); ?>">
             <span data-feather="bar-chart-2"></span>
-            Promotions
+            Promo
         </a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="<?= base_url('customer'); ?>"><span>Customers</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/user_group'); ?>"><span>User Groups</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= base_url('customer'); ?>"><span>Pelanggan</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/user_group'); ?>"><span>Hak Akses</span></a></li>
         <li class="nav-item">
-            <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fa fa-table"></i> <span class="d-none d-sm-inline">Reports</span></a>
+            <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><i class="fa fa-table"></i> <span class="d-none d-sm-inline">Laporan</span></a>
             <div class="collapse" id="submenu1" aria-expanded="false">
                 <ul class="flex-column pl-2 nav">
-                    <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('report/transactions'); ?>"><span>Transactions</span></a></li>
+                    <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('report/transactions'); ?>"><span>Transaksi</span></a></li>
                     <li class="nav-item"><a class="nav-link py-0" href="<?= base_url('report/loyal_customers'); ?>"><span>Top 10 Loyal Customers</span></a></li>
                 </ul>
             </div>

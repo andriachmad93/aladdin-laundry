@@ -20,6 +20,11 @@ class PromotionModel extends Model
 
         if (count($searchPromotion) > 0) {
             $builder->where('promotion_code', $searchPromotion['promotion_code'] ?? "");
+            
+            if ($searchPromotion['start_date'] == true) {
+                $builder->where('start_date >=', date('d-m-Y'));
+                $builder->where('end_date <=', date('d-m-Y'));
+            }
         }
 
         $builder->where('is_active', 1);
@@ -33,7 +38,8 @@ class PromotionModel extends Model
     {
         $output = array();
         $data = [
-			'promotion_code' => $promotion_code
+            'promotion_code' => $promotion_code,
+            'start_date' => true
 		];
 
 		$voucher = $this->GetPromotion($data);

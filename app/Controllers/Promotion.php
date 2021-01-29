@@ -15,7 +15,7 @@ class Promotion extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Promotion',
+			'title' => 'Promosi',
 			'promotion_list' => $this->promotionModel->GetPromotion()
 		];
 		
