@@ -36,7 +36,7 @@
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('order/track'); ?>">Lacak pesanan</a>
+                    <a class="nav-link" href="<?= base_url('track'); ?>">Lacak pesanan</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

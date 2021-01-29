@@ -90,7 +90,7 @@ class Order extends BaseController
 				}
 
 				$data = [
-					'title' => 'Upload bukti pembayaran',
+					'title' => 'Detail pesanan',
 					'order' => $order,
 					'orderDetail' => $orderDetail,
 					'operation' => 'payment'

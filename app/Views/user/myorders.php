@@ -15,7 +15,7 @@
             <table id="tabel-data" class="table-data table table-striped" width="100%" cellspacing="6">
                 <thead class="bg-light">
                     <tr>
-                        <th>No pesanan</th>
+                        <th>Kode pesanan</th>
                         <th>Tanggal</th>
                         <th>Order date</th>
                         <th>Detil pesanan</th>
@@ -35,6 +35,8 @@
                             <td class="text-right"><?= (int)$o['net_amount']; ?></td>
                             <td><?= $o['status_name']; ?></td>
                             <td>
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $o['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
+                                    <i class="fas fa-folder-open">&nbsp;</i></button>
                                 <?php if ($o['status_id'] == "10") : ?>
                                     <button type="button" class="btn btn-warning btn-sm btnUpload mb-1" data-id="<?= $o['id']; ?>" data-toggle="tooltip" data-placement="top" title="Upload bukti pembayaran">
                                         <i class="fas fa-print">&nbsp;</i></button>
@@ -123,6 +125,12 @@
         let id = $(this).data('id');
 
         window.location = `<?= base_url('/order/penilaian'); ?>/${id}`;
+    });
+
+    $(document).on("click", ".btnOpen", function() {
+        let id = $(this).data('id');
+
+        window.location = `<?= base_url('/order/detail'); ?>/${id}`;
     });
 </script>
 <?= $this->endSection(); ?>
