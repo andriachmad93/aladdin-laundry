@@ -32,6 +32,13 @@
             <input type="date" class="form-control" name="end_date">
           </div>
           <div class="mb-2">
+            <label class="form-label">Kategori Promosi</label>
+            <select name="promotion_category" class="form-control" id="promotion_category">
+              <option value="diskon">Diskon</option>
+              <option value="poin">Poin</option>
+            </select>
+          </div>
+          <div class="mb-2" id="div-promotion-type">
             <label class="form-label">Tipe Promosi</label>
             <select name="promotion_type" class="form-control">
               <option value="%">Percent (%)</option>
@@ -62,4 +69,17 @@
     </main>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#promotion_category').on('click', function() {
+      if ($(this).val() == 'poin') {
+        $('#div-promotion-type').hide()
+      } else {
+        $('#div-promotion-type').show()
+      }
+    })
+  })
+</script>
+
 <?= $this->endSection(); ?>

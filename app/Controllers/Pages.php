@@ -4,6 +4,12 @@ namespace App\Controllers;
 
 class Pages extends BaseController
 {
+    protected $promotionModel;
+
+    public function __construct() {
+        $this->promotionModel = model('PromotionModel');
+    }
+
     public function index()
     {
         $data = [
@@ -73,5 +79,19 @@ class Pages extends BaseController
         ];
 
         return view('pages/layanan/' . $view, $data);
+    }
+
+    public function promo()
+    {
+        $filterPromo = [
+            'start_date' => true
+        ];
+
+        $data = [
+            'title' => 'Promo',
+            'promotion_list' => $this->promotionModel->GetPromotion($filterPromo)
+        ];
+
+        return view('pages/promotion', $data);
     }
 }

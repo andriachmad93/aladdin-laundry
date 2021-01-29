@@ -20,14 +20,14 @@ class Report extends BaseController
 		];
 		
 		return view('pages/admin/loyal-customer', $data);
-    }
-    
-    public function dashboard()
+	}
+	
+	public function sales_trend()
 	{
 		$data = [
-			'title' => 'Dashboard'
+			'title' => 'Tren Penjualan'
 		];
 		
 		return view('pages/admin/sales-trend', $data);
-	}
+    }
 }

@@ -10,7 +10,7 @@ class PromotionModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'promotion_name', 'promotion_code', 'description', 'start_date', 'end_date', 'promotion_type', 'amount', 'maximum_amount', 'max_use', 'is_active'
+        'promotion_name', 'promotion_code', 'description', 'start_date', 'end_date', 'promotion_category', 'promotion_type', 'amount', 'maximum_amount', 'max_use', 'is_active'
     ];
 
     public function GetPromotion($searchPromotion = array())
@@ -19,11 +19,14 @@ class PromotionModel extends Model
         $builder->select('*');
 
         if (count($searchPromotion) > 0) {
-            $builder->where('promotion_code', $searchPromotion['promotion_code'] ?? "");
+            
+            if (!empty($searchPromotion['promotion_code'])) {
+                $builder->where('promotion_code', $searchPromotion['promotion_code'] ?? "");
+            }
             
             if ($searchPromotion['start_date'] == true) {
-                $builder->where('start_date >=', date('d-m-Y'));
-                $builder->where('end_date <=', date('d-m-Y'));
+                $builder->where('start_date <=', date('Y-m-d'));
+                $builder->where('end_date >=', date('Y-m-d'));
             }
         }
 

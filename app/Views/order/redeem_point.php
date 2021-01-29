@@ -20,18 +20,10 @@
                     <label for="redeem_code">Kode Promosi</label>
                     <div class="form-group">
                         <div class="input-group mb-1">
-                            <input class="form-control" name="redeem_code" id="redeem_code" placeholder="Masukkan kode promosi" />
+                            <input class="form-control mr-5" name="redeem_code" id="redeem_code" placeholder="Masukkan kode promosi" />
                             <button class="btn btn-primary btn-sm float-right" type="button" id="btnUseVoucher">Gunakan voucher</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <h5 class="card-header">Promosi</h5>
-                <div class="card-body">
-                    <label for="redeem_code">Kode Promosi</label>
                 </div>
             </div>
         </div>

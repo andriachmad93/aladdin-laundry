@@ -32,6 +32,13 @@
             <input type="date" class="form-control" name="end_date" value="<?= $promotion_detail['end_date']; ?>">
           </div>
           <div class="mb-2">
+            <label class="form-label">Kategori Promosi</label>
+            <select name="promotion_category" class="form-control" id="promotion_category">
+              <option value="diskon" value="<?= $promotion_detail['promotion_category'] == "diskon" ? "selected" : ""; ?>">Diskon</option>
+              <option value="poin" value="<?= $promotion_detail['promotion_category'] == "poin" ? "selected" : ""; ?>">Poin</option>
+            </select>
+          </div>
+          <div class="mb-2" id="div-promotion-type">
             <label class="form-label">Tipe Promosi</label>
             <select name="promotion_type" class="form-control">
               <option value="%" value="<?= $promotion_detail['promotion_type'] == "%" ? "selected" : ""; ?>">Percent (%)</option>
@@ -62,4 +69,16 @@
     </main>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#promotion_category').on('click', function() {
+      if ($(this).val() == 'poin') {
+        $('#div-promotion-type').hide()
+      } else {
+        $('#div-promotion-type').show()
+      }
+    })
+  })
+</script>
 <?= $this->endSection(); ?>
