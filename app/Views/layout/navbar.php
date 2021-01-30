@@ -48,7 +48,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <?php if (!logged_in()) : ?>
                     <li>
-                        <p class="navbar-text">Sudah punya akun?</p>
+                        <p class="navbar-text mb-0">Sudah punya akun?</p>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('login'); ?>">&nbsp;Masuk</a>

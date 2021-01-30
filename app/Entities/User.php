@@ -24,4 +24,9 @@ class User extends MythUser
     {
         return trim(trim($this->attributes['firstname']) . ' ' . trim($this->attributes['lastname']));
     }
+
+    public function getPasswordHash()
+    {
+        return $this->attributes['password_hash'];
+    }
 }
