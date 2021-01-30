@@ -5,10 +5,13 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use Config\App;
 use App\Entities\User as MythUser;
+use CodeIgniter\Model;
 
 class User extends BaseController
 {
     protected $userModel;
+    protected $promotionModel;
+    protected $pointTransactionModel;
     protected $helpers = ['auth'];
 
     protected $auth;
@@ -17,6 +20,8 @@ class User extends BaseController
     {
         $this->auth = service('authentication');
         $this->userModel = model('UserModel');
+        $this->pointTransactionModel = model('PointTransactionModel');
+        $this->promotionModel = model('PromotionModel');
     }
 
     public function index()
@@ -125,13 +130,21 @@ class User extends BaseController
         } else {
             $_user  = $this->userModel->where('id', user()->id)->first();
 
+            $point = $this->pointTransactionModel->getPointHistory(user_id());
             $data = [
                 'title' => 'Poin saya',
                 'user' => $_user,
+                'point_history' => $point,
             ];
 
             return view('user/mypoints', $data);
         }
+    }
+
+    public function redeem()
+    {
+        $code = $this->request->getVar('redeem_code');
+        dd($this->promotionModel->checkPromotion($code, 'poin', user_id()));
     }
 
     public function changepassword()

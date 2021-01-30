@@ -41,7 +41,7 @@ class AddressModel extends Model
         $builder->orLike('wilayah_provinsi.nama', $searchTerm);
         $builder->orderBy('text', 'asc');
         $query = $builder->get();
-        return $query->getResultArray();;
+        return $query->getResultArray();
     }
 
     public function GetAddressByCustomer($customer_id)
