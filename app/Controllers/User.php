@@ -144,7 +144,23 @@ class User extends BaseController
     public function redeem()
     {
         $code = $this->request->getVar('redeem_code');
-        dd($this->promotionModel->checkPromotion($code, 'poin', user_id()));
+        $data = $this->promotionModel->checkPromotion($code, 'poin', user_id());
+
+        if (!empty($data['data'])) {
+            $this->pointTransactionModel->save([
+                'user_id' => user_id(),
+                'point' => $data['data']['amount'],
+                'promotion_id' => $data['data']['id'],
+                'type' => 'POIN',
+                'is_active' => 1,
+                'transaction_date' => date("Y-m-d H:i:s")
+            ]);
+            return redirect()->to(site_url('/user/mypoints'))->with('message', 'Poin berhasil ditambahkan.');
+        } else {
+            $message = service('validation')->getErrors();
+            $message['redeem_code'] = $data['message'];
+            return redirect()->back()->withInput()->with('errors', $message);
+        }
     }
 
     public function changepassword()

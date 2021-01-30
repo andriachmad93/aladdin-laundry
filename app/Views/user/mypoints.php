@@ -8,6 +8,7 @@
 
 <div class="col-md-9">
     <form class="container" method="POST" action="<?= base_url('user/redeem'); ?>">
+        <?= view('Myth\Auth\Views\_message_block') ?>
         <div class="card mb-2">
             <h4 class="card-header">Penukaran Poin</h4>
             <div class="card-body">

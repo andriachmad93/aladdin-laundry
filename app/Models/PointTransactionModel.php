@@ -10,7 +10,7 @@ class PointTransactionModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'user_id', 'order_id', 'remarks', 'promotion_id', 'type',
+        'user_id', 'order_id', 'remarks', 'promotion_id', 'type', 'point',
         'transaction_date', 'is_active',
     ];
 
