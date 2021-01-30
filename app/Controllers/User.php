@@ -4,13 +4,18 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use Config\App;
+use App\Entities\User as MythUser;
 
 class User extends BaseController
 {
     protected $userModel;
+    protected $helpers = ['auth'];
+
+    protected $auth;
 
     public function __construct()
     {
+        $this->auth = service('authentication');
         $this->userModel = model('UserModel');
     }
 
@@ -126,6 +131,61 @@ class User extends BaseController
             ];
 
             return view('user/mypoints', $data);
+        }
+    }
+
+    public function changepassword()
+    {
+        if (!logged_in() || !in_groups('Customer')) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $data = [
+                'title' => 'Ubah password',
+            ];
+            return view('user/changepassword', $data);
+        }
+    }
+
+    public function updatepassword()
+    {
+        if (!empty($this->request->getPost())) {
+            $rules = [
+                'current_password' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Password saat ini harus diisi.'
+                    ]
+                ],
+                'password'         => [
+                    'rules' => 'required|strong_password',
+                    'errors' => [
+                        'required' => 'Password harus diisi.',
+                        'strong_password' => 'Password harus kuat.',
+                    ]
+                ],
+                'pass_confirm'     => [
+                    'rules' => 'required|matches[password]',
+                    'errors' => [
+                        'required' => 'Ulangi Password harus diisi.',
+                        'matches' => 'Ulangi Password harus sama dengan Password.',
+                    ]
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
+            }
+
+            $password = $this->request->getVar('current_password');
+            $new_password = $this->request->getVar('password');
+            $this->auth->attempt(['username' => user()->username, 'password' => $password], false);
+            $user = new MythUser();
+            $user->setPassword($new_password);
+
+            $data = ['password_hash' => $user->getPasswordHash()];
+            $this->userModel->update(user_id(), $data);
+
+            return redirect()->to(site_url('/user'))->with('message', 'Password berhasil diubah.');
         }
     }
 }
