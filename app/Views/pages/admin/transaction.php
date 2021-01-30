@@ -27,14 +27,14 @@
                 foreach($order_list as $order) {
               ?>
 
-                <tr>
-                  <td><?= $order['order_code'] ?></td>
-                  <td><?= $order['order_date'] ?></td>
-                  <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
-                  <td>Rp. <?= $order['net_amount'] ?></td>
-                  <td><?= $order['status_name'] ?></td>
-                  <td></td>
-                </tr>
+              <tr>
+                <td><?= $order['order_code'] ?></td>
+                <td><?= $order['order_date'] ?></td>
+                <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
+                <td>Rp. <?= $order['net_amount'] ?></td>
+                <td><?= $order['status_name'] ?></td>
+                <td></td>
+              </tr>
               
               <?php
                 }
