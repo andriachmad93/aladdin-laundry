@@ -19,7 +19,7 @@
                         <a class="dropdown-item" href="<?= base_url('pages/layanan/stroller-dan-babycare'); ?>">Laundry stroller & baby care</a>
                         <a class="dropdown-item" href="<?= base_url('pages/layanan/sepatu-dan-tas'); ?>">Laundry sepatu & tas</a>
                         <a class="dropdown-item" href="<?= base_url('pages/layanan/helm'); ?>">Laundry helm</a>
-                        <a class="dropdown-item" href="<?= base_url('pages/layanan/satuan'); ?>">Laundry satuan</a>
+                        <a class="dropdown-item" href="<?= base_url('pages/layanan/satuan'); ?>">Laundry satuan Jember</a>
                         <a class="dropdown-item" href="<?= base_url('pages/layanan/cuci-karpet-kantor'); ?>">Cuci karpet kantor</a>
                         <a class="dropdown-item" href="<?= base_url('pages/layanan/cuci-sofa-dan-springbed'); ?>">Cuci sofa dan spring bed</a>
                     </div>
