@@ -25,6 +25,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('pages/price'); ?>">Daftar Harga</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('pages/promo'); ?>">Promo</a>
                 </li>
                 <li class="nav-item">

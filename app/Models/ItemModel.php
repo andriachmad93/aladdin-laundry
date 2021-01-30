@@ -13,11 +13,15 @@ class ItemModel extends Model
         'item_name', 'uom', 'price', 'is_active'
     ];
 
-    public function GetItem($searchItem = "", $is_active = "1")
+    public function GetItem($searchItem = array(), $is_active = "1")
     {
         $builder = $this->db->table('item');
         $builder->select('*');
-        $builder->like('item_name', $searchItem);
+        
+        if (count($searchItem) > 0) {
+            $builder->like('item_name', $searchItem['item_name_1']);
+        }
+
         $builder->where('is_active', $is_active);
         $query = $builder->get();
 

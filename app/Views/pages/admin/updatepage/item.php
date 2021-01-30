@@ -24,6 +24,17 @@
               <input type="text" class="form-control" name="price" value="<?= $item_detail['price']; ?>">
             </div>
             <div class="mb-2">
+              <label class="form-label">Tipe Layanan</label>
+              <select name="item_type" class="form-control">
+                <option value="1">Laundry Scroller & Baby Care</option>
+                <option value="2">Laundry Sepatu & Tas</option>
+                <option value="3">Laundry Helm</option>
+                <option value="4">Laundry Satuan</option>
+                <option value="5">Cuci Karpet Kantor</option>
+                <option value="6">Cuci Sofa & Spring Bed</option>
+              </select>
+            </div>
+            <div class="mb-2">
               <label class="form-label">Masa Aktif</label>
               <select name="is_active" class="form-control">
                 <option value="1" <?= $item_detail['is_active'] == 1 ? "selected" : ""; ?>>Ya</option>

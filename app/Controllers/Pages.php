@@ -5,9 +5,11 @@ namespace App\Controllers;
 class Pages extends BaseController
 {
     protected $promotionModel;
+    protected $itemModel;
 
     public function __construct() {
         $this->promotionModel = model('PromotionModel');
+        $this->itemModel = model('ItemModel');
     }
 
     public function index()
@@ -93,5 +95,20 @@ class Pages extends BaseController
         ];
 
         return view('pages/promotion', $data);
+    }
+
+    public function price()
+    {
+        $data = [
+            'title' => 'Daftar Harga',
+            'scroller_list' => $this->itemModel->GetItem(['item_name_1' => 'SCROLLER']),
+            'shoes_list' => $this->itemModel->GetItem(['item_name_1' => 'SEPATU']),
+            'helm_list' => $this->itemModel->GetItem(['item_name_1' => 'HELM']),
+            'clothes_list' => $this->itemModel->GetItem(['item_name_1' => 'BAJU']),
+            'office_list' => $this->itemModel->GetItem(['item_name_1' => 'KARPET']),
+            'bedroom_list' => $this->itemModel->GetItem(['item_name_1' => 'BED COVER'])
+        ];
+
+        return view('pages/price', $data);
     }
 }
