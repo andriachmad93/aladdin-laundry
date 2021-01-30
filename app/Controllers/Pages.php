@@ -111,4 +111,13 @@ class Pages extends BaseController
 
         return view('pages/price', $data);
     }
+
+    public function contact()
+    {
+        $data = [
+            'title' => 'Kontak'
+        ];
+
+        return view('pages/contact', $data);
+    }
 }
