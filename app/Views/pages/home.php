@@ -50,6 +50,79 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12 d-flex justify-content-center mb-3">
+            <h2>Jasa Laundry kami</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="<?= base_url('/images/shirt.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Laundry Satuan</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Jasa laundry satuan seperti kemeja, jas dll.  Sangat cocok untuk pakaian spesial anda. Pengerjaan yang detail, bersih  dengan harga terjangkau.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/satuan'); ?>">Detail Laundry Satuan >></a> <br>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="<?= base_url('/images/karpet.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Laundry Karpet</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Kami mengerjakan cuci karpet rumah, masjid dan cuci karpet kantor wilayah Jember dan sekitarnya, kami siap datang ke lokasi.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/cuci-karpet-kantor'); ?>">Detail Laundry Karpet >></a> <br>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="https://www.mataharilaundry.com/wp-content/uploads/2016/10/icon-laundry-sepatu.jpg" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Laundry Sepatu & Tas</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Ingin sepatu dan tas anda selalu bersih dan wangi, kami akan membersihkan dan memberikan perawatan pada sepatu kesayangan anda.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/sepatu-dan-tas'); ?>">Detail Laundry Sepatu & Tas >></a> <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="https://www.mataharilaundry.com/wp-content/uploads/2016/10/laundry-kereta-bayi-536-s_stroler.jpg" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Jasa Cuci Perlengkapan Bayi</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Laundry perlengkapan bayi anda seperti stroller, box bayi dengan harga terjangkau, bersih, cepat dan kami melayani antar jemput.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/stroller-dan-babycare'); ?>">Detail Laundry Perlengkapan Bayi >></a> <br>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="<?= base_url('/images/helm.png'); ?>" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Laundry Helm</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Ingin helm anda selalu bersih dan wangi, kami akan membersihkan dan memberikan perawatan pada helm kesayangan anda.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/helm'); ?>">Detail Laundry Karpet >></a> <br>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0">
+                    <img src="https://www.mataharilaundry.com/wp-content/uploads/2016/10/laundry-sofa-532-s_sofa.jpg" class="card-img-top mx-auto d-block mt-3" alt="" style="width: 80px; height: 80px;">
+                    <br><h5 style="text-align: center;"><b>Cuci Sofa & Spring Bed</b></h5>
+                    <div class="card-body mb-3 d-flex justify-content-center">
+                        Kami mengerjakan cuci sofa, kursi kantor, spring bed dll. Khusus Jember dan sekitarnya, kami menerima order laundry panggilan.
+                    </div>
+                    <a style="text-align: center;" href="<?= base_url('pages/layanan/cuci-sofa-dan-springbed'); ?>">Detail Cuci Sofa & Spring Bed >></a> <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <div class="jumbotron jumbotron-fluid" style="min-height:520px; background-image: url('https://www.mataharilaundry.com/wp-content/uploads/2016/10/background-webcuci-karpet-kantor-1.jpg'); background-size: cover;">
                 <div class="container">
