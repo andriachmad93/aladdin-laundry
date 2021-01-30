@@ -38,7 +38,7 @@
                   <td>Dani</td>
                   <td>10 Oktober 1993</td>
                   <td>Jl. Kalibata Tengah</td>
-                  <td>Dani</td>
+                  <td><?= $user["created_at"]; ?></td>
                 </tr>
               <?php
                   $i++;

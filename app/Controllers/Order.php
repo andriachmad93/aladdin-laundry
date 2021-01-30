@@ -27,7 +27,8 @@ class Order extends BaseController
 	public function index()
 	{
 		$data = [
-			'title' => 'Order'
+			'title' => 'Order',
+			'order_list' => $this->orderModel->getOrders()
 		];
 
 		return view('pages/admin/order', $data);

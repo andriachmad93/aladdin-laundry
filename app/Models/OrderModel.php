@@ -85,6 +85,8 @@ class OrderModel extends Model
     {
         $builder = $this->db->table('order');
         $builder->select('*');
+        $builder->join('status', 'order.status_id=status.id', 'left');
+        $builder->join('users', 'order.customer_id=users.id', 'left');
         $query = $builder->get();
 
         return $query->getResultArray();
@@ -94,8 +96,8 @@ class OrderModel extends Model
     {
         $builder = $this->db->table('order');
         $builder->select('*');
-        $builder->join('orderdetail', 'orderdetail.order_id=order.id', 'left');
-        $builder->join('user', 'user.id=order.customer_id', 'left');
+        $builder->join('status', 'order.status_id=status.id', 'left');
+        $builder->join('users', 'order.customer_id=users.id', 'left');
         $query = $builder->get();
 
         return $query->getResultArray();

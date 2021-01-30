@@ -13,40 +13,32 @@
       <div class="table-responsive">
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
             <thead>
-                <tr>
-                    <th>Kode Pesanan</th>
-                    <th>Tanggal Pesanan</th>
-                    <th>Nama Pelanggan</th>
-                    <th>Total Bayar</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
+              <tr>
+                <th>Kode Pesanan</th>
+                <th>Tanggal Pesanan</th>
+                <th>Nama Pelanggan</th>
+                <th>Total Bayar</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Andri</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Indra</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Andri</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
-                </tr>
+            <?php
+                foreach($order_list as $order) {
+              ?>
+
+              <tr>
+                <td><?= $order['order_code'] ?></td>
+                <td><?= $order['order_date'] ?></td>
+                <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
+                <td>Rp. <?= $order['net_amount'] ?></td>
+                <td><?= $order['status_name'] ?></td>
+                <td></td>
+              </tr>
+              
+              <?php
+                }
+              ?>
             </tbody>
         </table>
       </div>

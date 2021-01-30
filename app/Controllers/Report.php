@@ -4,10 +4,18 @@ namespace App\Controllers;
 
 class Report extends BaseController
 {
+	protected $orderModel;
+
+	public function __construct()
+	{
+		$this->orderModel = model('OrderModel');
+	}
+
 	public function transactions()
 	{
 		$data = [
-			'title' => 'Transaksi'
+			'title' => 'Transaksi',
+			'order_list' => $this->orderModel->getOrderTransaction()
 		];
 		
 		return view('pages/admin/transaction', $data);

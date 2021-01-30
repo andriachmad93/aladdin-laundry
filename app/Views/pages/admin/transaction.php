@@ -23,30 +23,22 @@
                 </tr>
             </thead>
             <tbody>
+              <?php
+                foreach($order_list as $order) {
+              ?>
+
                 <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Andri</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
+                  <td><?= $order['order_code'] ?></td>
+                  <td><?= $order['order_date'] ?></td>
+                  <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
+                  <td>Rp. <?= $order['net_amount'] ?></td>
+                  <td><?= $order['status_name'] ?></td>
+                  <td></td>
                 </tr>
-                <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Indra</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>AL 123</td>
-                    <td>11 November 2020</td>
-                    <td>Andri</td>
-                    <td>Rp 100.000</td>
-                    <td>Belum Bayar</td>
-                    <td></td>
-                </tr>
+              
+              <?php
+                }
+              ?>
             </tbody>
         </table>
       </div>
