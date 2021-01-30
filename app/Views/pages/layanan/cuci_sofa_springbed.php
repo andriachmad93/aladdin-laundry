@@ -21,7 +21,7 @@
         <div class="col-md-4">
             <a href="<?= base_url('order/create'); ?>"><img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-laundry-antar-jemput.jpg"></a>
             <br><br>
-            <img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-paket-harga-laundry.jpg">
+            <a href="<?= base_url('/pages/price') ?>"><img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-paket-harga-laundry.jpg"></a>
             <br><br>
 
             <div class="card">

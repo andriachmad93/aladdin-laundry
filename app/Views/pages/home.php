@@ -11,7 +11,7 @@
                     <p class="lead">Kami menjaga kebersihan pakaian Anda</p>
                     <a href="<?= base_url('/pages/tentang-kami') ?>" class="btn btn-md btn-primary">Pelajari lebih lanjut</a> <br><br>
                     <a href="<?= base_url('order/create'); ?>"><img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-laundry-antar-jemput.jpg"></a> <br><br>
-                    <img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-paket-harga-laundry.jpg">
+                    <a href="<?= base_url('/pages/price') ?>"><img src="https://www.mataharilaundry.com/wp-content/uploads/2016/11/banner-paket-harga-laundry.jpg"></a>
                 </div>
             </div>
         </div>
