@@ -33,7 +33,10 @@
                 <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
                 <td>Rp. <?= $order['net_amount'] ?></td>
                 <td><?= $order['status_name'] ?></td>
-                <td></td>
+                <td>
+                  <a href="<?= base_url('order/detail/' . $order['id']); ?>" class="btn btn-sm btn-outline-secondary">Detail</a>
+                  <a href="<?= base_url('order/updatestatus/' . $order['id']); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a>
+                </td>
               </tr>
               
               <?php
