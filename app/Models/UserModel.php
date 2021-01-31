@@ -48,4 +48,12 @@ class UserModel extends MythModel
 
         return $query->getResultArray();
     }
+
+    public function updatePointBalance($data = [])
+    {
+        if (count($data) > 0) {
+            $updateProperty = ['point' => $data['point']];
+            $this->update($data['customer_id'], $updateProperty);
+        }
+    }
 }

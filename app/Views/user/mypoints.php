@@ -44,7 +44,6 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th>Tanggal</th>
-                                    <th>Jenis poin</th>
                                     <th>Total poin</th>
                                     <th>Kode promo</th>
                                     <th>Kode pesanan</th>
@@ -53,13 +52,12 @@
                             <tbody>
                                 <?php foreach ($point_history as $point) : ?>
                                     <tr>
-                                        <td><?= date("d M Y", strtotime($point['transaction_date'])); ?> </td>
-                                        <td><?= $point['type']; ?></td>
+                                        <td><?= $point['transaction_date']; ?> </td>
                                         <td class="text-right"><?= (int)$point['point']; ?></td>
                                         <td><?= $point['promotion_code']; ?></td>
                                         <td>
                                             <?php if (!empty($point['order_code'])) : ?>
-                                                <a href="<?= base_url('/order/detail/' . $point['order_id']); ?>" target="_blank"><?= $point['order_code']; ?></a>
+                                                <a href="<?= base_url('/order/detail/' . $point['order_id']); ?>"><?= $point['order_code']; ?></a>
                                             <?php endif; ?>
                                             &nbsp;
                                         </td>
@@ -96,13 +94,11 @@
             }, {
                 targets: 0,
                 render: function(data) {
-                    return moment(data).format('DD MMM YYYY');
+                    return moment(data).format('DD MMM YYYY HH:mm:ss');
                 }
             }],
             "columns": [{
                     "width": "25%"
-                }, {
-                    "width": "15%"
                 },
                 {
                     "width": "20%"

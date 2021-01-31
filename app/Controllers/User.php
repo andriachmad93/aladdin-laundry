@@ -147,14 +147,21 @@ class User extends BaseController
         $data = $this->promotionModel->checkPromotion($code, 'poin', user_id());
 
         if (!empty($data['data'])) {
+            $user = $this->userModel->find(user_id());
             $this->pointTransactionModel->save([
                 'user_id' => user_id(),
                 'point' => $data['data']['amount'],
                 'promotion_id' => $data['data']['id'],
-                'type' => 'POIN',
                 'is_active' => 1,
                 'transaction_date' => date("Y-m-d H:i:s")
             ]);
+
+            $updatedPoint = (int)$user->point + $data['data']['amount'];
+            $dataBalance = [
+                'customer_id' => user_id(),
+                'point' => $updatedPoint,
+            ];
+            $this->userModel->updatePointBalance($dataBalance);
             return redirect()->to(site_url('/user/mypoints'))->with('message', 'Poin berhasil ditambahkan.');
         } else {
             $message = service('validation')->getErrors();

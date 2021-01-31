@@ -35,7 +35,7 @@
                         <tfoot class="bg-light">
                             <tr>
                                 <th colspan="4">Sub total</th>
-                                <th class="subTotal" id="subTotal" class="text-right">0</th>
+                                <th class="subTotal text-right" id="subTotal">0</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </tfoot>

@@ -111,7 +111,7 @@ class Order extends BaseController
 			$data = [
 				'title' => 'Buat pesanan',
 				'address' => $address,
-				'point' => 12000,
+				'point' => user()->point,
 			];
 
 			return view('order/create', $data);
@@ -124,7 +124,7 @@ class Order extends BaseController
 			if ($this->request->isAJAX()) {
 				$searchTerm = $this->request->getPost('searchTerm');
 
-				$data = $this->itemModel->getItem($searchTerm);
+				$data = $this->itemModel->getItem(['item_name_1' => $searchTerm]);
 
 				$output = [];
 				foreach ($data as $d) {
