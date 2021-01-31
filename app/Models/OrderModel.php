@@ -83,11 +83,12 @@ class OrderModel extends Model
 
     public function getOrders($customerId = "")
     {
-        $builder = $this->db->table('order');
-        $builder->select('*');
-        $builder->join('status', 'order.status_id=status.id', 'left');
-        $builder->join('users', 'order.customer_id=users.id', 'left');
-        $query = $builder->get();
+        $sql = "select o.*, status.status_name, users.firstname, users.lastname
+        from `order` as o
+        LEFT JOIN `status` ON `o`.`status_id`=`status`.`id`
+        LEFT JOIN `users` ON `o`.`customer_id`=`users`.`id`";
+
+        $query = $this->db->query($sql);
 
         return $query->getResultArray();
     }
