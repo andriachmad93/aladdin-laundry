@@ -43,11 +43,24 @@ class Report extends BaseController
 		if (!logged_in() || !in_groups(['Admin'])) {
 			return redirect()->to(site_url('/login'));
 		}
-		
+
 		$data = [
 			'title' => 'Tren Penjualan'
 		];
 		
 		return view('pages/admin/sales-trend', $data);
-    }
+	}
+	
+	public function customer_rating()
+	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
+		$data = [
+			'title' => 'Penilaian Pelanggan'
+		];
+		
+		return view('pages/admin/customer-rating', $data);
+	}
 }
