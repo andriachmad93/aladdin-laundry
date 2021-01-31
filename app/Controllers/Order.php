@@ -80,13 +80,13 @@ class Order extends BaseController
 
 	public function detail($id)
 	{
-		if (!logged_in() || !in_groups('Customer')) {
+		if (!logged_in()) {
 			return redirect()->to(site_url('/login'));
 		} else {
 			$order = $this->orderModel->getDetail($id);
 			if (!empty($order->id)) {
 				$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
-				if ($order->customer_id != user_id()) {
+				if ($order->customer_id != user_id() && in_groups('Customer')) {
 					return redirect()->to(site_url('/login'));
 				}
 
@@ -418,5 +418,30 @@ class Order extends BaseController
 		];
 
 		return view('order/redeem_point', $data);
+	}
+
+	public function updateStatus($id)
+	{
+
+		if (!logged_in() || !in_groups(['Admin', 'Kurir'])) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order = $this->orderModel->getDetail($id);
+			if (!empty($order->id)) {
+				$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
+				if ($order->customer_id != user_id() && in_groups('Customer')) {
+					return redirect()->to(site_url('/login'));
+				}
+
+				$data = [
+					'title' => 'Update status pesanan',
+					'order' => $order,
+					'orderDetail' => $orderDetail,
+					'operation' => 'payment'
+				];
+
+				return view('order/updatestatus', $data);
+			}
+		}
 	}
 }
