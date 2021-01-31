@@ -62,7 +62,15 @@
                             <img src="<?= base_url('files/userpics/' . user()->photo); ?>" width="40" height="40" class="rounded-circle">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="<?= base_url("user"); ?>">Profil saya</a>
+                            <?php if (in_groups('Customer')) : ?>
+                                <a class="dropdown-item" href="<?= base_url("user"); ?>">Profil saya</a>
+                            <?php elseif (in_groups('Admin')) : ?>
+                                <a class="dropdown-item" href="<?= base_url("admin"); ?>">Workspace</a>
+                            <?php elseif (in_groups('Kurir')) : ?>
+                                <a class="dropdown-item" href="<?= base_url("courier"); ?>">Workspace</a>
+                            <?php elseif (in_groups('Owner')) : ?>
+                                <a class="dropdown-item" href="<?= base_url("owner"); ?>">Workspace</a>
+                            <?php endif; ?>
                             <a class="dropdown-item" href="<?= base_url("logout"); ?>">Keluar</a>
                         </div>
                     </li>
