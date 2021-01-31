@@ -13,6 +13,10 @@ class Report extends BaseController
 
 	public function transactions()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		$data = [
 			'title' => 'Transaksi',
 			'order_list' => $this->orderModel->getOrderTransaction()
@@ -23,6 +27,10 @@ class Report extends BaseController
     
     public function loyal_customers()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		$data = [
 			'title' => 'Loyal Customers'
 		];
@@ -32,6 +40,10 @@ class Report extends BaseController
 	
 	public function sales_trend()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+		
 		$data = [
 			'title' => 'Tren Penjualan'
 		];

@@ -26,6 +26,10 @@ class Order extends BaseController
 
 	public function index()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+		
 		$data = [
 			'title' => 'Order',
 			'order_list' => $this->orderModel->getOrders()

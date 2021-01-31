@@ -14,6 +14,10 @@ class Promotion extends BaseController
 	
 	public function index()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		$data = [
 			'title' => 'Promosi',
 			'promotion_list' => $this->promotionModel->GetPromotion()
@@ -24,6 +28,10 @@ class Promotion extends BaseController
 
 	public function add_promotion_page()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+		
 		$data = [
 			'title' => 'Tambah Promosi'
 		];
@@ -33,6 +41,10 @@ class Promotion extends BaseController
 
 	public function add_promotion()
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		$data = [
 			'promotion_name' => $this->request->getPost('promotion_name'),
 			'promotion_code' => $this->request->getPost('promotion_code'),
@@ -56,6 +68,10 @@ class Promotion extends BaseController
 
 	public function update_promotion_page($id)
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		$data = [
 			'title' => 'Ubah Promosi',
 			'promotion_detail' => $this->promotionModel->find($id)
@@ -89,6 +105,10 @@ class Promotion extends BaseController
 
 	public function delete($id)
 	{
+		if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+		
 		$this->promotionModel->update($id, ['is_active' => 0]);
 
 		return redirect()->to('/promotion')->with('message', 'Data berhasil diubah');
