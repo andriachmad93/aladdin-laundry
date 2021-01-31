@@ -10,6 +10,21 @@
         <h1 class="h2">Loyal Customers</h1>
       </div>
 
+      <label class="col-md-4 form-label">Pilih Periode</label>
+      <div class="col-md-8">
+          <div class="row">
+              <div class="col-md-4">
+                  <input type="date" class="form-control">
+              </div>
+              <div class="col-md-4">
+                  <input type="date" class="form-control">
+              </div>
+              <div class="col-md-2">
+                  <button class="btn btn-primary btn-sm float-right">Tampilkan</button>
+              </div>
+          </div>
+      </div>
+      <br><br>
       <div class="table-responsive">
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
             <thead>
