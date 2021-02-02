@@ -17,6 +17,52 @@ class OrderModel extends Model
 
     protected $useTimestamps = false;
 
+    public function getOnGoingPickupOrder($user_id){
+        $builder = $this->db->table('`order`');
+        $builder->select("`order`.*, trackingorder.*, address.*, DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
+        , GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil
+        ");
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->join('orderdetail', 'orderdetail.order_id=`order`.id', 'left');
+        $builder->join('item', 'item.id=`orderdetail`.item_id', 'left');
+        $builder->join('address', 'address.id=`order`.address_id', 'left');
+        $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 20, 'trackingorder.updated_by' => $user_id));
+        $builder->orderBy('trackingorder.updated_date', 'desc');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+    public function getReadyPickupOrder(){
+        $builder = $this->db->table('`order`');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 25));
+        $builder->orderBy('trackingorder.updated_date', 'desc');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+    public function getOnGoingShippedOrder($user_id){
+        $builder = $this->db->table('`order`');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 65, 'trackingorder.updated_by' => $user_id));
+        $builder->orderBy('trackingorder.updated_date', 'desc');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+    public function getReadyShippedOrder(){
+        $builder = $this->db->table('`order`');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 55));
+        $builder->orderBy('trackingorder.updated_date', 'desc');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
     public function getOrderNo()
     {
         /* prefix: ALD/yyyy/xxxxx

@@ -25,14 +25,26 @@ class Courier extends BaseController
 
     public function myPickup()
     {
-        $data = ['title' => 'myPickup'];
+        $onGoingPickupOrder = $this->orderModel->getOnGoingPickupOrder(user()->id);
+        $readyPickupOrder = $this->orderModel->getReadyPickupOrder();
+        $data = [
+            'title' => 'myPickup',
+            'onGoingPickupOrder' => $onGoingPickupOrder,
+            'readyPickupOrder' => $readyPickupOrder
+        ];
 
         return view('courier/mypickup', $data);
     }
 
     public function myDelivery()
     {
-        $data = ['title' => 'myPickup'];
+        $onGoingShippedOrder = $this->orderModel->getOnGoingShippedOrder(user()->id);
+        $readyShippedOrder = $this->orderModel->getReadyShippedOrder(user()->id);
+        $data = [
+            'title' => 'myPickup',
+            'onGoingShippedOrder' => $onGoingShippedOrder,
+            'readyShippedOrder' => $readyShippedOrder
+        ];
 
         return view('courier/myDelivery', $data);
     }

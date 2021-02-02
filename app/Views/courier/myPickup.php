@@ -24,12 +24,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php foreach ($onGoingPickupOrder as $order) : ?>
                         <tr>
-                            <td>ALD/2021/00010</td>
-                            <td>31 Jan 2021 09:10:01</td>
-                            <td>BAJU SAFARI 1 PCS</td>
-                            <td>Gina 0812345678</td>
-                            <td>Cempaka putih No.3</td>
+                            <td><?= $order['order_code']; ?></td>
+                            <td><?= $order['tanggal']; ?></td>
+                            <td><?= $order['detil']; ?></td>
+                            <td><b><?= $order['receiver']; ?></b><br /> <?= $order['receiver_phone']; ?></td>
+                            <td><?= $order['address']; ?></td>
                             <td>
                                 <button type="button" class="btn btn-secondary btn-sm btnDone mb-1" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
                                     <i class="fas fa-folder-open">&nbsp;</i></button>
@@ -37,19 +38,10 @@
                                     <i class="fas fa-check">&nbsp;</i></button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>ALD/2021/00016</td>
-                            <td>31 Jan 2021 10:05:14</td>
-                            <td>SEPATU 2 PCS</td>
-                            <td>Lukman 0812345673</td>
-                            <td>Cengkareng No.14</td>
-                            <td>
-                                <button type="button" class="btn btn-secondary btn-sm btnDone mb-1" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
-                                    <i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-success btn-sm btnDone mb-1" data-toggle="tooltip" data-placement="top" title="Update status">
-                                    <i class="fas fa-check">&nbsp;</i></button>
-                            </td>
-                        </tr>
+                    <?php endforeach; ?>
+                    <?php dd($onGoingPickupOrder);
+                    if(count($onGoingPickupOrder) == 0) echo "<tr><td colspan=5>currently no</td></tr>"; ?>
+               
                     </tbody>
                 </table>
             </div>
@@ -68,6 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         <tr>
                             <td>ALD/2021/00020</td>
                             <td>31 Jan 2021 12:10:01</td>
