@@ -42,8 +42,8 @@
 
                     <br><br>
                     Jika ada informasi ada pada FAQ silahkan hubungi kami:<br>
-                    Whatsapp CS : menyusul<br>
-                    Whatsapp Owner : 0812 9019 0200
+                    Whatsapp CS : <a href="https://api.whatsapp.com/send?phone=628113509299&amp;text=Aladdin%20Laundry">+62 811-3509-299</a><br>
+                    Whatsapp Owner : <a href="https://api.whatsapp.com/send?phone=6281290190200&amp;text=Aladdin%20Laundry">+6 812-9019-0200</a>
                     </p>
                 </div>
             </div>
