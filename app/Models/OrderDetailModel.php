@@ -16,6 +16,15 @@ class OrderDetailModel extends Model
 
     protected $useTimestamps = false;
 
+    public function getOrderDetailByOrderId($order_id){
+        $builder = $this->db->table('orderdetail');
+        $builder->select("CONCAT(orderdetail.quantity, ' ', orderdetail.uom, ' ', item.item_name) as detil");
+        $builder->join('item', 'item.id=`orderdetail`.item_id', 'left');
+        $builder->where(array('order_id' => $order_id));
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
     public function getOrderDetail($criteria = [])
     {
         $builder = $this->db->table('orderdetail');

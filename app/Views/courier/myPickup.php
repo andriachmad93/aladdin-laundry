@@ -39,8 +39,6 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                    <?php dd($onGoingPickupOrder);
-                    if(count($onGoingPickupOrder) == 0) echo "<tr><td colspan=5>currently no</td></tr>"; ?>
                
                     </tbody>
                 </table>
