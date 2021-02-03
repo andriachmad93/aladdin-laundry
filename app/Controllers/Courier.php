@@ -27,16 +27,6 @@ class Courier extends BaseController
     public function myPickup()
     {
         $onGoingPickupOrder = $this->orderModel->getOnGoingPickupOrder(user()->id);
-        foreach($onGoingPickupOrder as $key => $order){
-            $orderDetails = $this->orderDetailModel->getOrderDetailByOrderId($order["id"]);
-            $detail = "";
-            $firstChar = "";
-            foreach($orderDetails as $orderDetail){
-                $detail .= "{$firstChar}{$orderDetail['detil']}";
-                $firstChar = ", ";
-            }
-            $onGoingPickupOrder[$key]["detil"] = $detail;
-        }
         $readyPickupOrder = $this->orderModel->getReadyPickupOrder();
         $data = [
             'title' => 'myPickup',

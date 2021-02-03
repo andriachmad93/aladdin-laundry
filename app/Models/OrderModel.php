@@ -40,19 +40,57 @@ class OrderModel extends Model
 
         $query = $builder->get();
         $result = $query->getResultArray();
-        // dd( $this->db );
+        foreach($result as $key => $order){
+            $orderDetailModel = Model('OrderDetailModel');
+            $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
+            $detail = "";
+            $firstChar = "";
+            foreach($orderDetails as $orderDetail){
+                $detail .= "{$firstChar}{$orderDetail['detil']}";
+                $firstChar = ", ";
+            }
+            $result[$key]["detil"] = $detail;
+        }
 
         return $result;
     }
 
     public function getReadyPickupOrder(){
         $builder = $this->db->table('`order`');
+        $builder->select("`order`.*, 
+        trackingorder.order_id, 
+        trackingorder.status, 
+        trackingorder.updated_by, 
+        trackingorder.updated_date, 
+        address.customer_id,
+        address.address_name,
+        address.receiver,
+        address.receiver_phone,
+        address.district_id,
+        address.address,
+        address.zip_code,
+        DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
+        ");
         $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 25));
         $builder->orderBy('trackingorder.updated_date', 'desc');
 
         $query = $builder->get();
-        return $query->getResultArray();
+        $result = $query->getResultArray();
+        foreach($result as $key => $order){
+            $orderDetailModel = Model('OrderDetailModel');
+            $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
+            $detail = "";
+            $firstChar = "";
+            foreach($orderDetails as $orderDetail){
+                $detail .= "{$firstChar}{$orderDetail['detil']}";
+                $firstChar = ", ";
+            }
+            $result[$key]["detil"] = $detail;
+        }
+
+        return $result;
     }
 
     public function getOnGoingShippedOrder($user_id){
@@ -62,7 +100,20 @@ class OrderModel extends Model
         $builder->orderBy('trackingorder.updated_date', 'desc');
 
         $query = $builder->get();
-        return $query->getResultArray();
+        $result = $query->getResultArray();
+        foreach($result as $key => $order){
+            $orderDetailModel = Model('OrderDetailModel');
+            $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
+            $detail = "";
+            $firstChar = "";
+            foreach($orderDetails as $orderDetail){
+                $detail .= "{$firstChar}{$orderDetail['detil']}";
+                $firstChar = ", ";
+            }
+            $result[$key]["detil"] = $detail;
+        }
+
+        return $result;
     }
 
     public function getReadyShippedOrder(){
@@ -72,7 +123,20 @@ class OrderModel extends Model
         $builder->orderBy('trackingorder.updated_date', 'desc');
 
         $query = $builder->get();
-        return $query->getResultArray();
+        $result = $query->getResultArray();
+        foreach($result as $key => $order){
+            $orderDetailModel = Model('OrderDetailModel');
+            $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
+            $detail = "";
+            $firstChar = "";
+            foreach($orderDetails as $orderDetail){
+                $detail .= "{$firstChar}{$orderDetail['detil']}";
+                $firstChar = ", ";
+            }
+            $result[$key]["detil"] = $detail;
+        }
+
+        return $result;
     }
 
     public function getOrderNo()
