@@ -10,7 +10,7 @@
             <h1 class="h2">Ubah Promosi</h1>
         </div>
 
-        <form action="<?php echo base_url('item/update_promotion/') . $promotion_detail['id']; ?>" method="post">
+        <form action="<?php echo base_url('item/update_promotion') . '/' . $promotion_detail['id']; ?>" method="post">
           <div class="mb-2">
             <label class="form-label">Nama Promosi</label>
             <input type="text" class="form-control" name="promotion_name" value="<?= $promotion_detail['promotion_name']; ?>">
