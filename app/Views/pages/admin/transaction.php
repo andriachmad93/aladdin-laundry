@@ -14,13 +14,13 @@
       <div class="col-md-8">
           <div class="row">
               <div class="col-md-4">
-                  <input type="date" class="form-control">
+                  <input type="date" class="form-control startDate">
               </div>
               <div class="col-md-4">
-                  <input type="date" class="form-control">
+                  <input type="date" class="form-control endDate">
               </div>
               <div class="col-md-2">
-                  <button class="btn btn-primary btn-sm float-right">Tampilkan</button>
+                  <button class="btn btn-primary btn-sm float-right" onclick="getTransactionPeriod()">Tampilkan</button>
               </div>
           </div>
       </div>
@@ -34,7 +34,6 @@
                     <th>Nama Pelanggan</th>
                     <th>Total Bayar</th>
                     <th>Status</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +47,6 @@
                 <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
                 <td>Rp. <?= $order['net_amount'] ?></td>
                 <td><?= $order['status_name'] ?></td>
-                <td></td>
               </tr>
               
               <?php
@@ -60,4 +58,13 @@
     </main>
   </div>
 </div>
+
+<script type="text/javascript">
+  function getTransactionPeriod() {
+    var startDate = document.getElementsByClassName("startDate");
+    var endDate = document.getElementsByClassName("endDate");
+
+    window.location = "<?= base_url('report/transactions'); ?>/" + startDate[0].value + "/" + endDate[0].value;
+  }
+</script>
 <?= $this->endSection(); ?>

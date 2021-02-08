@@ -46,11 +46,11 @@
             </select>
           </div>
           <div class="mb-2">
-            <label class="form-label">Harga Minimum Promosi</label>
+            <label class="form-label">Jumlah</label>
             <input type="text" class="form-control" name="amount" value="<?= $promotion_detail['amount']; ?>">
           </div>
           <div class="mb-2">
-            <label class="form-label">Harga Maksimum Promosi</label>
+            <label class="form-label">Harga Maksimum (Rp.)</label>
             <input type="text" class="form-control" name="maximum_amount" value="<?= $promotion_detail['maximum_amount']; ?>">
           </div>
           <div class="mb-2">

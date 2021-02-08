@@ -11,7 +11,7 @@ class Report extends BaseController
 		$this->orderModel = model('OrderModel');
 	}
 
-	public function transactions()
+	public function transactions($start_date = "", $end_date = "")
 	{
 		if (!logged_in() || !in_groups(['Admin'])) {
 			return redirect()->to(site_url('/login'));
@@ -19,7 +19,7 @@ class Report extends BaseController
 
 		$data = [
 			'title' => 'Transaksi',
-			'order_list' => $this->orderModel->getOrderTransaction()
+			'order_list' => $this->orderModel->getOrderTransaction($start_date, $end_date)
 		];
 		
 		return view('pages/admin/transaction', $data);

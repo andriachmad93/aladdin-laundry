@@ -23,7 +23,7 @@
               <label class="form-label">Harga</label>
               <input type="text" class="form-control" name="price" value="<?= $item_detail['price']; ?>">
             </div>
-            <div class="mb-2">
+            <div class="mb-2" hidden>
               <label class="form-label">Tipe Layanan</label>
               <select name="item_type" class="form-control">
                 <option value="1">Laundry Scroller & Baby Care</option>

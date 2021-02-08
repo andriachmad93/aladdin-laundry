@@ -215,12 +215,13 @@ class OrderModel extends Model
         return $query->getResultArray();
     }
 
-    public function getOrderTransaction()
+    public function getOrderTransaction($start_date = "", $end_date = "")
     {
         $sql = "select o.*, status.status_name, users.firstname, users.lastname
         from `order` as o
         LEFT JOIN `status` ON `o`.`status_id`=`status`.`id`
-        LEFT JOIN `users` ON `o`.`customer_id`=`users`.`id`";
+        LEFT JOIN `users` ON `o`.`customer_id`=`users`.`id`
+        where o.order_date between '".$start_date."' and '".$end_date."'";
 
         $query = $this->db->query($sql);
 
