@@ -1,4 +1,9 @@
-<?= $this->extend('layout/template'); ?>
+<?php
+if (!in_groups('Customer'))
+    $this->extend('layout/admin/template');
+else
+    $this->extend('layout/template');
+?>
 
 <?= $this->section('pageStyles'); ?>
 <style>

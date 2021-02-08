@@ -44,6 +44,7 @@
             $('#tabel-data').DataTable();
         });
     </script>
+    <?= $this->renderSection('pageScripts') ?>
 </body>
 
 </html>

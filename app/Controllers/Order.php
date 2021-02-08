@@ -26,16 +26,16 @@ class Order extends BaseController
 
 	public function index()
 	{
-		if (!logged_in() || !in_groups(['Admin'])) {
+		if (!logged_in() || !in_groups('Admin')) {
 			return redirect()->to(site_url('/login'));
-		}
-		
-		$data = [
-			'title' => 'Order',
-			'order_list' => $this->orderModel->getOrders()
-		];
+		} else {
+			$data = [
+				'title' => 'Order',
+				'order_list' => $this->orderModel->getOrders()
+			];
 
-		return view('pages/admin/order', $data);
+			return view('pages/admin/order', $data);
+		}
 	}
 
 	public function track($id = 0)
@@ -443,7 +443,7 @@ class Order extends BaseController
 					'orderDetail' => $orderDetail,
 					'operation' => 'payment'
 				];
-
+				//return view status
 				return view('order/updatestatus', $data);
 			}
 		}
