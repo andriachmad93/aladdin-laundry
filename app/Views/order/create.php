@@ -90,11 +90,15 @@
                     <div class="form-group">
                         <ul class="list-group">
                             <li class="list-group-item">Sub total <span class="badge badge-primary float-right subTotal" id="subTotal2">0</span></li>
-                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">0</span>
+                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">5,000</span>
                                 <input type="hidden" name="delivery_fee" id="delivery_fee" />
                             </li>
-                            <li class="list-group-item">Diskon <span class="badge badge-primary float-right" id="discount">0</span></li>
-                            <li class="list-group-item">Bayar dengan poin <span class="badge badge-primary float-right" id="point_used">0</span></li>
+                            <li class="list-group-item">Diskon <span class="badge badge-primary float-right" id="_discount">0</span>
+                                <input type="hidden" name="discount" id="discount" />
+                            </li>
+                            <li class="list-group-item">Bayar dengan poin <span class="badge badge-primary float-right" id="_point_used">0</span>
+                                <input type="hidden" name="point_used" id="point_used" />
+                            </li>
                             <li class="list-group-item"><b>Total</b> <span class="badge badge-primary float-right" id="grandTotal">0</span></li>
                         </ul>
                     </div>
@@ -120,11 +124,27 @@
 <?= $this->section('pageScripts'); ?>
 <script src="<?= base_url() ?>/js/common.js?v<?= date("Ymd"); ?>"></script>
 <script type="text/javascript">
-    let biayaKirim = 0;
+    let biayaKirim = 5000;
     let grandSubTotal = 0;
-    let point = 0;
+
     let discount = 0;
     let grandTotal = 0;
+
+    let isValidPromo = false;
+    let promoMaximumAmount = 0;
+    let promoType = "%";
+    let promoAmount = 0;
+
+    let isUsePoint = false;
+    let point = parseInt("<?= $point; ?>");
+    let usedPoint = 0;
+
+    function resetPromo() {
+        isValidPromo = false;
+        promoMaximumAmount = 0;
+        promoType = "%";
+        promoAmount = 0;
+    }
 
     $(document).ready(function() {
         $("#point").trigger('blur');
@@ -195,12 +215,12 @@
             url: `<?= base_url() ?>/Order/getItemDetail/${id}`,
             type: "get",
             dataType: 'json',
-
             success: function(response) {
                 if (response != null && typeof response !== "undefined") {
                     $(`#item_name_${trid}`).val(response.data.item_name);
                     $(`#uom_${trid}`).val(response.data.uom);
                     $(`#price_${trid}`).val(parseInt(response.data.price).toLocaleString("en"));
+                    calculateSubTotal();
                 }
             }
         });
@@ -224,8 +244,26 @@
             $(`#sub_total_${uid}`).val(subtotal.toLocaleString("en"));
         });
         $(".subTotal").text(grandSubTotal.toLocaleString("en"));
+        calculateDiscount();
 
-        grandTotal = grandSubTotal + biayaKirim;
+        grandTotal = grandSubTotal + biayaKirim - discount;
+
+        if (isUsePoint) {
+            usedPoint = point;
+            if (grandTotal - usedPoint < 0) {
+                usedPoint = grandTotal;
+            }
+        } else {
+            usedPoint = 0;
+        }
+
+        if (usedPoint > 0) {
+            $("#_point_used").text((-1 * usedPoint).toLocaleString("en"));
+        } else {
+            $("#_point_used").text("0");
+        }
+
+        grandTotal = grandTotal - usedPoint;
         $("#grandTotal").text(grandTotal.toLocaleString("en"));
     }
 
@@ -290,5 +328,63 @@
             }
         });
     }
+
+    $(document).on("click", "#btnUseVoucher", function() {
+        let voucherNo = $("#redeem_code").val();
+        resetPromo();
+        if (voucherNo != "") {
+            useVoucher(voucherNo);
+        }
+    });
+
+    $(document).on("change", "#redeem_code", function() {
+        resetPromo();
+        calculateSubTotal();
+    });
+
+    function useVoucher(voucherNo = "") {
+        $.ajax({
+            url: `<?= base_url() ?>/Promotion/getVoucherData/${voucherNo}`,
+            type: "get",
+            dataType: "json",
+            success: function(response) {
+                if (response != null && typeof response !== "undefined") {
+                    if (response.status != 200) {
+                        $("#redeem_code").val("");
+                        alert(response.message);
+                    } else {
+                        isValidPromo = true;
+                        promoAmount = parseInt(response.data.amount);
+                        promoMaximumAmount = parseInt(response.data.maximum_amount);
+                        promoType = response.data.promotion_type;
+                    }
+                }
+                calculateSubTotal();
+            }
+        });
+    }
+
+    function calculateDiscount() {
+        if (promoType == "%") {
+            discount = parseFloat(grandSubTotal * promoAmount / 100);
+            discount = parseInt(discount);
+            if (discount > promoMaximumAmount) {
+                discount = promoMaximumAmount;
+            }
+        } else {
+            discount = promoAmount;
+        }
+
+        if (discount > 0) {
+            $("#_discount").text((-1 * discount).toLocaleString("en"));
+        } else {
+            $("#_discount").text("0");
+        }
+    }
+
+    $(document).on("change", "#cboUsePoint", function() {
+        isUsePoint = $(this).prop('checked');
+        calculateSubTotal();
+    });
 </script>
 <?= $this->endSection(); ?>
