@@ -12,6 +12,8 @@ class Order extends BaseController
 	protected $orderModel;
 	protected $orderDetailModel;
 	protected $trackingOrderModel;
+	protected $deliveryMethodeModel;
+	protected $promotionModel;
 	protected $ajaxOutput;
 
 	public function __construct()
@@ -21,6 +23,8 @@ class Order extends BaseController
 		$this->orderModel = model("orderModel");
 		$this->orderDetailModel = model("orderDetailModel");
 		$this->trackingOrderModel = model("trackingOrderModel");
+		$this->deliveryMethodeModel = model("DeliveryMethodModel");
+		$this->promotionModel = model("PromotionModel");
 		$this->ajaxOutput = new AjaxOutput();
 	}
 
@@ -60,6 +64,10 @@ class Order extends BaseController
 
 	public function cancel($id = 0)
 	{
+		if (!logged_in() || !in_groups('Customer')) {
+			return redirect()->to(site_url('/login'));
+		}
+
 		if ($id <> 0) {
 			$order = $this->orderModel->getDetail($id);
 			if ($order->status_id == "10") {
@@ -111,11 +119,18 @@ class Order extends BaseController
 		if (!logged_in() || !in_groups('Customer')) {
 			return redirect()->to(site_url('/login'));
 		} else {
+			$delivery = $this->deliveryMethodeModel->where(['is_active' => 1, 'price >' => 0])->find();
+			if (count($delivery) > 0) {
+				$delivery = $delivery[0]['price'];
+			} else {
+				$delivery = 0;
+			}
 			$address = $this->addressModel->GetAddressByCustomer(user()->id);
 			$data = [
 				'title' => 'Buat pesanan',
 				'address' => $address,
 				'point' => user()->point,
+				'delivery_fee' => $delivery,
 			];
 
 			return view('order/create', $data);
@@ -216,8 +231,27 @@ class Order extends BaseController
 
 				$promotion_id = 0;
 				$discount = 0;
-				if (!empty($this->request->getPost('redeem_code'))) {
+				$redeem_code = $this->request->getPost('redeem_code');
+				if (!empty($redeem_code)) {
+					$promo = $this->promotionModel->checkPromotion($redeem_code, 'diskon', user_id());
 					//check promotion code & return $promotion_id
+
+					if (!empty($promo['data'])) {
+						$promotion_id = $promo['data']['id'];
+						$promoType = $promo['data']['promotion_type'];
+						$promoMaximumAmount = $promo['data']['maximum_amount'];
+						$promoAmount = $promo['data']['amount'];
+
+						if ($promoType == "%") {
+							$discount = floatval($gross_amount * $promoAmount / 100);
+							$discount = intval($discount);
+							if ($discount > $promoMaximumAmount) {
+								$discount = $promoMaximumAmount;
+							}
+						} else {
+							$discount = $promoAmount;
+						}
+					}
 				}
 
 				$rules['payment_method_id'] = [
@@ -241,16 +275,28 @@ class Order extends BaseController
 					$data = array('error' => $error_message);
 					$this->ajaxOutput->data = json_encode($data);
 				} else {
-					$mypoint = 0;
+					$mypoint = user()->point;
+					$delivery_fee = $this->request->getVar('delivery_fee');
 					$point_used = 0;
-					$net_amount = 0;
 
-					if (($gross_amount - $discount) < $mypoint) {
-						$point_used = $gross_amount - $discount;
-					} else {
+					$net_amount = $gross_amount - $discount + $delivery_fee;
+
+					if ($this->request->getVar("isUsePoint") == "1") {
 						$point_used = $mypoint;
+						if ($net_amount - $mypoint < 0) {
+							$point_used = $net_amount;
+						}
+						if ($point_used < 0) {
+							$point_used = 0;
+						}
+					} else {
+						$point_used = 0;
 					}
-					$net_amount = $gross_amount - $discount - $point_used;
+
+					$net_amount = $net_amount - $point_used;
+					if ($net_amount < 0) {
+						$net_amount = 0;
+					}
 
 					$orderNo = $this->orderModel->getOrderNo();
 					$orderId = $this->orderModel->insert([
@@ -259,14 +305,14 @@ class Order extends BaseController
 						'order_date' => date("Y-m-d H:i:s"),
 						'promotion_id' => $promotion_id,
 						'delivery_method_id' => $this->request->getVar('delivery_method_id'),
-						'delivery_fee' => $this->request->getVar('delivery_fee'),
+						'delivery_fee' => $delivery_fee,
 						'gross_amount' => $gross_amount,
 						'discount' => $discount,
 						'point_used' => $point_used,
 						'net_amount' => $net_amount,
 						'address_id' => $address_id,
 						'payment_method_id' => $this->request->getVar('payment_method_id'),
-						'status_id' => 10,
+						'status_id' => ($net_amount == 0 ? 20 : 10),
 						'proof_of_payment' => '',
 						'is_active' => 1
 					]);

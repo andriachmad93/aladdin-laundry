@@ -68,7 +68,7 @@
                     <div class="form-row mb-2" id="pointBox" style="<?= (!empty($point) && $point > 0) ? "" : "display:none"; ?>">
                         <div class="col-md-8">
                             <div class="form-check">
-                                <input type="checkbox" id="cboUsePoint" class="form-check-input" />
+                                <input type="checkbox" id="cboUsePoint" class="form-check-input" value="1" name="isUsePoint" />
                                 <label class="form-check-label" for="cboUsePoint">
                                     Gunakan poin
                                 </label>
@@ -90,8 +90,8 @@
                     <div class="form-group">
                         <ul class="list-group">
                             <li class="list-group-item">Sub total <span class="badge badge-primary float-right subTotal" id="subTotal2">0</span></li>
-                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim">5,000</span>
-                                <input type="hidden" name="delivery_fee" id="delivery_fee" />
+                            <li class="list-group-item">Biaya pengiriman <span class="badge badge-primary float-right" id="biayaKirim"><?= number_format($delivery_fee, 0, ".", ","); ?></span>
+                                <input type="hidden" name="delivery_fee" id="delivery_fee" value="<?= $delivery_fee ?>" />
                             </li>
                             <li class="list-group-item">Diskon <span class="badge badge-primary float-right" id="_discount">0</span>
                                 <input type="hidden" name="discount" id="discount" />
@@ -124,7 +124,7 @@
 <?= $this->section('pageScripts'); ?>
 <script src="<?= base_url() ?>/js/common.js?v<?= date("Ymd"); ?>"></script>
 <script type="text/javascript">
-    let biayaKirim = 5000;
+    let biayaKirim = parseInt("<?= $delivery_fee; ?>");
     let grandSubTotal = 0;
 
     let discount = 0;
@@ -253,6 +253,10 @@
             if (grandTotal - usedPoint < 0) {
                 usedPoint = grandTotal;
             }
+
+            if (usedPoint < 0) {
+                usedPoint = 0;
+            }
         } else {
             usedPoint = 0;
         }
@@ -264,6 +268,9 @@
         }
 
         grandTotal = grandTotal - usedPoint;
+        if (grandTotal < 0)
+            grandTotal = 0;
+
         $("#grandTotal").text(grandTotal.toLocaleString("en"));
     }
 
@@ -273,7 +280,7 @@
             $("#delivery_method_id").val(2);
             $("#deliveryBox").hide();
         } else {
-            biayaKirim = 5000;
+            biayaKirim = parseInt("<?= $delivery_fee; ?>");
             $("#delivery_method_id").val(1);
             $("#deliveryBox").show();
         }

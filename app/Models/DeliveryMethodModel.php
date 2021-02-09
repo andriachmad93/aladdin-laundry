@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class TrackingOrderModel extends Model
+class DeliveryMethodModel extends Model
 {
     protected $table      = 'deliverymethod';
     protected $primaryKey = 'id';
