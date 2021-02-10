@@ -16,13 +16,21 @@
                 <tr>
                     <th>Username</th>
                     <th>Nama Grup</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
+              <?php
+                foreach($users as $user) {
+              ?>
                 <tr>
-                    <td>Dani</td>
-                    <td>Pelanggan</td>
+                  <td><?= $user['firstname'] ?></td>
+                  <td><?= $user['name'] ?></td>
+                  <td><a href="<?= base_url('user/edit_user_group/' . $user['user_id']); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a></td>
                 </tr>
+              <?php
+                }
+              ?>
             </tbody>
         </table>
       </div>

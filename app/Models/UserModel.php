@@ -56,4 +56,20 @@ class UserModel extends MythModel
             $this->update($data['customer_id'], $updateProperty);
         }
     }
+
+    public function getUserAccess($user_id = "")
+    {
+        $sql = "select agu.*, auth_groups.name, users.firstname, users.lastname
+        from `auth_groups_users` as agu
+        LEFT JOIN `users` ON `agu`.`user_id`=`users`.`id`
+        LEFT JOIN `auth_groups` ON `agu`.`group_id`=`auth_groups`.`id`";
+
+        if ($user_id) {
+            $sql .= "where `agu`.`user_id` = '".$user_id."'";
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
 }

@@ -22,6 +22,8 @@ class User extends BaseController
         $this->userModel = model('UserModel');
         $this->pointTransactionModel = model('PointTransactionModel');
         $this->promotionModel = model('PromotionModel');
+        $this->authGroup = model('AuthGroupModel');
+        $this->authGroupUser = model('AuthGroupUserModel');
     }
 
     public function index()
@@ -43,10 +45,37 @@ class User extends BaseController
     public function user_group()
     {
         $data = [
-            'title' => 'Grup Pengguna'
+            'title' => 'Grup Pengguna',
+            'users' => $this->userModel->getUserAccess()
         ];
 
         return view('pages/admin/user-group', $data);
+    }
+
+    public function edit_user_group($id)
+    {
+        if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
+        $data = [
+            'title' => 'Grup Pengguna',
+            'user' => $this->userModel->getUserAccess($id)[0],
+            'auth_groups' => $this->authGroup->getAuthGroup()
+        ];
+
+        return view('pages/admin/updatepage/user-group', $data);
+    }
+
+    public function update_user_group($id)
+    {
+        if (!logged_in() || !in_groups(['Admin'])) {
+			return redirect()->to(site_url('/login'));
+		}
+
+		$this->authGroupUser->updateUserGroup($id, (int) $this->request->getPost('group_id'));
+
+		return redirect()->to('/item')->with('message', 'Status Pengguna berhasil diganti');
     }
 
     public function update()
