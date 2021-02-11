@@ -10,7 +10,7 @@
             <h1 class="h2">Ubah Grup Pengguna</h1>
         </div>
 
-        <form action="<?php echo base_url('user/update_user_group') . '/' . $user['user_id']; ?>" method="post">
+        <form action="<?php echo base_url('user/update_user_group') . '/' . $user['id']; ?>" method="post">
             <div class="mb-2">
                 <label class="form-label">Nama Pengguna</label><br>
                 <span><b><?= $user["firstname"] . " " . $user["lastname"] ?></b></span>

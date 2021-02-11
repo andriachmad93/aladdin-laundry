@@ -73,9 +73,9 @@ class User extends BaseController
 			return redirect()->to(site_url('/login'));
 		}
 
-		$this->authGroupUser->updateUserGroup($id, (int) $this->request->getPost('group_id'));
+		$this->authGroupUser->update($id, ['group_id' => (int) $this->request->getPost('group_id')]);
 
-		return redirect()->to('/item')->with('message', 'Status Pengguna berhasil diganti');
+		return redirect()->to('/user/user_group')->with('message', 'Status Pengguna berhasil diganti');
     }
 
     public function update()
