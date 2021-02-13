@@ -15,6 +15,8 @@ class Order extends BaseController
 	protected $deliveryMethodeModel;
 	protected $promotionModel;
 	protected $ajaxOutput;
+	protected $userModel;
+	protected $pointTransactionModel;
 
 	public function __construct()
 	{
@@ -25,6 +27,8 @@ class Order extends BaseController
 		$this->trackingOrderModel = model("trackingOrderModel");
 		$this->deliveryMethodeModel = model("DeliveryMethodModel");
 		$this->promotionModel = model("PromotionModel");
+		$this->userModel = model('UserModel');
+		$this->pointTransactionModel = model('PointTransactionModel');
 		$this->ajaxOutput = new AjaxOutput();
 	}
 
@@ -298,6 +302,18 @@ class Order extends BaseController
 						$net_amount = 0;
 					}
 
+					$payment_method_id = $this->request->getVar('payment_method_id');
+
+					$status_pesanan = 10;
+					//COD payment
+					if ($payment_method_id == 1) {
+						$status_pesanan = 15;
+					} else if ($payment_method_id == 2) {
+						if ($net_amount == 0) {
+							$status_pesanan = 20;
+						}
+					}
+
 					$orderNo = $this->orderModel->getOrderNo();
 					$orderId = $this->orderModel->insert([
 						'order_code' => $orderNo,
@@ -311,8 +327,8 @@ class Order extends BaseController
 						'point_used' => $point_used,
 						'net_amount' => $net_amount,
 						'address_id' => $address_id,
-						'payment_method_id' => $this->request->getVar('payment_method_id'),
-						'status_id' => ($net_amount == 0 ? 20 : 10),
+						'payment_method_id' => $payment_method_id,
+						'status_id' => $status_pesanan,
 						'proof_of_payment' => '',
 						'is_active' => 1
 					]);
@@ -332,13 +348,29 @@ class Order extends BaseController
 					/* update order track */
 					$this->trackingOrderModel->save([
 						'order_id' => $orderId,
-						'status' => 10,
+						'status' => $status_pesanan,
 						'is_active' => 1,
 						'updated_by' => user()->id,
 						'updated_date' => date("Y-m-d H:i:s")
 					]);
 
 					/* update history point */
+					if ($point_used > 0) {
+						$this->pointTransactionModel->save([
+							'user_id' => user_id(),
+							'point' => -1 * $point_used,
+							'order_id' => $orderId,
+							'is_active' => 1,
+							'transaction_date' => date("Y-m-d H:i:s")
+						]);
+
+						$updatedPoint = (int)user()->point - $point_used;
+						$dataBalance = [
+							'customer_id' => user_id(),
+							'point' => $updatedPoint,
+						];
+						$this->userModel->updatePointBalance($dataBalance);
+					}
 
 					$this->ajaxOutput->status = 200;
 					$this->ajaxOutput->message = "Order " . $orderNo . " berhasil dibuat.";
@@ -472,11 +504,39 @@ class Order extends BaseController
 
 	public function updateStatus($id)
 	{
-
 		if (!logged_in() || !in_groups(['Admin', 'Kurir'])) {
 			return redirect()->to(site_url('/login'));
 		} else {
+			$range = [];
+
 			$order = $this->orderModel->getDetail($id);
+			$from = 10;
+			$to = 90;
+
+			//COD & Delivery
+			if ($order->payment_method_id == 1 && $order->delivery_method_id == 1) {
+				$range = [15, 25, 30, 35, 40, 45, 55, 65, 70, 75, 90];
+			}
+			//COD - Self pickup
+			else if ($order->payment_method_id == 1 && $order->delivery_method_id == 2) {
+				$range = [15, 25, 30, 35, 40, 45, 50, 60, 75, 90];
+			}
+			//Bank - Delivery
+			else if ($order->payment_method_id == 2 && $order->delivery_method_id == 1) {
+				$range = [10, 20, 25, 30, 35, 40, 45, 55, 65, 70, 75, 90];
+			}
+			//Bank - Self pickup
+			else if ($order->payment_method_id == 2 && $order->delivery_method_id == 2) {
+				$range = [10, 20, 25, 30, 35, 40, 45, 50, 60, 75, 90];
+			}
+
+			if (in_groups('Kurir')) {
+				$from = $order->status_id;
+				$to = $order->status_id + 5;
+			}
+
+			$status = $this->orderModel->getStatusList($from, $to, $range);
+
 			if (!empty($order->id)) {
 				$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
 				if ($order->customer_id != user_id() && in_groups('Customer')) {
@@ -487,10 +547,65 @@ class Order extends BaseController
 					'title' => 'Update status pesanan',
 					'order' => $order,
 					'orderDetail' => $orderDetail,
-					'operation' => 'payment'
+					'status' => $status,
+					'operation' => 'updatestatus'
 				];
 				//return view status
 				return view('order/updatestatus', $data);
+			}
+		}
+	}
+
+	public function submitStatus()
+	{
+		if (!logged_in() || !in_groups(['Admin', 'Kurir'])) {
+			return redirect()->to(site_url('/login'));
+		} else {
+			$order_id = $this->request->getVar('id');
+			$order = $this->orderModel->find($order_id);
+			$status = $this->request->getVar('status_id');
+
+			$rules = [
+				'status_id' => [
+					'rules' => 'required',
+					'errors' => [
+						'required' => 'Status pesanan harus diisi.'
+					]
+				],
+			];
+			if ($status == 35 && $order->delivery_method_id == 1) {
+				$rules = [
+					'proof_of_payment' => [
+						'rules' => 'required',
+						'errors' => [
+							'required' => 'Bukti pembayaran harus diupload.'
+						]
+					],
+				];
+			}
+
+			if ($this->validate($rules)) {
+				/* update status pesanan */
+				$this->orderModel->update($order_id, [
+					'status_id' => $status,
+				]);
+
+				/* update track pesanan */
+				$this->trackingOrderModel->save([
+					'order_id' => $order_id,
+					'status' => $status,
+					'is_active' => 1,
+					'updated_by' => user()->id,
+					'updated_date' => date("Y-m-d H:i:s")
+				]);
+
+				if (in_groups('Admin')) {
+					return redirect()->to(site_url('/admin'))->with('message', 'Status pesanan berhasil diupdate.');
+				} else if (in_groups('Kurir')) {
+					return redirect()->to(site_url('/courier'))->with('message', 'Status pesanan berhasil diupdate.');
+				}
+			} else {
+				return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());
 			}
 		}
 	}

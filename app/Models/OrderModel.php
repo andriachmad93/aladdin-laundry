@@ -10,14 +10,15 @@ class OrderModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'order_code', 'customer_id', 'order_date', 'promotion_id', 'delivery_method_id',
+        'order_code', 'customer_id', 'order_date', 'promotion_id', 'delivery_method_id', 'payment_method_id',
         'gross_amount', 'discount', 'net_amount', 'point_used', 'delivery_fee', 'proof_of_payment',
         'address_id', 'status_id', 'is_active', 'rating', 'review_date', 'remarks',
     ];
 
     protected $useTimestamps = false;
 
-    public function getOnGoingPickupOrder($user_id){
+    public function getOnGoingPickupOrder($user_id)
+    {
         $builder = $this->db->table('`order`');
         $builder->select("`order`.*, 
         trackingorder.order_id, 
@@ -40,12 +41,12 @@ class OrderModel extends Model
 
         $query = $builder->get();
         $result = $query->getResultArray();
-        foreach($result as $key => $order){
+        foreach ($result as $key => $order) {
             $orderDetailModel = Model('OrderDetailModel');
             $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
             $detail = "";
             $firstChar = "";
-            foreach($orderDetails as $orderDetail){
+            foreach ($orderDetails as $orderDetail) {
                 $detail .= "{$firstChar}{$orderDetail['detil']}";
                 $firstChar = ", ";
             }
@@ -55,7 +56,8 @@ class OrderModel extends Model
         return $result;
     }
 
-    public function getReadyPickupOrder(){
+    public function getReadyPickupOrder()
+    {
         $builder = $this->db->table('`order`');
         $builder->select("`order`.*, 
         trackingorder.order_id, 
@@ -78,12 +80,12 @@ class OrderModel extends Model
 
         $query = $builder->get();
         $result = $query->getResultArray();
-        foreach($result as $key => $order){
+        foreach ($result as $key => $order) {
             $orderDetailModel = Model('OrderDetailModel');
             $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
             $detail = "";
             $firstChar = "";
-            foreach($orderDetails as $orderDetail){
+            foreach ($orderDetails as $orderDetail) {
                 $detail .= "{$firstChar}{$orderDetail['detil']}";
                 $firstChar = ", ";
             }
@@ -93,7 +95,8 @@ class OrderModel extends Model
         return $result;
     }
 
-    public function getOnGoingShippedOrder($user_id){
+    public function getOnGoingShippedOrder($user_id)
+    {
         $builder = $this->db->table('`order`');
         $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 65, 'trackingorder.updated_by' => $user_id));
@@ -101,12 +104,12 @@ class OrderModel extends Model
 
         $query = $builder->get();
         $result = $query->getResultArray();
-        foreach($result as $key => $order){
+        foreach ($result as $key => $order) {
             $orderDetailModel = Model('OrderDetailModel');
             $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
             $detail = "";
             $firstChar = "";
-            foreach($orderDetails as $orderDetail){
+            foreach ($orderDetails as $orderDetail) {
                 $detail .= "{$firstChar}{$orderDetail['detil']}";
                 $firstChar = ", ";
             }
@@ -116,7 +119,8 @@ class OrderModel extends Model
         return $result;
     }
 
-    public function getReadyShippedOrder(){
+    public function getReadyShippedOrder()
+    {
         $builder = $this->db->table('`order`');
         $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 55));
@@ -124,12 +128,12 @@ class OrderModel extends Model
 
         $query = $builder->get();
         $result = $query->getResultArray();
-        foreach($result as $key => $order){
+        foreach ($result as $key => $order) {
             $orderDetailModel = Model('OrderDetailModel');
             $orderDetails = $orderDetailModel->getOrderDetailByOrderId($order["id"]);
             $detail = "";
             $firstChar = "";
-            foreach($orderDetails as $orderDetail){
+            foreach ($orderDetails as $orderDetail) {
                 $detail .= "{$firstChar}{$orderDetail['detil']}";
                 $firstChar = ", ";
             }
@@ -181,7 +185,7 @@ class OrderModel extends Model
     public function getDetail($order_id = "0")
     {
         $sql = "select `order`.id, order_code, DATE_FORMAT(order_date,'%d %b %Y %H:%i:%s') as tanggal, order_date, 
-            gross_amount, discount, delivery_fee, point_used, net_amount, 
+            gross_amount, discount, delivery_fee, point_used, net_amount, payment_method_id,
             delivery_method_id,  deliverymethod.delivery_name, status_id, status_name, `order`.customer_id, proof_of_payment, rating, review_date, remarks,
             GROUP_CONCAT(CONCAT(`orderdetail`.quantity, ' ', `orderdetail`.uom, ' ', `item`.item_name) SEPARATOR ', ') detil,
             `address`.address_name,`address`.address, `address`.zip_code,
@@ -223,7 +227,7 @@ class OrderModel extends Model
         LEFT JOIN `users` ON `o`.`customer_id`=`users`.`id`";
 
         if ($start_date && $end_date) {
-            $sql .= "where o.order_date between '".$start_date."' and '".$end_date."'";
+            $sql .= "where o.order_date between '" . $start_date . "' and '" . $end_date . "'";
         }
 
         $query = $this->db->query($sql);
@@ -250,5 +254,18 @@ class OrderModel extends Model
     public function updatePayment($data)
     {
         $this->update($data['id'], $data);
+    }
+
+    public function getStatusList($from, $to, $range)
+    {
+        $builder = $this->db->table('status');
+        $builder->select('*');
+        $builder->where('id >=', $from);
+        $builder->where('id <=', $to);
+        $builder->whereIn('id', $range);
+        $builder->orderBy('id');
+
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 }
