@@ -110,6 +110,9 @@
                             <option value="2">Transfer bank</option>
                         </select>
                     </div>
+                    <div class="form-group" id="div_payment_method">
+                        <span>Silahkan Transfer ke Rek <b>0244047978 a/n Hartono Wijaya</b> dan <b>Upload Bukti Transfer</b> dalam waktu 1 Jam</span>
+                    </div>
                     <div class="form-group">
                         <button type="button" id="btnCancel" class="btn btn-danger btn-md"><i class="fas fa-close">&nbsp;</i>Batalkan</button>
                         <button type="button" id="btnSubmit" class="btn btn-primary btn-md"><i class="fas fa-disk">&nbsp;</i>Buat pesanan</button>
@@ -392,6 +395,17 @@
     $(document).on("change", "#cboUsePoint", function() {
         isUsePoint = $(this).prop('checked');
         calculateSubTotal();
+    });
+
+    $(function() {
+        $('#div_payment_method').hide();
+        $('#payment_method_id').change(function(){
+            if($('#payment_method_id').val() == '2') {
+                $('#div_payment_method').show(); 
+            } else {
+                $('#div_payment_method').hide(); 
+            } 
+        });
     });
 </script>
 <?= $this->endSection(); ?>
