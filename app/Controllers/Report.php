@@ -13,7 +13,7 @@ class Report extends BaseController
 
 	public function transactions($start_date = "", $end_date = "")
 	{
-		if (!logged_in() || !in_groups(['Admin'])) {
+		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
@@ -27,7 +27,7 @@ class Report extends BaseController
     
     public function loyal_customers()
 	{
-		if (!logged_in() || !in_groups(['Admin'])) {
+		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
@@ -40,7 +40,7 @@ class Report extends BaseController
 	
 	public function sales_trend()
 	{
-		if (!logged_in() || !in_groups(['Admin'])) {
+		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
@@ -53,7 +53,7 @@ class Report extends BaseController
 	
 	public function customer_rating()
 	{
-		if (!logged_in() || !in_groups(['Admin'])) {
+		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
