@@ -102,7 +102,7 @@ class Pages extends BaseController
         $data = [
             'title' => 'Daftar Harga',
             'stroller_list' => $this->itemModel->GetItem(['item_name_1' => 'STROLLER']),
-            'shoes_list' => $this->itemModel->GetItem(['item_name_1' => 'SEPATU']),
+            'shoes_list' => $this->itemModel->GetItem(['item_name_1' => 'SEPATU', 'item_name_2' => 'TAS']),
             'helm_list' => $this->itemModel->GetItem(['item_name_1' => 'HELM']),
             'clothes_list' => $this->itemModel->GetItem(['item_name_1' => 'BAJU']),
             'office_list' => $this->itemModel->GetItem(['item_name_1' => 'KANTOR']),

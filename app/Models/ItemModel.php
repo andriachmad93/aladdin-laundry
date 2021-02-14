@@ -15,15 +15,19 @@ class ItemModel extends Model
 
     public function GetItem($searchItem = array(), $is_active = "1")
     {
-        $builder = $this->db->table('item');
-        $builder->select('*');
-        
+        $sql = "select * from item where is_active = 1";
+
         if (count($searchItem) > 0) {
-            $builder->like('item_name', $searchItem['item_name_1']);
+            $sql .= " and (item_name like '%".$searchItem['item_name_1']."%'";
+
+            if (isset($searchItem['item_name_2'])) {
+                $sql .= "or item_name like '%".$searchItem['item_name_2']."%'";
+            }
+
+            $sql .= ")";
         }
 
-        $builder->where('is_active', $is_active);
-        $query = $builder->get();
+        $query = $this->db->query($sql);
 
         return $query->getResultArray();
     }
