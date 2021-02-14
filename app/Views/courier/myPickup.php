@@ -102,7 +102,7 @@
             dataType: 'json',
             data: {
                 'id': $id,
-                'status_id': 10
+                'status_id': 30
             },
             success: function(response) {
                 clearValidations();
