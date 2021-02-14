@@ -120,4 +120,13 @@ class Pages extends BaseController
 
         return view('pages/contact', $data);
     }
+
+    public function terms_condition()
+    {
+        $data = [
+            'title' => 'Syarat dan Ketentuan'
+        ];
+
+        return view('pages/terms-condition', $data);
+    }
 }

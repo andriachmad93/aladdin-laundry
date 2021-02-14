@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('pages/tentang-kami', 'Pages::about');
+$routes->get('pages/terms-condition', 'Pages::terms_condition');
 
 /**
  * --------------------------------------------------------------------
