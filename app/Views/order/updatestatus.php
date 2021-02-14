@@ -8,7 +8,7 @@
 
 
 <?= $this->section('maincontent'); ?>
-<form class="container" action="<?= base_url('/order/submitStatus'); ?>" method="POST">
+<form class="container" action="<?= base_url('/order/submitStatus'); ?>" method="POST" enctype="multipart/form-data">
     <?= view('Myth\Auth\Views\_message_block') ?>
     <div class="row">
         <div class="col-md-12">
@@ -17,6 +17,23 @@
                 <h5 class="card-header">Update status pesanan</h5>
                 <div class="card-body">
                     <?= view('order\shared_detail') ?>
+                    <?php if (!empty($order->proof_of_payment)) : ?>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Bukti pembayaran</label>
+                            <label class="col-sm-10 col-form-label">
+                                <a href="<?= base_url('files/orders/' . $order->id . '/' . $order->proof_of_payment); ?>" target="_blank">klik disini</a>
+                            </label>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (empty($order->proof_of_payment) && $order->status_id == 30 && $order->delivery_method_id == 1) : ?>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Bukti pembayaran</label>
+                            <label class="col-sm-10 col-form-label">
+                                <input type="file" name="proof_of_payment" id="proof_of_payment" />
+                                <small style="display:block;" class="mt-2"><em>berkas yang dapat diunggah: .pdf, .jpeg, .png dengan ukuran maksimum 1Mb</em></small>
+                            </label>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-6">
@@ -28,15 +45,6 @@
                             </select>
                         </div>
                     </div>
-                    <?php if (empty($order->proof_of_payment) && $order->status_id == 25 && $order->delivery_method_id == 1) : ?>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Bukti pembayaran</label>
-                            <label class="col-sm-10 col-form-label">
-                                <input type="file" name="proof_of_payment" />
-                                <small style="display:block;" class="mt-2"><em>berkas yang dapat diunggah: .pdf, .jpeg, .png dengan ukuran maksimum 1Mb</em></small>
-                            </label>
-                        </div>
-                    <?php endif; ?>
                     <div class="form-group row">
                         <div class="col-sm-2">&nbsp;</div>
                         <div class="col-sm-10">
@@ -60,6 +68,21 @@
     $("#status_id").select2({
         theme: "bootstrap4",
         placeholder: 'Pilih status'
+    });
+
+    $(document).on("click", "#btnUpdate", function(event) {
+        let isHaveFile = $("#proof_of_payment").attr("name");
+        if (typeof isHaveFile !== "undefined") {
+            let fileType = $("[name='proof_of_payment']").val().split('.').pop();
+            let validImageTypes = ["pdf", "jpeg", "jpg", "png"];
+
+            if (fileType != "") {
+                if ($.inArray(fileType, validImageTypes) < 0) {
+                    alert("Berkas yang diunggah harus berupa .pdf/.jpeg/.png ");
+                    event.preventDefault();
+                }
+            }
+        }
     });
 </script>
 <?= $this->endSection(); ?>

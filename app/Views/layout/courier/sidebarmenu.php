@@ -3,19 +3,19 @@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="<?= base_url('courier'); ?>">
-                    <span data-feather="home"></span>
+                    <i class="fa fa-home"></i><span data-feather="home"></span>
                     Beranda
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('/courier/mypickup'); ?>">
-                    myPickup
+                    <i class="fa fa-hands"></i>&nbsp;myPickup
                 </a>
             </li>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('/courier/mydelivery'); ?>">
-                    myDelivery
+                    <i class="fa fa-truck"></i>&nbsp;myDelivery
                 </a>
             </li>
         </ul>

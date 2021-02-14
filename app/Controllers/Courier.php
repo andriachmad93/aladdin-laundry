@@ -19,6 +19,9 @@ class Courier extends BaseController
 
     public function index()
     {
+        if (!logged_in() || !in_groups(['Kurir'])) {
+            return redirect()->to(site_url('/login'));
+        }
         $data = ['title' => 'Beranda Kurir'];
 
         return view('courier/beranda', $data);
@@ -26,27 +29,90 @@ class Courier extends BaseController
 
     public function myPickup()
     {
-        $onGoingPickupOrder = $this->orderModel->getOnGoingPickupOrder(user()->id);
-        $readyPickupOrder = $this->orderModel->getReadyPickupOrder();
-        $data = [
-            'title' => 'myPickup',
-            'onGoingPickupOrder' => $onGoingPickupOrder,
-            'readyPickupOrder' => $readyPickupOrder
-        ];
+        if (!logged_in() || !in_groups(['Kurir'])) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $onGoingPickupOrder = $this->orderModel->getOnGoingPickupOrder(user()->id);
+            $readyPickupOrder = $this->orderModel->getReadyPickupOrder();
+            $data = [
+                'title' => 'myPickup',
+                'onGoingPickupOrder' => $onGoingPickupOrder,
+                'readyPickupOrder' => $readyPickupOrder
+            ];
+            return view('courier/mypickup', $data);
+        }
+    }
 
-        return view('courier/mypickup', $data);
+    public function onGoingPickupOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getOnGoingPickupOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+
+    public function readyPickupOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getReadyPickupOrder();
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
     }
 
     public function myDelivery()
     {
-        $onGoingShippedOrder = $this->orderModel->getOnGoingShippedOrder(user()->id);
-        $readyShippedOrder = $this->orderModel->getReadyShippedOrder(user()->id);
-        $data = [
-            'title' => 'myPickup',
-            'onGoingShippedOrder' => $onGoingShippedOrder,
-            'readyShippedOrder' => $readyShippedOrder
-        ];
+        if (!logged_in() || !in_groups(['Kurir'])) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            $onGoingShippedOrder = $this->orderModel->getOnGoingShippedOrder(user()->id);
+            $readyShippedOrder = $this->orderModel->getReadyShippedOrder(user()->id);
+            $data = [
+                'title' => 'myPickup',
+                'onGoingShippedOrder' => $onGoingShippedOrder,
+                'readyShippedOrder' => $readyShippedOrder
+            ];
 
-        return view('courier/myDelivery', $data);
+            return view('courier/myDelivery', $data);
+        }
     }
+    public function onGoingShippedOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getOnGoingShippedOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+
+    public function readyShippedOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getReadyShippedOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+    
 }
