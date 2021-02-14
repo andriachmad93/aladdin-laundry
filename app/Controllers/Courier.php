@@ -40,6 +40,34 @@ class Courier extends BaseController
         }
     }
 
+    public function onGoingPickupOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getOnGoingPickupOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+
+    public function readyPickupOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getReadyPickupOrder();
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+
     public function myDelivery()
     {
         if (!logged_in()) {
@@ -56,4 +84,32 @@ class Courier extends BaseController
             return view('courier/myDelivery', $data);
         }
     }
+    public function onGoingShippedOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getOnGoingShippedOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+
+    public function readyShippedOrder()
+    {
+        if (!logged_in()) {
+            return redirect()->to(site_url('/login'));
+        } else {
+            if ($this->request->isAJAX()) {
+                $response = $this->orderModel->getReadyShippedOrder(user()->id);
+                echo json_encode($response);
+            } else {
+                echo "BAD REQUEST";
+            }
+        }
+    }
+    
 }

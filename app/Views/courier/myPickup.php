@@ -34,7 +34,7 @@
                             <td>
                                 <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
                                     <i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-success btn-sm btnDone mb-1" data-toggle="tooltip" data-placement="top" title="Update status">
+                                <button type="button" class="btn btn-success btn-sm btnUpdate mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Update status">
                                     <i class="fas fa-check">&nbsp;</i></button>
                             </td>
                         </tr>
@@ -68,7 +68,7 @@
                             <td>
                                 <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
                                     <i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-primary btn-sm btnDone mb-1" data-toggle="tooltip" data-placement="top" title="Update status">
+                                <button type="button" class="btn btn-primary btn-sm btnUpdatereadyPickupOrder mb-1" data-toggle="tooltip" data-placement="top" title="Update status">
                                     <i class="fas fa-hands">&nbsp;</i></button>
                             </td>
                         </tr>
@@ -88,6 +88,63 @@
         let id = $(this).data('id');
 
         window.location = `<?= base_url('/order/detail'); ?>/${id}`;
+    });
+    $(document).on("click", ".btnUpdate", function() {
+        let id = $(this).data('id');
+
+        window.open(`<?= base_url('/order/updatestatus'); ?>/${id}`, '_blank');
+    });
+    $(document).on("click", ".btnUpdateonGoingPickupOrder", function() {
+        let id = $(this).data('id');
+        $.ajax({
+            url: '<?= base_url() ?>/Order/submitStatus',
+            type: "post",
+            dataType: 'json',
+            data: {
+                'id': $id,
+                'status_id': 10
+            },
+            success: function(response) {
+                clearValidations();
+                if (response != null && typeof response !== "undefined") {
+                    if (response.status != 200) {
+                        if (!response.message && response.data) {
+                            let data = JSON.parse(response.data);
+                            showErrors("errorBlock", data['error']);
+                        } else {
+                            alert(response.message);
+                        }
+                    } else {
+
+                        
+                        $.ajax({
+                            url: '<?= base_url() ?>/Courier/onGoingPickupOrder',
+                            type: "post",
+                            dataType: 'json',
+                            success: function(response) {
+                                clearValidations();
+                                if (response != null && typeof response !== "undefined") {
+                                    if (response.status != 200) {
+                                        if (!response.message && response.data) {
+                                            let data = JSON.parse(response.data);
+                                            showErrors("errorBlock", data['error']);
+                                        } else {
+                                            alert(response.message);
+                                        }
+                                    } else {
+                                        if (response.message) {
+                                            alert(response.message);
+                                        }
+                                        console.log(response);
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
     });
 </script>
 <?= $this->endSection(); ?>
