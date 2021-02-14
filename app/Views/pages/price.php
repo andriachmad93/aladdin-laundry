@@ -25,10 +25,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Scroller</td>
-                                            <td>Rp. 20000</td>
-                                        </tr>
+                                    <?php
+                                            foreach($stroller_list as $stroller) {
+                                        ?>
+
+                                            <tr>
+
+                                                <td><?= $stroller['item_name']; ?></td>
+                                                <td>Rp. <?= $stroller['price']; ?></td>
+                                            
+                                            </tr>
+
+                                        <?php
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
