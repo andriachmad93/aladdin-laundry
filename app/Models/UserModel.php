@@ -32,8 +32,28 @@ class UserModel extends MythModel
 
     public function getCustomer($customerId = "")
     {
-        $builder = $this->db->table('users');
-        $builder->select('*');
+        $builder = $this->db->table('address');
+        $builder->select(
+            'users.firstname,
+            users.lastname,
+            users.date_of_birth,
+            users.gender,
+            users.email,
+            users.phone,
+            users.created_at,
+            address.*, 
+            case when IFNULL(users.default_address,0)<>address.id then \'false\' else \'true\' end as default_address, 
+            wilayah_kecamatan.nama as kecamatan,
+            wilayah_kabupaten.nama as kabupaten,
+            wilayah_provinsi.nama as provinsi',
+            FALSE
+        );
+        $builder->join('users', 'users.id=address.customer_id');
+        $builder->join('wilayah_kecamatan', 'wilayah_kecamatan.id=address.district_id', 'left');
+        $builder->join('wilayah_kabupaten', 'wilayah_kabupaten.id=wilayah_kecamatan.kabupaten_id', 'left');
+        $builder->join('wilayah_provinsi', 'wilayah_provinsi.id=wilayah_kabupaten.provinsi_id', 'left');
+        $builder->orderBy('address.id', 'asc');
+        $builder->where(['address.is_active' => 1]);
         $query = $builder->get();
 
         return $query->getResultArray();
