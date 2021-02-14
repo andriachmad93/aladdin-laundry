@@ -557,11 +557,17 @@ class Order extends BaseController
 		if (!logged_in() || !in_groups(['Admin', 'Kurir'])) {
 			return redirect()->to(site_url('/login'));
 		} else {
-			$order_id = $this->request->getVar('id');
+			if ($this->request->isAJAX()) {
+				$order_id = $this->request->getPost('id');
+				$status = $this->request->getPost('status_id');
+				$this->ajaxOutput->status = 200;
+				$this->ajaxOutput->message = "Order berhasil diupdate.";
+			}
+			else{
+				$order_id = $this->request->getVar('id');
+				$status = $this->request->getVar('status_id');
+			}
 			$order = $this->orderModel->find($order_id);
-
-			$status = $this->request->getVar('status_id');
-
 			$rules = [
 				'status_id' => [
 					'rules' => 'required',
@@ -613,7 +619,10 @@ class Order extends BaseController
 					'updated_by' => user()->id,
 					'updated_date' => date("Y-m-d H:i:s")
 				]);
-
+				if ($this->request->isAJAX()) {
+					echo json_encode($this->ajaxOutput);
+					return;
+				}
 				if (in_groups('Admin')) {
 					return redirect()->to(site_url('/order'))->with('message', 'Status pesanan berhasil diupdate.');
 				} else if (in_groups('Kurir')) {
