@@ -559,6 +559,7 @@ class Order extends BaseController
 		} else {
 			$order_id = $this->request->getVar('id');
 			$order = $this->orderModel->find($order_id);
+
 			$status = $this->request->getVar('status_id');
 
 			$rules = [
@@ -569,16 +570,16 @@ class Order extends BaseController
 					]
 				],
 			];
-			if ($status == 35 && $order->delivery_method_id == 1) {
-				$rules = [
-					'proof_of_payment' => [
-						'rules' => 'required',
-						'errors' => [
-							'required' => 'Bukti pembayaran harus diupload.'
-						]
-					],
-				];
 
+			$isValidSubmission = $this->validate($rules);
+			$errorMessage = service('validation')->getErrors();
+
+			$file = $this->request->getFile('proof_of_payment');
+			if ($status == 35 && $order["delivery_method_id"] == 1 && $file != null && empty($file->getName())) {
+				$errorMessage['proof_of_payment'] = "Bukti pembayaran harus diupload";
+			}
+
+			if ($file != null && !empty($file->getName())) {
 				$file = $this->request->getFile('proof_of_payment');
 				if ($file->getSize() > 1048576) {
 					return redirect()->back()->withInput()->with('errors', 'Ukuran file yang bisa diunggah maksimum 1Mb');
@@ -598,7 +599,7 @@ class Order extends BaseController
 				}
 			}
 
-			if ($this->validate($rules)) {
+			if ($isValidSubmission) {
 				/* update status pesanan */
 				$this->orderModel->update($order_id, [
 					'status_id' => $status,
@@ -614,9 +615,10 @@ class Order extends BaseController
 				]);
 
 				if (in_groups('Admin')) {
-					return redirect()->to(site_url('/admin'))->with('message', 'Status pesanan berhasil diupdate.');
+					return redirect()->to(site_url('/order'))->with('message', 'Status pesanan berhasil diupdate.');
 				} else if (in_groups('Kurir')) {
-					return redirect()->to(site_url('/courier'))->with('message', 'Status pesanan berhasil diupdate.');
+					$redirectPage =  $status < 40 ? "/courier/mypickup" : "/courier/mydelivery";
+					return redirect()->to(site_url($redirectPage))->with('message', 'Status pesanan berhasil diupdate.');
 				}
 			} else {
 				return redirect()->back()->withInput()->with('errors', service('validation')->getErrors());

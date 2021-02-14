@@ -8,7 +8,7 @@
 
 
 <?= $this->section('maincontent'); ?>
-<form class="container" action="<?= base_url('/order/submitStatus'); ?>" method="POST">
+<form class="container" action="<?= base_url('/order/submitStatus'); ?>" method="POST" enctype="multipart/form-data">
     <?= view('Myth\Auth\Views\_message_block') ?>
     <div class="row">
         <div class="col-md-12">
@@ -76,9 +76,11 @@
             let fileType = $("[name='proof_of_payment']").val().split('.').pop();
             let validImageTypes = ["pdf", "jpeg", "jpg", "png"];
 
-            if ($.inArray(fileType, validImageTypes) < 0) {
-                alert("Berkas yang diunggah harus berupa .pdf/.jpeg/.png ");
-                event.preventDefault();
+            if (fileType != "") {
+                if ($.inArray(fileType, validImageTypes) < 0) {
+                    alert("Berkas yang diunggah harus berupa .pdf/.jpeg/.png ");
+                    event.preventDefault();
+                }
             }
         }
     });
