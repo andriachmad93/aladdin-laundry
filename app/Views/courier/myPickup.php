@@ -68,7 +68,7 @@
                             <td>
                                 <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan">
                                     <i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-primary btn-sm btnUpdatereadyPickupOrder mb-1" data-toggle="tooltip" data-placement="top" title="Update status">
+                                <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id="<?= $order['id']; ?>"  data-toggle="tooltip" data-placement="top" title="Update status">
                                     <i class="fas fa-hands">&nbsp;</i></button>
                             </td>
                         </tr>
@@ -101,11 +101,10 @@
             type: "post",
             dataType: 'json',
             data: {
-                'id': $id,
+                'id': id,
                 'status_id': 30
             },
             success: function(response) {
-                clearValidations();
                 if (response != null && typeof response !== "undefined") {
                     if (response.status != 200) {
                         if (!response.message && response.data) {
@@ -115,36 +114,70 @@
                             alert(response.message);
                         }
                     } else {
-
-                        
-                        $.ajax({
-                            url: '<?= base_url() ?>/Courier/onGoingPickupOrder',
-                            type: "post",
-                            dataType: 'json',
-                            success: function(response) {
-                                clearValidations();
-                                if (response != null && typeof response !== "undefined") {
-                                    if (response.status != 200) {
-                                        if (!response.message && response.data) {
-                                            let data = JSON.parse(response.data);
-                                            showErrors("errorBlock", data['error']);
-                                        } else {
-                                            alert(response.message);
-                                        }
-                                    } else {
-                                        if (response.message) {
-                                            alert(response.message);
-                                        }
-                                        console.log(response);
-                                    }
-                                }
-                            }
-                        });
-
+                        refreshTable();
                     }
                 }
             }
         });
     });
+    function refreshTable(){
+        $.ajax({
+            url: '<?= base_url() ?>/Courier/readyPickupOrder',
+            type: "post",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null) {
+                    $('#tblOutstandingOrder').dataTable().fnDestroy();
+                    $('#tblOutstandingOrder').DataTable({
+                            data: response,
+                            columns: [
+                                { title: "Kode pesanan", data: "order_code" },
+                                { title: "Tanggal pesanan", data: "tanggal" },
+                                { title: "Detil", data: "detil" },
+                                { title: "Kontak", data: "receiver" },
+                                { title: "Alamat", data: "address" },
+                                { title: "&nbsp;", data: null, 
+                                  sortable: false,
+                                  "render": function ( data, type, full, meta ) {
+                                    return `
+                                    <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                    <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id}  data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
+                                    ` },
+                                }  
+                            ],
+                        });
+                    
+                }
+            }
+        });
+        $.ajax({
+            url: '<?= base_url() ?>/Courier/onGoingPickupOrder',
+            type: "post",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null) {
+                    $('#tblActiveOrder').dataTable().fnDestroy();
+                    $('#tblActiveOrder').DataTable({
+                            data: response,
+                            columns: [
+                                { title: "Kode pesanan", data: "order_code" },
+                                { title: "Tanggal pesanan", data: "tanggal" },
+                                { title: "Detil", data: "detil" },
+                                { title: "Kontak", data: "receiver" },
+                                { title: "Alamat", data: "address" },
+                                { title: "&nbsp;", data: null, 
+                                  sortable: false,
+                                  "render": function ( data, type, full, meta ) {
+                                    return `
+                                    <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                    <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
+                                    `}
+                                }
+                            ],
+                        });
+                }
+            }
+        });
+    }
 </script>
 <?= $this->endSection(); ?>
