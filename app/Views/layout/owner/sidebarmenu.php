@@ -2,7 +2,7 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="<?= base_url('admin'); ?>">
+                <a class="nav-link active" aria-current="page" href="<?= base_url('owner'); ?>">
                     <i class="fa fa-home"></i><span data-feather="home"> Beranda</span>
                 </a>
             </li>

@@ -37,7 +37,7 @@
                 <td><?= $user['gender']; ?></td>
                 <td><?= $user['email']; ?></td>
                 <td><?= $user['phone']; ?></td>
-                <td></td>
+                <td><?= $user['address']; ?></td>
                 <td><?= $user["created_at"]; ?></td>
               </tr>
             <?php

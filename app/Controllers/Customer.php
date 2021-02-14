@@ -15,13 +15,13 @@ class Customer extends BaseController
 	{
 		if (!logged_in() || !in_groups(['Admin'])) {
 			return redirect()->to(site_url('/login'));
-		} else {
-			$data = [
-				'title' => 'Pelanggan',
-				'users' => $this->userModel->getCustomer()
-			];
-			
-			return view('pages/admin/customer', $data);
 		}
+
+		$data = [
+			'title' => 'Pelanggan',
+			'users' => $this->userModel->getCustomer()
+		];
+		
+		return view('pages/admin/customer', $data);
 	}
 }
