@@ -539,10 +539,6 @@ class Order extends BaseController
 
 			if (!empty($order->id)) {
 				$orderDetail = $this->orderDetailModel->getOrderDetail(['order_id' => $id]);
-				if ($order->customer_id != user_id() && in_groups('Customer')) {
-					return redirect()->to(site_url('/login'));
-				}
-
 				$data = [
 					'title' => 'Update status pesanan',
 					'order' => $order,
@@ -550,7 +546,7 @@ class Order extends BaseController
 					'status' => $status,
 					'operation' => 'updatestatus'
 				];
-				//return view status
+
 				return view('order/updatestatus', $data);
 			}
 		}
@@ -582,6 +578,24 @@ class Order extends BaseController
 						]
 					],
 				];
+
+				$file = $this->request->getFile('proof_of_payment');
+				if ($file->getSize() > 1048576) {
+					return redirect()->back()->withInput()->with('errors', 'Ukuran file yang bisa diunggah maksimum 1Mb');
+				};
+				if ($file->isValid()) {
+					if (!is_dir('files/orders/' . $order_id)) {
+						mkdir('./files/orders/' . $order_id, 0777, TRUE);
+						chmod('./files/orders/' . $order_id, 0755);
+					}
+					$newFileName = 'bukti_pembayaran_' . $order_id . '_' . date('Ymd_His') . '.' . $file->getExtension();
+
+					if ($file->move('files/orders/' . $this->request->getVar('id') . '/', $newFileName, true)) {
+						$data = ['id' => $order_id, 'proof_of_payment' => $newFileName];
+
+						$this->orderModel->updatePayment($data);
+					}
+				}
 			}
 
 			if ($this->validate($rules)) {

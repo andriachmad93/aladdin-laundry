@@ -19,6 +19,9 @@ class Courier extends BaseController
 
     public function index()
     {
+        if (!logged_in() || !in_groups(['Kurir'])) {
+            return redirect()->to(site_url('/login'));
+        }
         $data = ['title' => 'Beranda Kurir'];
 
         return view('courier/beranda', $data);
@@ -26,7 +29,7 @@ class Courier extends BaseController
 
     public function myPickup()
     {
-        if (!logged_in()) {
+        if (!logged_in() || !in_groups(['Kurir'])) {
             return redirect()->to(site_url('/login'));
         } else {
             $onGoingPickupOrder = $this->orderModel->getOnGoingPickupOrder(user()->id);
@@ -42,7 +45,7 @@ class Courier extends BaseController
 
     public function myDelivery()
     {
-        if (!logged_in()) {
+        if (!logged_in() || !in_groups(['Kurir'])) {
             return redirect()->to(site_url('/login'));
         } else {
             $onGoingShippedOrder = $this->orderModel->getOnGoingShippedOrder(user()->id);
