@@ -269,4 +269,20 @@ class OrderModel extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function getReportOrderRating($start_date, $end_date)
+    {
+        $sql = "select rating,count(1) as total from `order` 
+            where status_id=75 and IFNULL(rating,0)>0 ";
+
+        if ($start_date && $end_date) {
+            $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+        }
+
+        $sql .= "group by rating";
+
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
 }

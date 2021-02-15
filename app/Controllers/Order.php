@@ -562,8 +562,7 @@ class Order extends BaseController
 				$status = $this->request->getPost('status_id');
 				$this->ajaxOutput->status = 200;
 				$this->ajaxOutput->message = "Order berhasil diupdate.";
-			}
-			else{
+			} else {
 				$order_id = $this->request->getVar('id');
 				$status = $this->request->getVar('status_id');
 			}
