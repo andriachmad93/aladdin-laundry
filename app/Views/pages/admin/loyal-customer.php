@@ -45,7 +45,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Pelanggan</th>
-                                    <th><?= $type == "count" ? "Frekuensi" : "Volumne (Rp)"; ?></th>
+                                    <th><?= $type == "count" ? "Frekuensi" : "Volume (Rp)"; ?></th>
                                 </tr>
                             </thead>
                             <tbody>

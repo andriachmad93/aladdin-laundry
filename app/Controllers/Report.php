@@ -19,9 +19,21 @@ class Report extends BaseController
 			return redirect()->to(site_url('/login'));
 		}
 
+		if (empty($start_date)) {
+			$start_date = date('Y-m-d');
+			$datetime = new DateTime($start_date);
+			date_sub($datetime, date_interval_create_from_date_string("1 month"));
+			$start_date = $datetime->format('Y-m-d');
+		}
+
+		if (empty($end_date))
+			$end_date = date('Y-m-d');
+
 		$data = [
 			'title' => 'Transaksi',
-			'order_list' => $this->orderModel->getOrderTransaction($start_date, $end_date)
+			'order_list' => $this->orderModel->getOrderTransaction($start_date, $end_date),
+			'start_date' => $start_date,
+			'end_date' => $end_date,
 		];
 
 		return view('pages/admin/transaction', $data);
@@ -43,6 +55,10 @@ class Report extends BaseController
 		if (empty($end_date))
 			$end_date = date('Y-m-d');
 
+		if (empty($type)) {
+			$type = "volume";
+		}
+
 		$dataCustomers = $this->orderModel->getSummaryLoyalCustomer($type, $start_date, $end_date);
 
 		$data = [
@@ -56,14 +72,20 @@ class Report extends BaseController
 		return view('pages/admin/loyal-customer', $data);
 	}
 
-	public function sales_trend()
+	public function sales_trend($period = '')
 	{
 		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
+		if ($period == "") {
+			$period = date("Y");
+		}
+
 		$data = [
-			'title' => 'Tren Penjualan'
+			'title' => 'Tren Penjualan',
+			'period' => $period,
+			'graph_data' => json_encode($this->orderModel->getChartSalesTrend($period))
 		];
 
 		return view('pages/admin/sales-trend', $data);

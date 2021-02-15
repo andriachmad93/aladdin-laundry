@@ -12,34 +12,34 @@
 
       <label class="col-md-4 form-label">Pilih Periode</label>
       <div class="col-md-8">
-          <div class="row">
-              <div class="col-md-4">
-                  <input type="date" class="form-control startDate">
-              </div>
-              <div class="col-md-4">
-                  <input type="date" class="form-control endDate">
-              </div>
-              <div class="col-md-2">
-                  <button class="btn btn-primary btn-sm float-right" onclick="getTransactionPeriod()">Tampilkan</button>
-              </div>
+        <div class="row">
+          <div class="col-md-4">
+            <input type="date" class="form-control startDate" value="<?= $start_date; ?>">
           </div>
+          <div class="col-md-4">
+            <input type="date" class="form-control endDate" value="<?= $end_date; ?>">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary btn-sm float-right" onclick="getTransactionPeriod()">Tampilkan</button>
+          </div>
+        </div>
       </div>
       <br><br>
       <div class="table-responsive">
         <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
-            <thead>
-                <tr>
-                    <th>Kode Pesanan</th>
-                    <th>Tanggal Pesanan</th>
-                    <th>Nama Pelanggan</th>
-                    <th>Total Bayar</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-              <?php
-                foreach($order_list as $order) {
-              ?>
+          <thead>
+            <tr>
+              <th>Kode Pesanan</th>
+              <th>Tanggal Pesanan</th>
+              <th>Nama Pelanggan</th>
+              <th>Total Bayar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            foreach ($order_list as $order) {
+            ?>
 
               <tr>
                 <td><?= $order['order_code'] ?></td>
@@ -48,11 +48,11 @@
                 <td>Rp. <?= $order['net_amount'] ?></td>
                 <td><?= $order['status_name'] ?></td>
               </tr>
-              
-              <?php
-                }
-              ?>
-            </tbody>
+
+            <?php
+            }
+            ?>
+          </tbody>
         </table>
       </div>
     </main>
