@@ -99,7 +99,22 @@ class OrderModel extends Model
     public function getOnGoingShippedOrder($user_id)
     {
         $builder = $this->db->table('`order`');
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->select("`order`.*, 
+        trackingorder.order_id, 
+        trackingorder.status, 
+        trackingorder.updated_by, 
+        trackingorder.updated_date, 
+        address.customer_id,
+        address.address_name,
+        address.receiver,
+        address.receiver_phone,
+        address.district_id,
+        address.address,
+        address.zip_code,
+        DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
+        ");
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 65, 'trackingorder.updated_by' => $user_id));
         $builder->orderBy('trackingorder.updated_date', 'desc');
 
@@ -123,7 +138,22 @@ class OrderModel extends Model
     public function getReadyShippedOrder()
     {
         $builder = $this->db->table('`order`');
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id', 'left');
+        $builder->select("`order`.*, 
+        trackingorder.order_id, 
+        trackingorder.status, 
+        trackingorder.updated_by, 
+        trackingorder.updated_date, 
+        address.customer_id,
+        address.address_name,
+        address.receiver,
+        address.receiver_phone,
+        address.district_id,
+        address.address,
+        address.zip_code,
+        DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
+        ");
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 55));
         $builder->orderBy('trackingorder.updated_date', 'desc');
 

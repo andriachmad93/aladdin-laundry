@@ -32,8 +32,8 @@
                             <td><b><?= $order['receiver']; ?></b><br /> <?= $order['receiver_phone']; ?></td>
                             <td><?= $order['address']; ?></td>
                             <td>
-                                <button type="button" class="btn btn-secondary btn-sm btnDone mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-success btn-sm btnDone mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-check">&nbsp;</i></button>
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-success btn-sm btnUpdate mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-check">&nbsp;</i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -64,8 +64,8 @@
                             <td><b><?= $order['receiver']; ?></b><br /> <?= $order['receiver_phone']; ?></td>
                             <td><?= $order['address']; ?></td>
                             <td>
-                                <button type="button" class="btn btn-secondary btn-sm btnDone mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-primary btn-sm btnDone mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-truck">&nbsp;</i></button>
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnUpdatereadyShippedOrder mb-1" data-id="<?= $order['id']; ?>" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-truck">&nbsp;</i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -81,5 +81,112 @@
         $('#tblOutstandingOrder').DataTable();
         $('#tblActiveOrder').DataTable();
     });
+    $(document).on("click", ".btnOpen", function() {
+        let id = $(this).data('id');
+
+        window.location = `<?= base_url('/order/detail'); ?>/${id}`;
+    });
+    $(document).on("click", ".btnUpdate", function() {
+        let id = $(this).data('id');
+
+        window.open(`<?= base_url('/order/updatestatus'); ?>/${id}`, '_blank');
+    });
+    $(document).on("click", ".btnUpdatereadyShippedOrder", function() {
+        let id = $(this).data('id');
+        $.ajax({
+            url: '<?= base_url() ?>/Order/submitStatus',
+            type: "post",
+            dataType: 'json',
+            data: {
+                'id': id,
+                'status_id': 65
+            },
+            success: function(response) {
+                if (response != null && typeof response !== "undefined") {
+                    if (response.status != 200) {
+                        if (!response.message && response.data) {
+                            let data = JSON.parse(response.data);
+                            showErrors("errorBlock", data['error']);
+                        } else {
+                            alert(response.message);
+                        }
+                    } else {
+                        refreshTable();
+                    }
+                }
+            }
+        });
+    });
+    function refreshTable(){
+        $.ajax({
+            url: '<?= base_url() ?>/Courier/onGoingShippedOrder',
+            type: "post",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null) {
+                    $('#tblActiveOrder').dataTable().fnDestroy();
+                    $('#tblActiveOrder').DataTable({
+                        data: response,
+                        columns: [
+                            { title: "Kode pesanan", data: "order_code" },
+                            { title: "Tanggal pesanan", data: "tanggal" },
+                            { title: "Detil", data: "detil" },
+                            { title: "Kontak", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <b>${full.receiver}</b><br /> ${full.receiver_phone}
+                                `}
+                            },
+                            { title: "Alamat", data: "address" },
+                            { title: "&nbsp;", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="${full.id}" data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-success btn-sm btnUpdate mb-1" data-id="${full.id}" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-check">&nbsp;</i></button>
+                                `}
+                            }
+                        ],
+                    });
+                }
+            }
+        });
+        $.ajax({
+            url: '<?= base_url() ?>/Courier/readyShippedOrder',
+            type: "post",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null) {
+                    $('#tblOutstandingOrder').dataTable().fnDestroy();
+                    $('#tblOutstandingOrder').DataTable({
+                        data: response,
+                        columns: [
+                            { title: "Kode pesanan", data: "order_code" },
+                            { title: "Tanggal pesanan", data: "tanggal" },
+                            { title: "Detil", data: "detil" },
+                            { title: "Kontak", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <b>${full.receiver}</b><br /> ${full.receiver_phone}
+                                `}
+                            },
+                            { title: "Alamat", data: "address" },
+                            { title: "&nbsp;", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id="${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnUpdatereadyShippedOrder mb-1" data-id="${full.id}" data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-truck">&nbsp;</i></button>
+                                ` },
+                            }  
+                        ],
+                    });
+                }
+            }
+        });
+
+    }
 </script>
 <?= $this->endSection(); ?>

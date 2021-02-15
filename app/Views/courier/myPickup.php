@@ -122,35 +122,6 @@
     });
     function refreshTable(){
         $.ajax({
-            url: '<?= base_url() ?>/Courier/readyPickupOrder',
-            type: "post",
-            dataType: 'json',
-            success: function(response) {
-                if (response != null) {
-                    $('#tblOutstandingOrder').dataTable().fnDestroy();
-                    $('#tblOutstandingOrder').DataTable({
-                            data: response,
-                            columns: [
-                                { title: "Kode pesanan", data: "order_code" },
-                                { title: "Tanggal pesanan", data: "tanggal" },
-                                { title: "Detil", data: "detil" },
-                                { title: "Kontak", data: "receiver" },
-                                { title: "Alamat", data: "address" },
-                                { title: "&nbsp;", data: null, 
-                                  sortable: false,
-                                  "render": function ( data, type, full, meta ) {
-                                    return `
-                                    <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
-                                    <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id}  data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
-                                    ` },
-                                }  
-                            ],
-                        });
-                    
-                }
-            }
-        });
-        $.ajax({
             url: '<?= base_url() ?>/Courier/onGoingPickupOrder',
             type: "post",
             dataType: 'json',
@@ -158,23 +129,63 @@
                 if (response != null) {
                     $('#tblActiveOrder').dataTable().fnDestroy();
                     $('#tblActiveOrder').DataTable({
-                            data: response,
-                            columns: [
-                                { title: "Kode pesanan", data: "order_code" },
-                                { title: "Tanggal pesanan", data: "tanggal" },
-                                { title: "Detil", data: "detil" },
-                                { title: "Kontak", data: "receiver" },
-                                { title: "Alamat", data: "address" },
-                                { title: "&nbsp;", data: null, 
-                                  sortable: false,
-                                  "render": function ( data, type, full, meta ) {
-                                    return `
-                                    <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
-                                    <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
-                                    `}
-                                }
-                            ],
-                        });
+                        data: response,
+                        columns: [
+                            { title: "Kode pesanan", data: "order_code" },
+                            { title: "Tanggal pesanan", data: "tanggal" },
+                            { title: "Detil", data: "detil" },
+                            { title: "Kontak", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <b>${full.receiver}</b><br /> ${full.receiver_phone}
+                                `}
+                            },
+                            { title: "Alamat", data: "address" },
+                            { title: "&nbsp;", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
+                                `}
+                            }
+                        ],
+                    });
+                }
+            }
+        });
+        $.ajax({
+            url: '<?= base_url() ?>/Courier/readyPickupOrder',
+            type: "post",
+            dataType: 'json',
+            success: function(response) {
+                if (response != null) {
+                    $('#tblOutstandingOrder').dataTable().fnDestroy();
+                    $('#tblOutstandingOrder').DataTable({
+                        data: response,
+                        columns: [
+                            { title: "Kode pesanan", data: "order_code" },
+                            { title: "Tanggal pesanan", data: "tanggal" },
+                            { title: "Detil", data: "detil" },
+                            { title: "Kontak", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <b>${full.receiver}</b><br /> ${full.receiver_phone}
+                                `}
+                            },
+                            { title: "Alamat", data: "address" },
+                            { title: "&nbsp;", data: null, 
+                                sortable: false,
+                                "render": function ( data, type, full, meta ) {
+                                return `
+                                <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id}  data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
+                                ` },
+                            }  
+                        ],
+                    });
                 }
             }
         });
