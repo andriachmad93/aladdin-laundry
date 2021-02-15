@@ -27,14 +27,30 @@ class Report extends BaseController
 		return view('pages/admin/transaction', $data);
 	}
 
-	public function loyal_customers()
+	public function loyal_customers($type = "", $start_date = "", $end_date = "")
 	{
 		if (!logged_in() || !in_groups(['Owner'])) {
 			return redirect()->to(site_url('/login'));
 		}
 
+		if (empty($start_date)) {
+			$start_date = date('Y-m-d');
+			$datetime = new DateTime($start_date);
+			date_sub($datetime, date_interval_create_from_date_string("1 month"));
+			$start_date = $datetime->format('Y-m-d');
+		}
+
+		if (empty($end_date))
+			$end_date = date('Y-m-d');
+
+		$dataCustomers = $this->orderModel->getSummaryLoyalCustomer($type, $start_date, $end_date);
+
 		$data = [
-			'title' => 'Loyal Customers'
+			'title' => 'Loyal Customers',
+			'start_date' => $start_date,
+			'end_date' => $end_date,
+			'type' => $type,
+			'customers' => $dataCustomers,
 		];
 
 		return view('pages/admin/loyal-customer', $data);

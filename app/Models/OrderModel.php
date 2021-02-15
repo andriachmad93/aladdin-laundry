@@ -285,4 +285,42 @@ class OrderModel extends Model
 
         return $query->getResultArray();
     }
+
+    public function getSummaryLoyalCustomer($type, $start_date, $end_date)
+    {
+        if ($type == "count") {
+            $sql = "select u.firstname, u.lastname, total from(
+                select customer_id, count(1) as total 
+                from `order` 
+                where status_id=75 ";
+
+            if ($start_date && $end_date) {
+                $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+            }
+
+            $sql .= "group by customer_id
+                ) x
+                left join users u ON u.id=x.customer_id
+                order by total desc
+                limit 10";
+        } else if ($type == "volume") {
+            $sql = "select u.firstname, u.lastname, total from(
+                select customer_id, SUM(net_amount) as total 
+                from `order` 
+                where status_id=75 ";
+
+            if ($start_date && $end_date) {
+                $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+            }
+
+            $sql .= "group by customer_id
+            ) x
+            left join users u ON u.id=x.customer_id
+            order by total desc
+            limit 10";
+        }
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
 }
