@@ -269,4 +269,128 @@ class OrderModel extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function getReportOrderRating($start_date, $end_date)
+    {
+        $sql = "select rating,count(1) as total from `order` 
+            where status_id=75 and IFNULL(rating,0)>0 ";
+
+        if ($start_date && $end_date) {
+            $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+        }
+
+        $sql .= "group by rating";
+
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
+
+    public function getSummaryLoyalCustomer($type, $start_date, $end_date)
+    {
+        if ($type == "count") {
+            $sql = "select u.firstname, u.lastname, total from(
+                select customer_id, count(1) as total 
+                from `order` 
+                where status_id=75 ";
+
+            if ($start_date && $end_date) {
+                $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+            }
+
+            $sql .= "group by customer_id
+                ) x
+                left join users u ON u.id=x.customer_id
+                order by total desc
+                limit 10";
+        } else if ($type == "volume") {
+            $sql = "select u.firstname, u.lastname, total from(
+                select customer_id, SUM(net_amount) as total 
+                from `order` 
+                where status_id=75 ";
+
+            if ($start_date && $end_date) {
+                $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+            }
+
+            $sql .= "group by customer_id
+            ) x
+            left join users u ON u.id=x.customer_id
+            order by total desc
+            limit 10";
+        }
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
+
+    public function getChartSalesTrend($period = "")
+    {
+        $previous_period = 0;
+        if ($period)
+            $previous_period = $period - 1;
+
+        $data[$previous_period] = $this->getTrend($previous_period);
+        $data[$period] = $this->getTrend($period);
+
+        $output = [
+            [
+                'name' => "1 Jan " . $previous_period . " - 31 Dec " . $previous_period,
+                'marker' => ['symbol' => 'square'],
+                'data' => $data[$previous_period],
+            ],
+            [
+                'name' => "1 Jan " . $period . " - 31 Dec " . $period,
+                'marker' => ['symbol' => 'diamond'],
+                'data' => $data[$period],
+            ],
+        ];
+
+        return $output;
+    }
+
+    public function getTrend($period = "")
+    {
+        $sql = "select YEAR(order_date) as Period, 
+                sum(IF(MONTH(order_date)=1, net_amount, 0)) as M01,
+                sum(IF(MONTH(order_date)=2, net_amount, 0)) as M02,
+                sum(IF(MONTH(order_date)=3, net_amount, 0)) as M03,
+                sum(IF(MONTH(order_date)=4, net_amount, 0)) as M04,
+                sum(IF(MONTH(order_date)=5, net_amount, 0)) as M05,
+                sum(IF(MONTH(order_date)=6, net_amount, 0)) as M06,
+                sum(IF(MONTH(order_date)=7, net_amount, 0)) as M07,
+                sum(IF(MONTH(order_date)=8, net_amount, 0)) as M08,
+                sum(IF(MONTH(order_date)=9, net_amount, 0)) as M09,
+                sum(IF(MONTH(order_date)=10, net_amount, 0)) as M10,
+                sum(IF(MONTH(order_date)=11, net_amount, 0)) as M11,
+                sum(IF(MONTH(order_date)=12, net_amount, 0)) as M12
+            from `order` 
+            where status_id=75
+            and YEAR(order_date) = " . $period . "
+            group by YEAR(order_date)
+            order by YEAR(order_date)";
+
+        $query = $this->db->query($sql);
+
+        $data = $query->getResultArray();
+        $arr = [];
+        if (count($data) > 0) {
+            foreach ($data as $a) {
+                $arr = [
+                    intval($a["M01"]), intval($a["M02"]), intval($a["M03"]),
+                    intval($a["M04"]), intval($a["M05"]), intval($a["M06"]),
+                    intval($a["M07"]), intval($a["M08"]), intval($a["M09"]),
+                    intval($a["M10"]), intval($a["M11"]), intval($a["M12"]),
+                ];
+            }
+        } else {
+            $arr = [
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0,
+            ];
+        }
+        return $arr;
+    }
 }
