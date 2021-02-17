@@ -43,6 +43,7 @@ class Courier extends BaseController
         }
     }
 
+    /* [httpGet] */
     public function onGoingPickupOrder()
     {
         if (!logged_in()) {
@@ -57,6 +58,7 @@ class Courier extends BaseController
         }
     }
 
+    /* [httpGet] */
     public function readyPickupOrder()
     {
         if (!logged_in()) {
@@ -87,6 +89,8 @@ class Courier extends BaseController
             return view('courier/myDelivery', $data);
         }
     }
+
+    /* [httpGet] */
     public function onGoingShippedOrder()
     {
         if (!logged_in()) {
@@ -101,6 +105,7 @@ class Courier extends BaseController
         }
     }
 
+    /* [httpGet] */
     public function readyShippedOrder()
     {
         if (!logged_in()) {
