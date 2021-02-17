@@ -111,7 +111,7 @@
                         </select>
                     </div>
                     <div class="form-group" id="div_payment_method">
-                        <span>Silahkan Transfer ke Rek <b>0244047978 a/n Hartono Wijaya</b> dan <b>Upload Bukti Transfer</b> dalam waktu 1 Jam</span>
+                        <span>Silahkan Transfer ke Rek <b>2000888870 BCA a/n Vera Nataliza</b> dan <b>Upload Bukti Transfer</b> dalam waktu 1 Jam</span>
                     </div>
                     <div class="form-group">
                         <button type="button" id="btnCancel" class="btn btn-danger btn-md"><i class="fas fa-close">&nbsp;</i>Batalkan</button>
