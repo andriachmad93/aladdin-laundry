@@ -41,7 +41,7 @@
                             <tr>
                                 <td><a href="<?= base_url("Order/detail/" . $d['id']); ?>"><?= $d['order_code']; ?></a></td>
                                 <td><?= date("d M Y", strtotime($d['order_date'])); ?></td>
-                                <td><?= $d['rating']; ?></td>
+                                <td><?= $d['rating']; ?>/5</td>
                                 <td><?= $d['remarks']; ?></td>
                             </tr>
                         <?php endforeach; ?>
