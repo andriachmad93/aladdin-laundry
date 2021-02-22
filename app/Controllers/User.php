@@ -48,7 +48,6 @@ class User extends BaseController
             'title' => 'Grup Pengguna',
             'users' => $this->userModel->getUserAccess()
         ];
-        dd($this->userModel->getUserAccess());
 
         return view('pages/admin/user-group', $data);
     }
