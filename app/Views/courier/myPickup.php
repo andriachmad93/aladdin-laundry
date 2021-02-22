@@ -147,7 +147,7 @@
                                 "render": function ( data, type, full, meta ) {
                                 return `
                                 <button type="button" class="btn btn-secondary btn-sm btnOpen mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Lihat detail pesanan"><i class="fas fa-folder-open">&nbsp;</i></button>
-                                <button type="button" class="btn btn-primary btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-hands">&nbsp;</i></button>
+                                <button type="button" class="btn btn-success btn-sm btnUpdateonGoingPickupOrder mb-1" data-id=${full.id} data-toggle="tooltip" data-placement="top" title="Update status"><i class="fas fa-check">&nbsp;</i></button>
                                 `}
                             }
                         ],
