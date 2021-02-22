@@ -318,7 +318,8 @@ class OrderModel extends Model
 
     public function getReportOrderRatingDetail($start_date, $end_date)
     {
-        $sql = "select * from `order` 
+        $sql = "select o.*, u.firstname, u.lastname from `order` o
+            left join users u ON u.id=o.customer_id
             where status_id=75 and IFNULL(rating,0)>0 ";
 
         if ($start_date && $end_date) {

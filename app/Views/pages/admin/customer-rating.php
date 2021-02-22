@@ -32,6 +32,7 @@
                         <tr>
                             <th>Kode pesanan</th>
                             <th>Tanggal pesanan</th>
+                            <th>Nama pelanggan</th>
                             <th>Rating</th>
                             <th>Keterangan</th>
                         </tr>
@@ -41,6 +42,7 @@
                             <tr>
                                 <td><a href="<?= base_url("Order/detail/" . $d['id']); ?>"><?= $d['order_code']; ?></a></td>
                                 <td><?= date("d M Y", strtotime($d['order_date'])); ?></td>
+                                <td><?= $d['firstname']; ?> <?= $d['lastname']; ?></td>
                                 <td><?= $d['rating']; ?>/5</td>
                                 <td><?= $d['remarks']; ?></td>
                             </tr>
