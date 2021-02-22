@@ -258,7 +258,7 @@ class OrderModel extends Model
         LEFT JOIN `users` ON `o`.`customer_id`=`users`.`id`";
 
         if ($start_date && $end_date) {
-            $sql .= "where o.order_date between '" . $start_date . "' and '" . $end_date . "'";
+            $sql .= "where cast(o.order_date as DATE) between '" . $start_date . "' and '" . $end_date . "'";
         }
 
         $query = $this->db->query($sql);
@@ -306,10 +306,25 @@ class OrderModel extends Model
             where status_id=75 and IFNULL(rating,0)>0 ";
 
         if ($start_date && $end_date) {
-            $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+            $sql .= "and cast(order_date as DATE) between '" . $start_date . "' and '" . $end_date . "' ";
         }
 
         $sql .= "group by rating";
+
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
+
+    public function getReportOrderRatingDetail($start_date, $end_date)
+    {
+        $sql = "select * from `order` 
+            where status_id=75 and IFNULL(rating,0)>0 ";
+
+        if ($start_date && $end_date) {
+            $sql .= "and cast(order_date as DATE) between '" . $start_date . "' and '" . $end_date . "' ";
+        }
+        $sql .= "order by order_date desc";
 
         $query = $this->db->query($sql);
 
@@ -325,7 +340,7 @@ class OrderModel extends Model
                 where status_id=75 ";
 
             if ($start_date && $end_date) {
-                $sql .= "and order_date between '" . $start_date . "' and '" . $end_date . "' ";
+                $sql .= "and cast(order_date as DATE) between '" . $start_date . "' and '" . $end_date . "' ";
             }
 
             $sql .= "group by customer_id

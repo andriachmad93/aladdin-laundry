@@ -108,6 +108,7 @@ class Report extends BaseController
 			$end_date = date('Y-m-d');
 
 		$rating = $this->orderModel->getReportOrderRating($start_date, $end_date);
+		$ratingDetail = $this->orderModel->getReportOrderRatingDetail($start_date, $end_date);
 
 		/* get total */
 		$total = 0;
@@ -129,7 +130,8 @@ class Report extends BaseController
 			'title' => 'Penilaian Pelanggan',
 			'start_date' => $start_date,
 			'end_date' => $end_date,
-			'rating' => json_encode($data_rating)
+			'rating' => json_encode($data_rating),
+			'ratingDetail' => $ratingDetail,
 		];
 
 		return view('pages/admin/customer-rating', $data);

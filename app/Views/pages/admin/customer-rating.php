@@ -26,6 +26,28 @@
             </div>
             <br>
             <div id="container"></div>
+            <div class="table-responsive">
+                <table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="6">
+                    <thead>
+                        <tr>
+                            <th>Kode pesanan</th>
+                            <th>Tanggal pesanan</th>
+                            <th>Rating</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($ratingDetail as $d) : ?>
+                            <tr>
+                                <td><a href="<?= base_url("Order/detail/" . $d['id']); ?>"><?= $d['order_code']; ?></a></td>
+                                <td><?= date("d M Y", strtotime($d['order_date'])); ?></td>
+                                <td><?= $d['rating']; ?></td>
+                                <td><?= $d['remarks']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 </div>
