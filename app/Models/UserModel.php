@@ -79,13 +79,13 @@ class UserModel extends MythModel
 
     public function getUserAccess($id = "")
     {
-        $sql = "select agu.*, auth_groups.name, users.firstname, users.lastname
+        $sql = "select agu.*, auth_groups.name, users.firstname, users.lastname, users.username
         from `auth_groups_users` as agu
         LEFT JOIN `users` ON `agu`.`user_id`=`users`.`id`
         LEFT JOIN `auth_groups` ON `agu`.`group_id`=`auth_groups`.`id`";
 
         if ($id) {
-            $sql .= "where `agu`.`id` = '".$id."'";
+            $sql .= "where `agu`.`id` = '" . $id . "'";
         }
 
         $query = $this->db->query($sql);

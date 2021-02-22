@@ -26,7 +26,7 @@
             ?>
               <tr>
                 <td><?= $user['username'] ?></td>
-                <td><?= $user['firstname'] ?> <?= $user['firstname'] ?></td>
+                <td><?= $user['firstname'] ?> <?= $user['lastname'] ?></td>
                 <td><?= $user['name'] ?></td>
                 <td><a href="<?= base_url('user/edit_user_group/' . $user['id']); ?>" class="btn btn-sm btn-outline-secondary">Ubah</a></td>
               </tr>
