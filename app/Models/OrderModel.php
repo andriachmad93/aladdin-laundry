@@ -34,7 +34,8 @@ class OrderModel extends Model
         address.zip_code,
         DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
         ");
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id  and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id
+                        and trackingorder.id=(select id from trackingorder where trackingorder.order_id=`order`.id  and trackingorder.status=`order`.status_id order by updated_date desc limit 0,1)', 'left');
         $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 30, 'trackingorder.updated_by' => $user_id));
         $builder->orderBy('trackingorder.updated_date', 'desc');
@@ -73,7 +74,8 @@ class OrderModel extends Model
         address.zip_code,
         DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
         ");
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id
+                        and trackingorder.id=(select id from trackingorder where trackingorder.order_id=`order`.id  and trackingorder.status=`order`.status_id order by updated_date desc limit 0,1)', 'left');
         $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 25));
         $builder->orderBy('trackingorder.updated_date', 'desc');
@@ -113,7 +115,8 @@ class OrderModel extends Model
         address.zip_code,
         DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
         ");
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id
+        and trackingorder.id=(select id from trackingorder where trackingorder.order_id=`order`.id  and trackingorder.status=`order`.status_id order by updated_date desc limit 0,1)', 'left');
         $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 65, 'trackingorder.updated_by' => $user_id));
         $builder->orderBy('trackingorder.updated_date', 'desc');
@@ -152,7 +155,8 @@ class OrderModel extends Model
         address.zip_code,
         DATE_FORMAT(`order`.order_date,'%d %b %Y %H:%i:%s') as tanggal
         ");
-        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id', 'left');
+        $builder->join('trackingorder', 'trackingorder.order_id=`order`.id and trackingorder.status=`order`.status_id
+                        and trackingorder.id=(select id from trackingorder where trackingorder.order_id=`order`.id  and trackingorder.status=`order`.status_id order by updated_date desc limit 0,1)', 'left');
         $builder->join('address', 'address.id=`order`.address_id', 'left');
         $builder->where(array('`order`.is_active' => 1, '`order`.status_id' => 55));
         $builder->orderBy('trackingorder.updated_date', 'desc');
