@@ -55,8 +55,8 @@ class User extends BaseController
     public function edit_user_group($id)
     {
         if (!logged_in() || !in_groups(['Admin'])) {
-			return redirect()->to(site_url('/login'));
-		}
+            return redirect()->to(site_url('/login'));
+        }
 
         $data = [
             'title' => 'Grup Pengguna',
@@ -70,12 +70,12 @@ class User extends BaseController
     public function update_user_group($id)
     {
         if (!logged_in() || !in_groups(['Admin'])) {
-			return redirect()->to(site_url('/login'));
-		}
+            return redirect()->to(site_url('/login'));
+        }
 
-		$this->authGroupUser->update($id, ['group_id' => (int) $this->request->getPost('group_id')]);
+        $this->authGroupUser->update($id, ['group_id' => (int) $this->request->getPost('group_id')]);
 
-		return redirect()->to('/user/user_group')->with('message', 'Status Pengguna berhasil diganti');
+        return redirect()->to('/user/user_group')->with('message', 'Status Pengguna berhasil diganti');
     }
 
     public function update()

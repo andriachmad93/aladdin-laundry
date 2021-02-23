@@ -42,7 +42,7 @@
             ?>
 
               <tr>
-                <td><?= $order['order_code'] ?></td>
+                <td><a href="<?= base_url("Order/detail/" . $order['id']); ?>"><?= $order['order_code']; ?></a></td>
                 <td><?= $order['order_date'] ?></td>
                 <td><?= $order["firstname"]; ?> <?= $order["lastname"]; ?></td>
                 <td>Rp. <?= $order['net_amount'] ?></td>
