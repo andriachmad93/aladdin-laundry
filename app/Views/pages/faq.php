@@ -18,7 +18,7 @@
                     <br><br>
                     Q: Apakah bisa antar-jemput laundry kerumah?<br>
                     A: Bisa, kami melayani antar-jemput laundry untuk wilayah jember dan sekitarnya.
-                    Antar-Jemput laundry gratis untuk radius < 2 Km dari workshop Aladdin Laundry, untuk > 2 Km (keluar dari jalan raya) akan ada biaya 5.000,- per transaksi (jika jauh akan disesuaikan dengan perjanjian)
+                    Antar-Jemput laundry gratis untuk radius < 2 Km dari workshop Aladdin Laundry, untuk > 2 Km (keluar dari jalan raya) akan ada biaya Rp 10.000,- per transaksi (jika jauh akan disesuaikan dengan perjanjian)
 
                     <br><br>
                     Q: Bagaimana pengambil laundry tapi nota hilang?<br>
