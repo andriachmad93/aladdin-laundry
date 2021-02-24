@@ -18,14 +18,15 @@ class ItemModel extends Model
         $sql = "select * from item where is_active = 1";
 
         if (count($searchItem) > 0) {
-            $sql .= " and (item_name like '%".$searchItem['item_name_1']."%'";
+            $sql .= " and (item_name like '%" . $searchItem['item_name_1'] . "%'";
 
             if (isset($searchItem['item_name_2'])) {
-                $sql .= "or item_name like '%".$searchItem['item_name_2']."%'";
+                $sql .= "or item_name like '%" . $searchItem['item_name_2'] . "%'";
             }
 
             $sql .= ")";
         }
+        $sql .= " order by item_name";
 
         $query = $this->db->query($sql);
 
