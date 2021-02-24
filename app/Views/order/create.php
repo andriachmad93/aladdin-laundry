@@ -184,7 +184,7 @@
         $(`#item_id_${uid}`).select2({
             theme: "bootstrap4",
             placeholder: 'Cari barang',
-            minimumInputLength: 3,
+            //minimumInputLength: 3,
             ajax: {
                 url: '<?= base_url() ?>/Order/getItem',
                 type: "post",
@@ -399,12 +399,12 @@
 
     $(function() {
         $('#div_payment_method').hide();
-        $('#payment_method_id').change(function(){
-            if($('#payment_method_id').val() == '2') {
-                $('#div_payment_method').show(); 
+        $('#payment_method_id').change(function() {
+            if ($('#payment_method_id').val() == '2') {
+                $('#div_payment_method').show();
             } else {
-                $('#div_payment_method').hide(); 
-            } 
+                $('#div_payment_method').hide();
+            }
         });
     });
 </script>
